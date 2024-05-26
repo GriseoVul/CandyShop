@@ -10,6 +10,10 @@ public class User
     public string HashPassword{ get; set; } = String.Empty;
     public int PhoneNumber { get; set; } = Int32.MinValue;
     public string Email { get; set; } = String.Empty;
-
     public UserRole Role { get; set; } = UserRole.Anonimus;
+
+    public UserAvatar Avatar { get; set; } = new UserAvatar();
+    public Basket Basket{ get; set; } = new Basket();
+    public ICollection<Order> Orders{ get; set; } = [];
+    
 }
