@@ -6,4 +6,5 @@ public class UserAvatar
     public string Name { get; set; } = String.Empty;
     public string ContentType{ get; set; } = "image/jpeg";
     public User User{ get; set; } = new User();
+    public int UserId { get; set; }
 }
