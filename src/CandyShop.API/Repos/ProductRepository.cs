@@ -33,15 +33,15 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     {
         return await _context.Products.Take(300).ToListAsync();
     }
-    public async Task AddProductAsync(Product product)
+    public async Task AddAsync(Product product)
     {
         await _context.Products.AddAsync(product);
     }    
-    public async Task AddSeveralProductAsync(IEnumerable<Product> products)
+    public async Task AddSeveralAsync(IEnumerable<Product> products)
     {
         await _context.Products.AddRangeAsync(products);
     }
-    public async Task UpdateProductAsync(Product product)
+    public async Task UpdateAsync(Product product)
     {
         try
         {
@@ -63,7 +63,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
             return;
         }
     }
-    public async Task UpdateProductsAsync(IEnumerable<Product> products)
+    public async Task UpdateAsync(IEnumerable<Product> products)
     {
         try
         {
@@ -88,7 +88,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
             return;
         }
     }
-    public async Task DeleteProductAsync(int id)
+    public async Task DeleteAsync(int id)
     {
         try
         {

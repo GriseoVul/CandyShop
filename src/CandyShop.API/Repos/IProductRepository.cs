@@ -9,9 +9,9 @@ public interface IProductRepository
     Task<IEnumerable<Product>> GetByNameAsync(string name);
     Task<IEnumerable<Product>> GetByCategoryAsync(ProductCategory category);
     Task<IEnumerable<Product>> GetAllAsync();
-    Task AddProductAsync(Product product);
-    Task AddSeveralProductAsync(IEnumerable<Product> products);
-    Task UpdateProductAsync(Product product);
-    Task UpdateProductsAsync(IEnumerable<Product> products);
-    Task DeleteProductAsync(int id);
+    Task AddAsync(Product product);
+    Task AddSeveralAsync(IEnumerable<Product> products);
+    Task UpdateAsync(Product product);
+    Task UpdateAsync(IEnumerable<Product> products);
+    Task DeleteAsync(int id);
 }
