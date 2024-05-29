@@ -11,7 +11,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<ProductImage> ProductImages{ get; set; }
     public DbSet<UserAvatar> UserAvatars{ get; set; }
 
-    protected override async void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
         .HasMany(u => u.Orders)
