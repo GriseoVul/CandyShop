@@ -35,10 +35,12 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
     public async Task AddProductAsync(Order order)
     {
         await _context.Orders.AddAsync(order);
+        await _context.SaveChangesAsync();
     }
     public async Task AddSeveralAsync(IEnumerable<Order> orders)
     {
         await _context.Orders.AddRangeAsync(orders);
+        await _context.SaveChangesAsync();
     }
     public async Task UpdateAsync(Order order)
     {
@@ -50,6 +52,7 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
                     .SetProperty(or => or.Address, order.Address)
                     .SetProperty(or => or.Status, order.Status)
                 );
+        await _context.SaveChangesAsync();
     }
     public async Task UpdateSeveralAsync(IEnumerable<Order> orders)
     {
@@ -66,10 +69,11 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
                     .SetProperty(or => or.Status, order.Status)
                 );
             }
+            await _context.SaveChangesAsync();
         }
         catch(DbUpdateConcurrencyException)
         {
-            return ;
+            return;
         }
     }
     public async Task DeleteAsync(int id)
@@ -77,6 +81,7 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
         try
         {
             await _context.Orders.Where(p => p.Id == id).ExecuteDeleteAsync();
+            await _context.SaveChangesAsync();
         }
         catch(DbUpdateConcurrencyException)
         {

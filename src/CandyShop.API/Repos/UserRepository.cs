@@ -32,6 +32,7 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
                         .SetProperty(or => or.Role, user.Role)
                         .SetProperty(or => or.Avatar, user.Avatar)
                     );
+            await _context.SaveChangesAsync();
         }
         catch(DbUpdateConcurrencyException )
         {
@@ -43,6 +44,7 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
         try
         {
             await _context.Users.Where(p => p.Id == id).ExecuteDeleteAsync();
+            await _context.SaveChangesAsync();
         }
         catch(DbUpdateConcurrencyException)
         {
