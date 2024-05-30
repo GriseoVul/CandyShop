@@ -18,6 +18,16 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
         .Take(count)
         .ToListAsync();
     }
+    public async Task UpdateStatus(int id,  OrderStatus status)
+    {
+        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
+
+        if(order == default)
+        {
+            return;
+        }
+        order.Status = status;
+    }
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
         return await _context.Orders.Take(300).ToArrayAsync();
