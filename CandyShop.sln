@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8FF07DBF-1D0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyShop.API", "src\CandyShop.API\CandyShop.API.csproj", "{F3C21312-3C89-4728-93A1-02CC45AF079C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{DFA0AFED-7F80-41CC-A4C9-CA41F37E746D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{F3C21312-3C89-4728-93A1-02CC45AF079C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3C21312-3C89-4728-93A1-02CC45AF079C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3C21312-3C89-4728-93A1-02CC45AF079C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA0AFED-7F80-41CC-A4C9-CA41F37E746D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA0AFED-7F80-41CC-A4C9-CA41F37E746D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA0AFED-7F80-41CC-A4C9-CA41F37E746D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA0AFED-7F80-41CC-A4C9-CA41F37E746D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F3C21312-3C89-4728-93A1-02CC45AF079C} = {8FF07DBF-1D00-4FD6-8001-2849AC8F97DA}
