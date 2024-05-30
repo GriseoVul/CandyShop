@@ -36,10 +36,12 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     public async Task AddAsync(Product product)
     {
         await _context.Products.AddAsync(product);
+        await _context.SaveChangesAsync();
     }    
     public async Task AddSeveralAsync(IEnumerable<Product> products)
     {
         await _context.Products.AddRangeAsync(products);
+        await _context.SaveChangesAsync();
     }
     public async Task UpdateAsync(Product product)
     {
@@ -57,6 +59,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
                     .SetProperty(pr => pr.Category, product.Category)
                     .SetProperty(pr => pr.Images, product.Images)
                 );
+            await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -82,6 +85,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
                     .SetProperty(pr => pr.Images, product.Images)
                 );
             }
+            await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -93,6 +97,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         try
         {
             await _context.Products.Where(p => p.Id == id).ExecuteDeleteAsync();
+            await _context.SaveChangesAsync();
         }
         catch(DbUpdateConcurrencyException)
         {
