@@ -1,6 +1,8 @@
 *\bin
 *\obj
 
+src/CandyShop.ClientApp/node_modules
+
 Migrations
 
 BOOMARKS.md
