@@ -1,4 +1,4 @@
-namespace tests;
+namespace CandyShop.Tests;
 
 public class UnitTest1
 {
