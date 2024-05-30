@@ -55,9 +55,10 @@ const Basket = () => {
         const updateTotalPrice = () => {
           if (item.sale > 0){
             totalprice= quantity*saleprice;
-            } else totalprice= quantity*item.price;
-            totalPriceElement.textContent=`Всего ₽${totalprice}`;
+            } else {totalprice= quantity*item.price;}
+          totalPriceElement.textContent=`Всего ₽${totalprice}`;
         };
+        updateTotalPrice();
 
         document.getElementById('increase').addEventListener('click', () => {
           let currentValue = parseInt(quantityInput.value);
