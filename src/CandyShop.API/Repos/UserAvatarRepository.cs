@@ -3,6 +3,9 @@ using CandyShop.API.Models;
 using Microsoft.EntityFrameworkCore;
 namespace CandyShop.API.Repos;
 
+/////////////////////////////////////////////////////////////////////////
+/////////CAREFULLY! The code was written via ChatGPT/////////////////////
+/////////////////////////////////////////////////////////////////////////
 public class UserAvatarRepository(ApplicationDbContext context) : IUserAvatarRepository
     {
         private readonly ApplicationDbContext _context = context;
