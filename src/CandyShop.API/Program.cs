@@ -1,4 +1,5 @@
 using CandyShop.API.Data;
+using CandyShop.API.Options;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("FileStorage"));
 
 var ConnectionString = builder.Configuration.GetConnectionString("DbConnection");
 builder.Services.AddDbContextPool<ApplicationDbContext>(
