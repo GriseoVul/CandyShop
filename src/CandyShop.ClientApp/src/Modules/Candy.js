@@ -22,13 +22,13 @@ const Candy = ({item}) => {
           <p style="text-align: center; margin: 10px 0;">${item.description}</p>
           <p id="price" style="text-align: center; font-size: 1.2em; font-weight: bold;">₽${item.price}</p>
           <p id="sale-price" style="text-align: center; font-size: 1.2em; font-weight: bold;">₽${saleprice}</p>
-          <p id="total-price" style="text-align: center; font-size: 1em;">Всего ₽${totalprice}</p>
+          <p id="total-price" style="text-align: center; font-size: 1em;">Всего ₽${item.totalprice}</p>
           <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; width: 100%;">
-            <button id="decrease" style="cursor: pointer; padding: 6px 12px; background: #b80000; color: white; border: none; border-radius: 4px; margin: 0 10px;">-</button>
+            <button class="button" id="decrease">-</button>
             <input id="quantity" type="number" value="1" min="1" max="999" style="width: 60px; text-align: center; margin: 0 10px; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-            <button id="increase" style="cursor: pointer; padding: 6px 12px; background: #b80000; color: white; border: none; border-radius: 4px; margin: 0 10px;">+</button>
+            <button class="button" id="increase">+</button>
           </div>
-          <button className="button" id="buy" style="cursor: pointer; margin-top: 20px; padding: 10px 20px; background: #b80000; color: white; border: none; border-radius: 4px; transition: background-color 0.3s ease, color 0.3s ease;">В корзину</button>
+          <button class="button" id="buy">В корзину</button>
         </div>
           `,
           showConfirmButton: false,
@@ -55,6 +55,7 @@ const Candy = ({item}) => {
               } else totalprice= quantity*item.price;
               totalPriceElement.textContent=`Всего ₽${totalprice}`;
             }
+            updateTotalPraice();
 
             document.getElementById('increase').addEventListener('click', () => {
               let currentValue = parseInt(quantityInput.value);
