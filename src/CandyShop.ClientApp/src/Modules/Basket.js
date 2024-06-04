@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { MyContext } from './MyContext';
 import ProductCard from './ProductCard';
 import Swal from 'sweetalert2';
 
 const Basket = () => {
   const { basketItems, setBasketItems } = useContext(MyContext);
-  
+  const [basketTotal, setBasketTotal] = useState(0);
+  useEffect(() => {
+    const total = basketItems.reduce((sum, item)=> sum += item.totalprice , 0)
+    setBasketTotal(total);
+  }, [basketItems, setBasketItems])
 
   const removeItemFromBasket = (itemToRemove) => {
     setBasketItems(basketItems.filter(item => item.id !== itemToRemove.id));
@@ -27,11 +31,11 @@ const Basket = () => {
           <p id="sale-price" style="text-align: center; font-size: 1.2em; font-weight: bold;">₽${saleprice}</p>
           <p id="total-price" style="text-align: center; font-size: 1em;">Всего ₽${item.totalprice}</p>
           <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; width: 100%;">
-            <button id="decrease" style="cursor: pointer; padding: 6px 12px; background: #b80000; color: white; border: none; border-radius: 4px; margin: 0 10px;">-</button>
+            <button class="button" id="decrease" >-</button>
             <input id="quantity" type="number" value="${item.quantity}" min="1" max="999" style="width: 60px; text-align: center; margin: 0 10px; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-            <button id="increase" style="cursor: pointer; padding: 6px 12px; background: #b80000; color: white; border: none; border-radius: 4px; margin: 0 10px;">+</button>
+            <button class="button" id="increase">+</button>
           </div>
-          <button className="button" id="update" style="cursor: pointer; margin-top: 20px; padding: 10px 20px; background: #b80000; color: white; border: none; border-radius: 4px; transition: background-color 0.3s ease, color 0.3s ease;">Обновить</button>
+          <button class="button" id="update" >Обновить</button>
         </div>
       `,
       showConfirmButton: false,
@@ -99,7 +103,6 @@ const Basket = () => {
       }
     });
   };
-
   return (
     <>
     <h2 style={{textAlign: 'center', marginTop: "45px"}}>Корзина</h2>
@@ -122,7 +125,7 @@ const Basket = () => {
         </div>
       )}
     </div>
-         <h2 style={{textAlign: 'center', marginBottom: '60px'}}>Итого `summ` </h2>
+         <h2 style={{textAlign: 'center', marginBottom: '60px'}}>Итого {basketTotal} </h2>
          </>
   );
 };

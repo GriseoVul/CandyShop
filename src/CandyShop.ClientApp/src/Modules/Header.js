@@ -13,7 +13,7 @@ const Header = () => {
             <button class="search-button">НАЙТИ</button>
         </div>
         <div class="header-right">
-            <a href="#" class="icon-link">Войти</a>
+            <Link to = {'/Seller'}>Seller</Link>
            <Link to={'/Busket'}>Корзина</Link>
         </div>
     </header>
