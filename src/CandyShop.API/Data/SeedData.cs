@@ -24,7 +24,6 @@ public static class SeedData
                     var discount = r.Next(100) > 30 ? r.Next(50) : 0;
                     context.Products.Add(new Product
                     {
-                        Id = i,
                         Name = "Candy" + i.ToString(),
                         Description = "This is description of a Candy"+ i.ToString(),
                         Count = 1,
@@ -38,15 +37,13 @@ public static class SeedData
                             Name = "C" + r.Next(4) + ".webp"
                             }
                         ]
-                    }
-                    );
+                    });
                     context.ProductImages.Add(new ProductImage
                     {
-                        Id = 0,
                         Name = "C" + r.Next(4) + ".webp"
                     });
-                }
-                ;
+                };
+
                 context.SaveChanges();   
             }
     }
