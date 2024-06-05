@@ -219,6 +219,7 @@ body::-webkit-scrollbar-thumb {
 }
 .product-item {
   width: 95%;
+  max-width: 300px;
   text-align: center;
   margin: 0 auto;
   margin-bottom: 30px;
@@ -252,6 +253,7 @@ body::-webkit-scrollbar-thumb {
 .product-item img {
   display: block;
   width: 100%;
+  cursor: pointer;
 }
 .product-list {
   background: #fafafa;
@@ -293,7 +295,7 @@ body::-webkit-scrollbar-thumb {
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  padding: 0 12px;
+  padding: 0px 15px;
   background: var(--search-button-background-color);
   border-radius: 10px;
   border-color: wheat;
@@ -306,11 +308,23 @@ body::-webkit-scrollbar-thumb {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  &:hover{
-    color: var(--search-button-color);
-    background-color: var(--search-button-background-color-hover);
-    box-shadow: #000;
-  }
+}
+.button:hover{
+  color: var(--search-button-color);
+  background-color: var(--search-button-background-color-hover);
+  box-shadow: #000;
+}
+.input-quantity{
+  width: 60px;
+  text-align: center;
+  margin: 0 10px;
+  padding: 6px 0px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
 }
 @media (max-width: 875px){
 
@@ -399,6 +413,20 @@ body::-webkit-scrollbar-thumb {
       background-color: var(--search-button-background-color-hover);
     }
   }
+
+.input-quantity {
+    width: 60px;
+    text-align: center;
+    margin: 0 10px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
 
     }
 /*! Candys */
