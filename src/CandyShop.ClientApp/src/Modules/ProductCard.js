@@ -1,8 +1,6 @@
 import React, {useState, useEffect ,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Swal from 'sweetalert2';
-import Dec from './Pictures/dec.png'
-import In from './Pictures/in.png'
 
 const ProductCard = ({ item, onButtonClick, onRemoveClick, buttonText, showQuantity, basket }) => {
   const [isQuantity, setIsQuantity] = useState(0)
@@ -61,27 +59,16 @@ const handlerRemoveFromBasket = () => {
       event.preventDefault();
       showProductAlert()
   }
-
-const noemptis = (<>
-  <button className="button"onClick={handlerAddToBasket}>В корзину</button>
-</>)
-const emptis = (<>
-
-  <button className="button" onClick={handlerRemoveFromBasket}>-</button>
-  <input className="input-quantity" type="number" value={isQuantity} min="0" max="999" onChange={handleInputChange}/>
-  <button className="button" onClick={handlerAddToBasket} >+</button> <br/>
-  <button className="button" onClick={handlerZeroState}>Удалить</button>
-</>)
 return (
 <div className='product-item'>
     <img src={item.pic} alt={item.name} onClick={handlerClick}/>
     <div className='product-list'>
         <h3>{item.name}</h3>
-        <span className='price'>₽{item.price}</span>
+        <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>
         {item.sale > 0 && <span className='sale-price'>-{item.sale}%</span>} 
         {item.sale === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
         {isQuantity === 0 ? (
-          <button className="button" onClick={handlerAddToBasket}>В корзину</button>
+          <button className={`button button-inbasket`} onClick={handlerAddToBasket}>В корзину</button>
         ) : (
           <div className="quantity-controls">
             <button className="button" onClick={handlerRemoveFromBasket}>-</button>
@@ -93,7 +80,7 @@ return (
               max="999"
               onChange={handleInputChange}/>
             <button className="button" onClick={handlerAddToBasket}>+</button><br/>
-            <button className="button" onClick={handlerZeroState}>Удалить</button>
+            <button className={`button button-delete`} onClick={handlerZeroState}>Удалить</button>
           </div>
         )}
     </div>

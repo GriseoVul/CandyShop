@@ -1,5 +1,6 @@
 import React , {useEffect, useState} from 'react';
 import Candy from './Candy';
+import Slider from './Slider';
 
 import C1 from './Pictures/C1.webp'
 import C2 from './Pictures/C2.webp'
@@ -31,6 +32,7 @@ const Candys = () => {
             price: 100,
             sale: 20,
             totalprice: 0,
+            ye: 'шт',
             quantity: 0,
             description: "описание тест 1 jxtym lkbyhjjt jkgbcft njdfhf rjnjhjt z yt vjue ghblevfnm b gbie nhfyckbnjv gjnjve xnj vyt ye;yj xnj nj c.lf yfgbcfnm "
         },
@@ -40,6 +42,7 @@ const Candys = () => {
             price: 200,
             sale: 50,
             totalprice: 0,
+            ye: 'кг',
             quantity: 0,
             description: "описание тест 2"
         },
@@ -49,6 +52,7 @@ const Candys = () => {
             price: 150,
             sale: 0,
             totalprice: 0,
+            ye: 'шт',
             quantity: 0,
             description: "описание тест 3"
         },
@@ -58,6 +62,7 @@ const Candys = () => {
             sale: 0,
             price: 300,
             totalprice: 0,
+            ye: 'кг',
             quantity: 0,
             description: "описание тест 4"
         },
@@ -67,6 +72,7 @@ const Candys = () => {
             sale: 0,
             price: 100,
             totalprice: 0,
+            ye: 'шт',
             quantity: 0,
             description: "описание тест 1"
         },
@@ -75,6 +81,7 @@ const Candys = () => {
             name: arr2[1],
             price: 200,
             sale: 30,
+            ye: 'кг',
             description: "описание тест 2"
         },
         {id: 7,
@@ -83,6 +90,7 @@ const Candys = () => {
             price: 150,
             sale: 0,
             totalprice: 0,
+            ye: 'кг',
             description: "описание тест 3"
         },
         {id: 8,
@@ -91,6 +99,7 @@ const Candys = () => {
             price: 300,
             sale: 0,
             totalprice: 0,
+            ye: 'кг',
             description: "описание тест 4"
         }
     ]
@@ -112,6 +121,8 @@ const Candys = () => {
     }
 
     return (
+        <>
+        <Slider />
         <div className='CandysBox'>
         <div className='Candys'>
             {items.map((item, index)=> (
@@ -119,6 +130,7 @@ const Candys = () => {
             ))}
         </div>
         </div>
+        </>
     );
 }
 

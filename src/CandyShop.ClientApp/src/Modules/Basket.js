@@ -18,10 +18,9 @@ const Basket = () => {
     <h2 style={{textAlign: 'center', marginTop: "45px"}}>Корзина</h2>
     <div className='CandysBox'>
       {basketItems.length === 0 ? (
-        <p>Корзина пуста</p>
+        <p style={{marginBottom: '100px', marginTop: '100px'}}>Корзина пуста</p>
       ) : (
-        <div className='Candys'>
-          
+       <div className='Candys'>
           {basketItems.map((item) => (
            <div className='Candy'> <ProductCard
             key={item.id}
@@ -31,7 +30,10 @@ const Basket = () => {
         </div>
       )}
     </div>
-         <h2 style={{textAlign: 'center', marginBottom: '60px'}}>Итого {basketTotal} </h2>
+    {basketItems.length > 0 && (<div className='order-order'>
+            <h2 style={{textAlign: 'center', marginBottom: '20px'}}>Итого {basketTotal} </h2>
+            <button className='button button-order'>Оформить заказ</button>
+            </div>)}
          </>
   );
 };
