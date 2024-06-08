@@ -4,6 +4,7 @@ using CandyShop.API.Repositories;
 using CandyShop.API.Services;
 using CandyShop.API.Controllers;
 using Microsoft.EntityFrameworkCore;
+using CandyShop.API.Repos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddSwaggerGen();
 
 
 //service registration
+builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 

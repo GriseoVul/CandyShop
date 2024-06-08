@@ -10,7 +10,7 @@ public class Product
     public int Count { get; set; } = 0;
     public decimal Price { get; set; } = 0;
     public decimal Discount { get; set; } = 0;
-    public decimal TitalPrice { get; set; } = 0;
+    public decimal TotalPrice { get; set; } = 0;
     public ProductCategory Category { get; set; } = ProductCategory.Empty;
     
     public ICollection<ProductImage> Images { get; set;} = [];

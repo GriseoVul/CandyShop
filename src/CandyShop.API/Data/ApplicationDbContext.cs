@@ -23,17 +23,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         .WithOne(a => a.User)
         .IsRequired(false);
 
-
         modelBuilder.Entity<Order>()
         .HasMany(o => o.Products)
-        .WithOne()
-        .HasForeignKey("ProductId")
-        .IsRequired();
+        .WithMany()
+        .UsingEntity(t => t.ToTable("ProductsOrder"));
 
         modelBuilder.Entity<Product>()
         .HasMany(p => p.Images)
-        .WithOne()
-        .HasForeignKey("ImageID")
+        .WithOne(p => p.Product)
+        .HasForeignKey(p => p.ProductId)
+        .OnDelete(DeleteBehavior.Cascade)
         .IsRequired(false);
     }
 }
