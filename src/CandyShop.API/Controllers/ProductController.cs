@@ -35,8 +35,7 @@ public class ProductController (IProductService service): ControllerBase
     [HttpPost("getByCategory")]
     public async Task< ActionResult< IEnumerable<ProductDTO> > > GetByCategory([FromBody] string category)
     {
-        ProductCategory productCategory;
-        if (!EnumHelper.TryGetProductCategory(category, out productCategory))
+        if (!EnumHelper.TryGetProductCategory(category, out ProductCategory productCategory))
             return NotFound();
 
         var result = await _productService.GetByCategoryAsync(productCategory);
@@ -56,5 +55,25 @@ public class ProductController (IProductService service): ControllerBase
         return Ok( result );
     }
 
+    [HttpPost("create")]
+    public async Task< ActionResult<int?> > Create(ProductDetailDTO dTO )
+    {
+        var result = await _productService.CreateAsync(dTO);
+        return Ok( result );
+    }
 
+    [HttpPut("update")]
+    public async Task< ActionResult<int?> > Update(ProductDetailDTO dTO )
+    {
+        var result = await _productService.UpdateAsync(dTO);
+        if (result == -1) return NotFound();
+        return Ok( result );
+    }
+    [HttpDelete("delete")]
+    public async Task< ActionResult<ProductDetailDTO> > Delete([FromBody]int id)
+    {
+        var result = await _productService.DeleteAsync(id);
+        if (result == -1) return NotFound();
+        return Ok( result );
+    }
 }

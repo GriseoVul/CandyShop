@@ -7,6 +7,7 @@ namespace CandyShop.API.Repos;
 public interface IProductImageRepository
 {
     Task<ProductImage?> GetByIdAsync(int id);
+    Task<ICollection<ProductImage>> GetByProduct(int productId);
     Task<IEnumerable<ProductImage>> GetAllAsync();
     Task AddAsync(ProductImage productImage);
     Task UpdateAsync(ProductImage productImage);

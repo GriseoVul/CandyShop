@@ -31,39 +31,50 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     }
     public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return await _context.Products.Take(300).ToListAsync();
+        return await _context.Products.Take(100).ToListAsync();
     }
-    public async Task AddAsync(Product product)
+    public async Task<Product?> AddAsync(Product product)
     {
-        await _context.Products.AddAsync(product);
+        var result = await _context.Products.AddAsync(product);
+        
         await _context.SaveChangesAsync();
+        return result.Entity;
     }    
     public async Task AddSeveralAsync(IEnumerable<Product> products)
     {
         await _context.Products.AddRangeAsync(products);
         await _context.SaveChangesAsync();
     }
-    public async Task UpdateAsync(Product product)
+    public async Task<int> UpdateAsync(Product product)
     {
         try
         {
-            await _context.Products
-                .Where(p => p.Id == product.Id)
-                .ExecuteUpdateAsync( 
-                    s => s.SetProperty(pr => pr.Name, product.Name)
-                    .SetProperty(pr => pr.Description, product.Description)
-                    .SetProperty(pr => pr.Count, product.Count)
-                    .SetProperty(pr => pr.Price, product.Price)
-                    .SetProperty(pr => pr.Discount, product.Discount)
-                    .SetProperty(pr => pr.TitalPrice, product.TitalPrice)
-                    .SetProperty(pr => pr.Category, product.Category)
-                    .SetProperty(pr => pr.Images, product.Images)
-                );
+            var existingProduct = await _context.Products.FindAsync(product.Id);
+            if (existingProduct == null)
+            {
+                throw new Exception("null");
+            }
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Count = product.Count;
+            existingProduct.Price = product.Price;
+            existingProduct.Discount = product.Discount;
+            existingProduct.TotalPrice = product.TotalPrice;
+            existingProduct.Category = product.Category;
+            existingProduct.Images = product.Images;
+
             await _context.SaveChangesAsync();
+            return existingProduct.Id;
         }
         catch (DbUpdateConcurrencyException)
         {
-            return;
+            // Логирование или обработка исключения
+            return -1;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return -1;
         }
     }
     public async Task UpdateAsync(IEnumerable<Product> products)
@@ -72,36 +83,41 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         {
             foreach(var product in products)
             {
-                await _context.Products
-                .Where(p => p.Id == product.Id)
-                .ExecuteUpdateAsync( 
-                    s => s.SetProperty(pr => pr.Name, product.Name)
-                    .SetProperty(pr => pr.Description, product.Description)
-                    .SetProperty(pr => pr.Count, product.Count)
-                    .SetProperty(pr => pr.Price, product.Price)
-                    .SetProperty(pr => pr.Discount, product.Discount)
-                    .SetProperty(pr => pr.TitalPrice, product.TitalPrice)
-                    .SetProperty(pr => pr.Category, product.Category)
-                    .SetProperty(pr => pr.Images, product.Images)
-                );
+                var existingProduct = await _context.Products.FindAsync(product.Id);
+                if (existingProduct != null)
+                {
+                    existingProduct.Name = product.Name;
+                    existingProduct.Description = product.Description;
+                    existingProduct.Count = product.Count;
+                    existingProduct.Price = product.Price;
+                    existingProduct.Discount = product.Discount;
+                    existingProduct.TotalPrice = product.TotalPrice;
+                    existingProduct.Category = product.Category;
+                    existingProduct.Images = product.Images;
+                }
             }
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
+            // Логирование или обработка исключения
             return;
         }
     }
-    public async Task DeleteAsync(int id)
+    public async Task<int> DeleteAsync(int id)
     {
         try
         {
-            await _context.Products.Where(p => p.Id == id).ExecuteDeleteAsync();
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return -1;
+
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+            return id;
         }
         catch(DbUpdateConcurrencyException)
         {
-            return;
+            return -1;
         }
     }
 }

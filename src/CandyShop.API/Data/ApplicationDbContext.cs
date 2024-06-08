@@ -30,8 +30,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         modelBuilder.Entity<Product>()
         .HasMany(p => p.Images)
-        .WithOne()
-        .HasForeignKey("ImageID")
+        .WithOne(p => p.Product)
+        .HasForeignKey(p => p.ProductId)
+        .OnDelete(DeleteBehavior.Cascade)
         .IsRequired(false);
     }
 }

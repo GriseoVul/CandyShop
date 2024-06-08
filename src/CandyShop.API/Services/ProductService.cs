@@ -4,16 +4,21 @@ using CandyShop.API.DTOs;
 using CandyShop.API.Repositories;
 using CandyShop.API.Options;
 using Microsoft.Extensions.Options;
+using CandyShop.API.Repos;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using CandyShop.API.Helpers;
 namespace CandyShop.API.Services;
 
 public class ProductService(
     IProductRepository           repo, 
+    IProductImageRepository      imageRepo,
     IWebHostEnvironment          environment, 
     IOptions<FileStorageOptions> options
     ) : IProductService
 {
     private readonly IProductRepository _productRepository = repo;
-    private readonly FileStorageOptions _options = options.Value;
+    private readonly IProductImageRepository _productImageRepository = imageRepo;
+    private readonly FileStorageOptions options = options.Value;
     private readonly IWebHostEnvironment _environment = environment;
 
     public async Task<ProductDTO?> GetByIdAsync(int id)
@@ -24,17 +29,12 @@ public class ProductService(
         {
             return null;
         }
-        var ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath, product.Images.First().Name);
-        if (!File.Exists(ProductImagePath))
-            ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath,"placeholder.png");
-        
-        using var image = File.OpenRead(ProductImagePath);
         return new()
         {
             Id = product.Id,
             Name = product.Name,
-            TitalPrice = product.TitalPrice,
-            Image = new FormFile(image, 0, image.Length, product.Images.First().Name, product.Images.First().Name)
+            TotalPrice = product.TotalPrice,
+            ImageName = product.Images.First().Name
         };
     }
     public async Task<ProductDetailDTO?> GetByIdDetailAsync(int id)
@@ -45,115 +45,158 @@ public class ProductService(
         {
             return null;
         }
-        ICollection<IFormFile> images = [];
 
-        foreach(var i in product.Images)
-        {
-            var ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath, i.Name);
-            if (!File.Exists(ProductImagePath) )
-                ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath, "placeholder.png");
+        var images = await _productImageRepository.GetByProduct(product.Id);
 
-            using var image = File.OpenRead(ProductImagePath);
-            images.Add(new FormFile(image, 0, image.Length, i.Name, i.Name));
-        }
-        
-        return new()
+        var result = new ProductDetailDTO()
         {
             Id = product.Id,
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,
             Discount = product.Discount,
-            TitalPrice = product.TitalPrice,
+            TotalPrice = product.TotalPrice,
             Category = product.Category.ToString(),
-            Images = images
+            ImageNames = images.Select(x => x.Name).ToArray()
         };
+        return result;
     }
     public async Task<IEnumerable<ProductDTO>> GetAllAsync()
     {
-        var Products = await _productRepository.GetAllAsync();
-        var Result = new List<ProductDTO>();
-        foreach (var Product in Products)
-        {
-            var ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath, Product.Images.First().Name);
-            
-            if (!File.Exists(ProductImagePath))
-                ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath,"placeholder.png");
-            
-            using var image = File.OpenRead(ProductImagePath);
 
-            Result.Add(
-                new()
-                {
-                    Id = Product.Id,
-                    Name = Product.Name,
-                    TitalPrice = Product.TitalPrice,
-                    Image = new FormFile(image, 0, image.Length, Product.Images.First().Name, Product.Images.First().Name)
+        var Products = await _productRepository.GetAllAsync();
+        var result = new List<ProductDTO>();
+
+        foreach (var product in Products)
+        {
+            var images = await _productImageRepository.GetByProduct(product.Id);
+            var image = images.FirstOrDefault();
+            var imageName = image?.Name ?? options.NoImageName;
+
+            result.Add(new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                TotalPrice = product.TotalPrice,
+                ImageName = imageName
             });
         }
-        return Result;
+        return result;
     }
     public async Task<IEnumerable<ProductDTO>> GetByCategoryAsync(ProductCategory category)
     {
         var Products = await _productRepository.GetByCategoryAsync(category);
+        
+        var result = new List<ProductDTO>();
 
-        var Result = new List<ProductDTO>();
-        foreach (var Product in Products)
+        foreach (var product in Products)
         {
-            var ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath, Product.Images.First().Name);
-            
-            if (!File.Exists(ProductImagePath))
-                ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath,"placeholder.png");
-            
-            using var image = File.OpenRead(ProductImagePath);
+            var images = await _productImageRepository.GetByProduct(product.Id);
+            var image = images.FirstOrDefault();
+            var imageName = image?.Name ?? options.NoImageName;
 
-            Result.Add(
-                new()
-                {
-                    Id = Product.Id,
-                    Name = Product.Name,
-                    TitalPrice = Product.TitalPrice,
-                    Image = new FormFile(image, 0, image.Length, Product.Images.First().Name, Product.Images.First().Name)
+            result.Add(new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                TotalPrice = product.TotalPrice,
+                ImageName = imageName
             });
         }
-        return Result;
+        return result;
     }
     public async Task<IEnumerable<ProductDTO>> GetByNameAsync(string name)
     {
         var Products = await _productRepository.GetByNameAsync(name);
         
-        var Result = new List<ProductDTO>();
-        foreach (var Product in Products)
-        {
-            var ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath, Product.Images.First().Name);
-            
-            if (!File.Exists(ProductImagePath))
-                ProductImagePath = Path.Combine(_environment.WebRootPath, _options.ProductStoragePath,"placeholder.png");
-            
-            using var image = File.OpenRead(ProductImagePath);
+        var result = new List<ProductDTO>();
 
-            Result.Add(
-                new()
-                {
-                    Id = Product.Id,
-                    Name = Product.Name,
-                    TitalPrice = Product.TitalPrice,
-                    Image = new FormFile(image, 0, image.Length, Product.Images.First().Name, Product.Images.First().Name)
+        foreach (var product in Products)
+        {
+            var images = await _productImageRepository.GetByProduct(product.Id);
+            var image = images.FirstOrDefault();
+            var imageName = image?.Name ?? options.NoImageName;
+
+            result.Add(new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                TotalPrice = product.TotalPrice,
+                ImageName = imageName
             });
         }
-        return Result;
+        return result;
     }
 
-    public async Task CreateAsync(ProductDTO productDTO)
+    public async Task<int?> CreateAsync(ProductDetailDTO productDTO)
     {
-        throw new NotImplementedException();
+        if (!EnumHelper.TryGetProductCategory(productDTO.Category, out ProductCategory productCategory))
+            productCategory = ProductCategory.Empty;
+        
+        Product Result = new()
+        {
+            Id = productDTO.Id,
+            Name = productDTO.Name,
+            Description = productDTO.Description,
+            Count = 1,
+            Price = productDTO.Price,
+            Discount = productDTO.Discount,
+            TotalPrice = productDTO.TotalPrice,
+            Category = productCategory,
+        };
+
+        List<ProductImage> images = [];
+        foreach(var Name in productDTO.ImageNames)
+        {
+            ProductImage newImage = new()
+            {
+                Id = 0,
+                Name = Name,
+                ContentType = "image/jpeg",
+                //ProductId = productDTO.Id,
+                Product = Result
+            };
+            images.Add(newImage);
+            //await _productImageRepository.AddAsync(newImage);
+        }
+        Result.Images = images;
+
+        return (await _productRepository.AddAsync(Result))?.Id;
     }
-    public async Task UpdateAsync(ProductDTO productDTO)
+    public async Task<int> UpdateAsync(ProductDetailDTO productDTO)
     {
-        throw new NotImplementedException();
+        if (!EnumHelper.TryGetProductCategory(productDTO.Category, out ProductCategory productCategory))
+            productCategory = ProductCategory.Empty;
+        
+        List<ProductImage> images = [];
+        foreach(var Name in productDTO.ImageNames)
+        {
+            ProductImage newImage = new()
+            {
+                Id = 0,
+                Name = Name,
+                ContentType = "image/jpeg",
+                ProductId = productDTO.Id
+            };
+            images.Add(newImage);
+            //await _productImageRepository.AddAsync(newImage);
+        }
+        Product Result = new()
+        {
+            Id = productDTO.Id,
+            Name = productDTO.Name,
+            Description = productDTO.Description,
+            Count = 1,
+            Price = productDTO.Price,
+            Discount = productDTO.Discount,
+            TotalPrice = productDTO.TotalPrice,
+            Category = productCategory,
+            Images = images
+        };
+        return await _productRepository.UpdateAsync(Result);
     }
-    public async Task DeleteAsync(int id)
+    public async Task<int> DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _productRepository.DeleteAsync(id);
     }
 }
