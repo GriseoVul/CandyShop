@@ -8,33 +8,23 @@ const MyContextProvider = ({ children }) => {
     setBasketItems((prevItems) => {
       const existingItem = prevItems.find(item => item.id === newItem.id);
       if (existingItem) {
-      //   return prevItems.map(item =>
-      //     item.id === newItem.id
-      //     ? { ...item, quantity: item.quantity + newItem.quantity, totalprice: (item.quantity + newItem.quantity) * item.price }
-      //     : item.id
-      //   );
-      // } else {
-      //   return [...prevItems, newItem];
-      return prevItems.map(item => {
-        if (item.id === newItem.id){
-          const newQuantity = item.quantity + newItem.quantity;
-          const cappedQuantity = Math.min(newQuantity, 999);
-          return{
-            ...item, 
-            quantity: cappedQuantity, 
-            totalprice: cappedQuantity*item.price
-          }
-        }
-        return item;
-      })
+        return prevItems.map(item =>
+          item.id === newItem.id
+            ? { ...item, quantity: newItem.quantity, totalprice: newItem.quantity * item.price }
+            : item
+        );
       } else {
-        return[...prevItems, {...newItem, quantity: Math.min(newItem.quantity, 999), totalprice: newItem.price* Math.min(newItem.quantity, 999) }]
+        return [...prevItems, { ...newItem, totalprice: newItem.quantity * newItem.price }];
       }
     });
   };
 
+  const removeFromBasket = (itemToRemove) => {
+    setBasketItems((prevItems)=> prevItems.filter(item=> item.id !== itemToRemove.id))
+  }
+
   return (
-    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket }}>
+    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket, removeFromBasket}}>
       {children}
     </MyContext.Provider>
   );
