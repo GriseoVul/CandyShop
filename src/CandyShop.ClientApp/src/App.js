@@ -20,7 +20,6 @@ class App extends Component {
     return (
       <div className="App">
       <Header />
-      <Slider />
       <Routes>
         <Route path='/' element ={<Candys />}></Route>
         <Route path='/Busket' element = {<Basket />}></Route>

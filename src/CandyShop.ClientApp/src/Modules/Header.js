@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useContext}from 'react';
 import { Link } from 'react-router-dom';
+import { MyContext } from './MyContext';
 
 const Header = () => {
+    const { basketItems} = useContext(MyContext);
     return (
 <header class="header">
         <div class="header-left">
@@ -14,7 +16,10 @@ const Header = () => {
         </div>
         <div class="header-right">
             <Link to = {'/Seller'}>Seller</Link>
-           <Link to={'/Busket'}>Корзина</Link>
+            {
+                basketItems.length === 0 ? (<Link to={'/Busket'}>Корзина</Link>):(<Link to={'/Busket'}>Корзина({basketItems.length})</Link>)
+            }
+           
         </div>
     </header>
     );
