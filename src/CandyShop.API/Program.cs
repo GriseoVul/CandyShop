@@ -8,6 +8,19 @@ using CandyShop.API.Repos;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+//create cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins("*");
+                      });
+});
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -17,6 +30,7 @@ builder.Services.AddSwaggerGen();
 
 //service registration
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+builder.Services.AddScoped<IProductImageService, ProductImageService>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -63,9 +77,15 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+//allow cors
+app.UseCors(MyAllowSpecificOrigins);
+
 app.MapControllerRoute(
     name: "default",
     pattern: "api/{controller=Product}/{Actin=GetAll}"
 );
-
+app.MapControllerRoute(
+    name: "image",
+    pattern: "api/{controller=Image}/{Actin=GetImage}"
+);
 app.Run();

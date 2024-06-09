@@ -61,11 +61,11 @@ public class ProductService(
         };
         return result;
     }
-    public async Task<IEnumerable<ProductDTO>> GetAllAsync()
+    public async Task<IEnumerable<ProductDetailDTO>> GetAllAsync()
     {
 
         var Products = await _productRepository.GetAllAsync();
-        var result = new List<ProductDTO>();
+        var result = new List<ProductDetailDTO>();
 
         foreach (var product in Products)
         {
@@ -73,21 +73,25 @@ public class ProductService(
             var image = images.FirstOrDefault();
             var imageName = image?.Name ?? options.NoImageName;
 
-            result.Add(new ProductDTO
+            result.Add( new ProductDetailDTO()
             {
                 Id = product.Id,
                 Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Discount = product.Discount,
                 TotalPrice = product.TotalPrice,
-                ImageName = imageName
+                Category = product.Category.ToString(),
+                ImageNames = images.Select(x => x.Name).ToArray()
             });
         }
         return result;
     }
-    public async Task<IEnumerable<ProductDTO>> GetByCategoryAsync(ProductCategory category)
+    public async Task<IEnumerable<ProductDetailDTO>> GetByCategoryAsync(ProductCategory category)
     {
         var Products = await _productRepository.GetByCategoryAsync(category);
         
-        var result = new List<ProductDTO>();
+        var result = new List<ProductDetailDTO>();
 
         foreach (var product in Products)
         {
@@ -95,21 +99,25 @@ public class ProductService(
             var image = images.FirstOrDefault();
             var imageName = image?.Name ?? options.NoImageName;
 
-            result.Add(new ProductDTO
+            result.Add( new ProductDetailDTO()
             {
                 Id = product.Id,
                 Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Discount = product.Discount,
                 TotalPrice = product.TotalPrice,
-                ImageName = imageName
+                Category = product.Category.ToString(),
+                ImageNames = images.Select(x => x.Name).ToArray()
             });
         }
         return result;
     }
-    public async Task<IEnumerable<ProductDTO>> GetByNameAsync(string name)
+    public async Task<IEnumerable<ProductDetailDTO>> GetByNameAsync(string name)
     {
         var Products = await _productRepository.GetByNameAsync(name);
         
-        var result = new List<ProductDTO>();
+        var result = new List<ProductDetailDTO>();
 
         foreach (var product in Products)
         {
@@ -117,12 +125,16 @@ public class ProductService(
             var image = images.FirstOrDefault();
             var imageName = image?.Name ?? options.NoImageName;
 
-            result.Add(new ProductDTO
+            result.Add( new ProductDetailDTO()
             {
                 Id = product.Id,
                 Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Discount = product.Discount,
                 TotalPrice = product.TotalPrice,
-                ImageName = imageName
+                Category = product.Category.ToString(),
+                ImageNames = images.Select(x => x.Name).ToArray()
             });
         }
         return result;
@@ -153,11 +165,10 @@ public class ProductService(
                 Id = 0,
                 Name = Name,
                 ContentType = "image/jpeg",
-                //ProductId = productDTO.Id,
                 Product = Result
             };
             images.Add(newImage);
-            //await _productImageRepository.AddAsync(newImage);
+            
         }
         Result.Images = images;
 
@@ -179,7 +190,6 @@ public class ProductService(
                 ProductId = productDTO.Id
             };
             images.Add(newImage);
-            //await _productImageRepository.AddAsync(newImage);
         }
         Product Result = new()
         {
