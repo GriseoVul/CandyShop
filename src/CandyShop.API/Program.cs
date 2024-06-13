@@ -2,10 +2,9 @@ using CandyShop.API.Data;
 using CandyShop.API.Options;
 using CandyShop.API.Repositories;
 using CandyShop.API.Services;
-using CandyShop.API.Controllers;
 using Microsoft.EntityFrameworkCore;
 using CandyShop.API.Repos;
-using CandyShop.API.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
