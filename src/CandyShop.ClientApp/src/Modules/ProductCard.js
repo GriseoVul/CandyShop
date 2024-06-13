@@ -67,8 +67,8 @@ return (
     <div className='product-list'>
         <h3>{item.name}</h3>
         <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>
-        {item.sale > 0 && <span className='sale-price'>-{item.sale}%</span>} 
-        {item.sale === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
+        {item.discount > 0 && <span className='sale-price'>-{item.discount}%</span>} 
+        {item.discount === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
         {isQuantity === 0 ? (
           <button className={`button button-inbasket`} onClick={handlerAddToBasket}>В корзину</button>
         ) : (

@@ -38,7 +38,7 @@ const toggleSelect = () => {
                 <input className='input-public' placeholder='Трекномер'></input>
                 <button className='button'>Добавить</button><br/><br/>
                 <NotesManager />
-                <button className='button'>Печатать</button>             
+                <button className='button'style={{marginBottom: '19px'}}>Печатать</button>             
             </div>
         </div></>  
     );

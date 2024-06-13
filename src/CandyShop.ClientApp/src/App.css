@@ -240,6 +240,7 @@ body::-webkit-scrollbar-thumb {
 
 .basket-item img {
   display: block;
+  max-height: 294px;
   width: 100%;
 }
 
