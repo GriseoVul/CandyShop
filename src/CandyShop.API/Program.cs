@@ -9,17 +9,25 @@ using CandyShop.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
+var AllowAll = "AllowAll";
+var AllowWebApp = "AllowWebApp";
 //create cors
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy  =>
-                      {
-                          policy.WithOrigins("*");
-                      });
+    options.AddPolicy(name: AllowAll,
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
+    options.AddPolicy(name: AllowWebApp,
+                    policy => 
+                    {
+                        policy.WithOrigins("https://87h7l8pb-3000.euw.devtunnels.ms")
+                        .WithMethods("GET", "PUT", "POST", "DELETE")
+                        .AllowAnyHeader();
+                    });
 });
 
 // Add services to the container.
@@ -83,7 +91,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 //allow cors
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(AllowWebApp);
 
 app.MapControllerRoute(
     name: "default",
