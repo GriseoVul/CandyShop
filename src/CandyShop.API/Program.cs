@@ -90,7 +90,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 //allow cors
-app.UseCors(AllowWebApp);
+app.UseCors(AllowAll);
 
 app.MapControllerRoute(
     name: "default",
