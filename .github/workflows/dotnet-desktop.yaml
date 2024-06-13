@@ -1,3 +1,27 @@
+name: .NET
 
+on:
+  push: 
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
 
-runs-on: self-hosted
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with: 
+          dotnet-version: '8.0.300'
+      
+      -name: Install dependecies
+        run: dotnet restore
+      
+      -name: Build
+        run: dotnet build --configuration Release --no-restore
+      
