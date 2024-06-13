@@ -15,6 +15,7 @@ const Header = () => {
             <button class="search-button">НАЙТИ</button>
         </div>
         <div class="header-right">
+            <Link to = {'/Panel'}>Admin</Link>
             <Link to = {'/Seller'}>Seller</Link>
             {
                 basketItems.length === 0 ? (<Link to={'/Busket'}>Корзина</Link>):(<Link to={'/Busket'}>Корзина({basketItems.length})</Link>)
