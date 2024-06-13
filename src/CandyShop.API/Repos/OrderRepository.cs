@@ -11,81 +11,67 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
     {
         return await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
     }
-    public async Task<IEnumerable<Order>> GetRangeFromAsync(int id, int count)
-    {
-        return await _context.Orders
-        .Where(x => x.Id == id)
-        .Take(count)
-        .ToListAsync();
-    }
-    public async Task UpdateStatus(int id,  OrderStatus status)
+    public async Task<Order?> UpdateStatusAsync(int id,  OrderStatus status)
     {
         var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
 
         if(order == default)
         {
-            return;
+            return null;
         }
         order.Status = status;
+
+        return order;
     }
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
         return await _context.Orders.Take(300).ToArrayAsync();
     }    
-    public async Task AddProductAsync(Order order)
+    public async Task<Order> AddAsync(Order order)
     {
         await _context.Orders.AddAsync(order);
         await _context.SaveChangesAsync();
+        
+        return order;
     }
-    public async Task AddSeveralAsync(IEnumerable<Order> orders)
-    {
-        await _context.Orders.AddRangeAsync(orders);
-        await _context.SaveChangesAsync();
-    }
-    public async Task UpdateAsync(Order order)
-    {
-        await _context.Orders
-                .Where(p => p.Id == order.Id)
-                .ExecuteUpdateAsync( 
-                    s => s.SetProperty( or => or.Title, order.Title)
-                    .SetProperty(or => or.PhoneNumber, order.PhoneNumber)
-                    .SetProperty(or => or.Address, order.Address)
-                    .SetProperty(or => or.Status, order.Status)
-                );
-        await _context.SaveChangesAsync();
-    }
-    public async Task UpdateSeveralAsync(IEnumerable<Order> orders)
+    public async Task<Order?> UpdateAsync(Order order)
     {
         try
         {
-            foreach (var order in orders)
+            var existingOrder = await _context.Orders.FindAsync(order.Id);
+            if(existingOrder == null)
             {
-                await _context.Orders
-                .Where(p => p.Id == order.Id)
-                .ExecuteUpdateAsync( 
-                    s => s.SetProperty( or => or.Title, order.Title)
-                    .SetProperty(or => or.PhoneNumber, order.PhoneNumber)
-                    .SetProperty(or => or.Address, order.Address)
-                    .SetProperty(or => or.Status, order.Status)
-                );
-            }
-            await _context.SaveChangesAsync();
+                return null;
+            }            
+            
+            existingOrder.Title = order.Title;
+            existingOrder.PhoneNumber = order.PhoneNumber;
+            existingOrder.Address = order.Address;
+            existingOrder.Status = order.Status;
+
+            return existingOrder;
         }
         catch(DbUpdateConcurrencyException)
         {
-            return;
+            return new Order(){ Id = -1};
         }
+        catch(Exception)
+        {
+            return new Order(){ Id = -1};
+        }
+        
     }
-    public async Task DeleteAsync(int id)
+    public async Task<int> DeleteAsync(int id)
     {
         try
         {
             await _context.Orders.Where(p => p.Id == id).ExecuteDeleteAsync();
             await _context.SaveChangesAsync();
+            return id;
         }
         catch(DbUpdateConcurrencyException)
         {
-            return;
+            return -1;
         }
     }
 }

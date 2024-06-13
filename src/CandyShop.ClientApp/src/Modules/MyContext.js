@@ -10,11 +10,11 @@ const MyContextProvider = ({ children }) => {
       if (existingItem) {
         return prevItems.map(item =>
           item.id === newItem.id
-            ? { ...item, quantity: newItem.quantity, totalprice: newItem.quantity * item.price }
+            ? { ...item, quantity: newItem.quantity, totalprice: newItem.quantity * item.totalPrice }
             : item
         );
       } else {
-        return [...prevItems, { ...newItem, totalprice: newItem.quantity * newItem.price }];
+        return [...prevItems, { ...newItem, totalprice: newItem.quantity * newItem.totalPrice }];
       }
     });
   };

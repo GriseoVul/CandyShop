@@ -6,6 +6,7 @@ import Candys from './Modules/Candys';
 import Basket from './Modules/Basket';
 import Footer from './Modules/Footer';
 import SellerPage from './Modules/SellerPage';
+import AdminConsole from './Modules/AdminConsole';
 
 import React, { Component } from 'react';
 import { createRoot, HashRouter, Route, Routes, Link} from "react-router-dom";
@@ -24,6 +25,7 @@ class App extends Component {
         <Route path='/' element ={<Candys />}></Route>
         <Route path='/Busket' element = {<Basket />}></Route>
         <Route path='/Seller' element = {<SellerPage />}></Route>
+        <Route path='/Panel' element = {<AdminConsole />}></Route>
       </Routes>
       <Footer />
     </div> 

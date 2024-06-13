@@ -12,6 +12,6 @@ public class User
     public string Email { get; set; } = String.Empty;
     public UserRole Role { get; set; } = UserRole.Anonimus;
  
-    public UserAvatar Avatar { get; set; } = new UserAvatar();
+    public UserAvatar Avatar { get; set; } = null!;
     public ICollection<Order> Orders{ get; set; } = [];
 }

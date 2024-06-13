@@ -2,7 +2,9 @@ import React, {useState, useEffect ,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Swal from 'sweetalert2';
 
+
 const ProductCard = ({ item, onButtonClick, onRemoveClick, buttonText, showQuantity, basket }) => {
+  const url = `https://gdw3fstj-5063.euw.devtunnels.ms/api/Image/`
   const [isQuantity, setIsQuantity] = useState(0)
   const { addToBasket, basketItems, removeFromBasket } = useContext(MyContext)
 useEffect(()=> {
@@ -47,7 +49,7 @@ const handlerRemoveFromBasket = () => {
         title: item.name,
         html: `
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; margin: auto;">
-        <img src="${item.pic}" alt="image" style="width: 100%; max-width: 300px; height: auto; border-radius: 10px;">
+        <img src="${`${url}${item.imageNames}`}" alt="image" style="width: 100%; max-width: 300px; height: auto; border-radius: 10px;">
         <p style="text-align: center; margin: 10px 0;">${item.description}</p>
       </div>
         `,
@@ -61,12 +63,12 @@ const handlerRemoveFromBasket = () => {
   }
 return (
 <div className='product-item'>
-    <img src={item.pic} alt={item.name} onClick={handlerClick}/>
+    <img src={`${url}${item.imageNames}`} alt={item.name} onClick={handlerClick}/>
     <div className='product-list'>
         <h3>{item.name}</h3>
         <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>
-        {item.sale > 0 && <span className='sale-price'>-{item.sale}%</span>} 
-        {item.sale === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
+        {item.discount > 0 && <span className='sale-price'>-{item.discount}%</span>} 
+        {item.discount === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
         {isQuantity === 0 ? (
           <button className={`button button-inbasket`} onClick={handlerAddToBasket}>В корзину</button>
         ) : (
