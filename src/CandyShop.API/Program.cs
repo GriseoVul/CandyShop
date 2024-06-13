@@ -5,6 +5,7 @@ using CandyShop.API.Services;
 using CandyShop.API.Controllers;
 using Microsoft.EntityFrameworkCore;
 using CandyShop.API.Repos;
+using CandyShop.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,9 @@ builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddControllers();
 
 builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("FileStorage"));
@@ -46,6 +50,7 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(
     {
         options.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
         .LogTo(Console.WriteLine, LogLevel.Information)
+        //TODO remove on prod
         .EnableSensitiveDataLogging()
         .EnableDetailedErrors();
     }
@@ -82,10 +87,14 @@ app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "api/{controller=Product}/{Actin=GetAll}"
+    pattern: "api/{controller=Product}/{Action=GetAll}"
 );
 app.MapControllerRoute(
     name: "image",
-    pattern: "api/{controller=Image}/{Actin=GetImage}"
+    pattern: "api/{controller=Image}/{Action=GetImage}"
+);
+app.MapControllerRoute(
+    name: "order",
+    pattern: "api/{controller=Order}/{Action=GetAllAsync}"
 );
 app.Run();

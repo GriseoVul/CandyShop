@@ -5,12 +5,10 @@ namespace CandyShop.API.Repos;
 public interface IOrderRepository
 {
     Task<Order?> GetByIdAsync(int id);
-    Task<IEnumerable<Order>> GetRangeFromAsync(int id, int count);
-    Task UpdateStatus(int id,  OrderStatus status);
+    
+    Task<Order?> UpdateStatusAsync(int id,  OrderStatus status);
     Task<IEnumerable<Order>> GetAllAsync();
-    Task AddProductAsync(Order order);
-    Task AddSeveralAsync(IEnumerable<Order> orders);
-    Task UpdateAsync(Order order);
-    Task UpdateSeveralAsync(IEnumerable<Order> orders);
-    Task DeleteAsync(int id);
+    Task<Order> AddAsync(Order order);
+    Task<Order?> UpdateAsync(Order order);
+    Task<int> DeleteAsync(int id);
 }

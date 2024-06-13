@@ -13,4 +13,8 @@ public static class EnumHelper
     {
         return Enum.TryParse(category, out result);
     }
+    public static bool TryGetOrderStatus(string status, out OrderStatus result)
+    {
+        return Enum.TryParse(status, out result);
+    }
 }
