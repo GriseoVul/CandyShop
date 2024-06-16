@@ -46,7 +46,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(); 
 
 builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("FileStorage"));
 builder.Services.Configure<QueryOptions>(builder.Configuration.GetSection("QueryOptions"));
@@ -86,11 +86,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
+//TODO разобраться почему проблемы с CORS 
+//Даёт ошибку с CORS policy
+// app.UseHttpsRedirection(); 
 
-//allow cors
-app.UseCors(AllowAll);
+//хз зачем оно 
+//TODO Разобраться app.UseRouting!
+// app.UseRouting();
+
 
 app.MapControllerRoute(
     name: "default",
@@ -104,4 +107,8 @@ app.MapControllerRoute(
     name: "order",
     pattern: "api/{controller=Order}/{Action=GetAllAsync}"
 );
+
+//allow cors
+app.UseCors(AllowAll);
+
 app.Run();

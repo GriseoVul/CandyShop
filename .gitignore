@@ -1,6 +1,6 @@
 *\bin
 *\obj
-
+.vscode
 src/CandyShop.ClientApp/node_modules
 
 Migrations

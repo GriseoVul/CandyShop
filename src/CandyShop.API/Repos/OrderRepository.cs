@@ -2,6 +2,7 @@ using CandyShop.API.Models;
 using CandyShop.API.Enums;
 using CandyShop.API.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 namespace CandyShop.API.Repos;
 
 public class OrderRepository(ApplicationDbContext context) : IOrderRepository
@@ -25,7 +26,7 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
     }
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
-        return await _context.Orders.Take(300).ToArrayAsync();
+        return await _context.Orders.OrderBy(x => x.Id).Take(300).Include(x => x.Products).ToArrayAsync();
     }    
     public async Task<Order> AddAsync(Order order)
     {

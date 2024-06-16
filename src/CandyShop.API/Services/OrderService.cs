@@ -21,7 +21,7 @@ public class OrderService(
     private readonly IProductRepository _productRepository = prodRepo;
     private readonly FileStorageOptions options = options.Value;
 
-    static Task<OrderDTO> MapOrder(Order order)
+    async Task<OrderDTO> MapOrder(Order order)
     {
         var orderDTO = new OrderDTO{
             Id = order.Id,
@@ -34,16 +34,21 @@ public class OrderService(
 
         foreach (var product in order.Products)
         {
+            var existingProduct = await _productRepository.GetByIdAsync(product.Id);
+            if (existingProduct == null)
+                continue;
+
             orderDTO.Products.Add(
                 new ProductDTO {
                     Id = product.Id,
                     Name = product.Name,
-                    TotalPrice = product.TotalPrice
+                    TotalPrice = product.TotalPrice,
+                    ImageName = existingProduct.Images.FirstOrDefault()?.Name ?? options.NoImageName
                 }
             );
         }
 
-        return Task.FromResult(orderDTO);
+        return orderDTO;
     }
 
     async Task<Order> MapOrderDTO(OrderDTO order)
