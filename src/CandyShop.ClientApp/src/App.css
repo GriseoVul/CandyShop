@@ -577,3 +577,16 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
   border-radius: 4px;
  }
 /*!Seller Interface  */
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}

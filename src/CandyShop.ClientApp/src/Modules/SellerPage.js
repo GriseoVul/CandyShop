@@ -3,12 +3,26 @@ import SellerItem from './SellerItem';
 
 
 const SellerPage = () => {
-    const url= `kakoito link`
+    const url= `https://gdw3fstj-5063.euw.devtunnels.ms/api/Order`
     const [isSellerBox, setIsSellerBox] = useState(false)
-    const [sellerData, setSellerData] = useState('');
+    const [sellerData, setSellerData] = useState([]);
     const toggleSellerBox = () => {
         setIsSellerBox(!isSellerBox)
     }
+    useEffect(()=> {
+        const fetchData = async() => {
+            try{
+                const data = await fetchSellerItems();
+                console.log(data)
+                setSellerData(data)
+                return data;
+            } 
+            catch (error){
+                console.log(error)
+            }
+        }
+        fetchData()
+    }, [])
     async function fetchSellerItems(){
         try {
             const responce = await fetch(url,{
@@ -18,7 +32,7 @@ const SellerPage = () => {
                 const errorText = await responce.json();
                 throw new Error(errorText.error || `${responce.status}`)
             }
-            return setSellerData(responce.json());
+            return responce.json()
         } catch (error) {
             console.error(error);
             throw new Error(error.message)
@@ -36,12 +50,11 @@ const SellerPage = () => {
         <button className='button' onClick={toggleSellerBox}>
                 {!isSellerBox ? ("К таблице"):("К списку")}</button>
         <div className='SellerPage'>
-            {/* {sellerData.map((item, index) => (
+            <div className={isSellerBox ? 'SellerBox' : ''}>
+            {sellerData.map((item, index) => (
                 <SellerItem key={index} item = {item}/>
             ))
-            } */}
-            <div className={isSellerBox ? 'SellerBox' : 'SellerBoxV2'}>
-            <SellerItem/>             <SellerItem/>             <SellerItem/>            <SellerItem/>
+            }
             </div>
         </div>
         </>

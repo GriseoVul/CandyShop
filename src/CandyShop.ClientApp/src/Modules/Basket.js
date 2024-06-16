@@ -18,7 +18,6 @@ const Basket = () => {
         method: 'POST',
         headers: {
           'Content-Type': "application/json",
-          // 'Content-Type': 'text/plain'
         },
         body: JSON.stringify(order)
       });
@@ -59,7 +58,19 @@ const Basket = () => {
           userName: name,
           products: basketItems,
         };
-      postBasket(order);
+        Swal.fire({
+          title: 'Создание заказа...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        }); 
+      postBasket(order)
+      .then(()=> {
+        Swal.fire('Заказ успешно создан','','success')
+        setBasketItems([])
+    })
+      .catch((error)=> {Swal.fire('Ошибка создания заказа',error.massage,'error')});
       }
     });
   };

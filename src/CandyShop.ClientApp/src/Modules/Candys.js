@@ -20,8 +20,14 @@ const Candys = () => {
         }
         fetchData()
     }, [])
-    
 
+    const handleScrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+    
     async function getCandysData(){
         try {
             const responce = await fetch(url, {
@@ -29,7 +35,7 @@ const Candys = () => {
             })
             if (!responce.ok){
                 const errorText = await responce.json();
-                throw new Error(errorText)
+                throw new Error(errorText);
             }
             const data = await responce.json();
             console.log("data getCandyData", data);
@@ -47,7 +53,8 @@ const Candys = () => {
    {candysItem.length > 0 ? candysItem.map((candy, index) => (
        <Candy key={index} item={candy} />
    )) : <p>Загрузка...</p>}
-        </div>
+        </div> 
+        <button className={`scroll-to-top button`} onClick={handleScrollToTop}>Вверх</button>
         </div>
         </>
     );

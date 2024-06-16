@@ -3,7 +3,7 @@ import { MyContext } from './MyContext';
 import Swal from 'sweetalert2';
 
 
-const ProductCard = ({ item, onButtonClick, onRemoveClick, buttonText, showQuantity, basket }) => {
+const ProductCard = ({item}) => {
   const url = `https://gdw3fstj-5063.euw.devtunnels.ms/api/Image/`
   const [isQuantity, setIsQuantity] = useState(0)
   const { addToBasket, basketItems, removeFromBasket } = useContext(MyContext)
