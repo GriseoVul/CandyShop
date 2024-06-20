@@ -31,7 +31,7 @@ public class OrderController
         return Ok(result);
     }
 
-    [HttpPost("{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> ChangeStatus(int id, [FromBody]string status)
     {
         var result = await _orderService.ChangeStatus(id, status);
