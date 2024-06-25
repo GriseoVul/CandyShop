@@ -7,6 +7,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<User> Users{ get; set; }
     public DbSet<Order> Orders{ get; set; }
+    public DbSet<OrderItem> Items{ get; set; }
     public DbSet<Product> Products{ get; set; }
     public DbSet<ProductImage> ProductImages{ get; set; }
     public DbSet<UserAvatar> UserAvatars{ get; set; }
@@ -24,9 +25,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         .IsRequired(false);
 
         modelBuilder.Entity<Order>()
-        .HasMany(o => o.Products)
+        .HasMany(o => o.Items)
+        .WithOne(i => i.Order)
+        .HasForeignKey(o => o.OrderId)
+        .IsRequired(true);
+
+        modelBuilder.Entity<OrderItem>()
+        .HasOne(o => o.Product)
         .WithMany()
-        .UsingEntity(t => t.ToTable("ProductsOrder"));
+        .HasForeignKey(o => o.ProductId)
+        .IsRequired(true);
 
         modelBuilder.Entity<Product>()
         .HasMany(p => p.Images)

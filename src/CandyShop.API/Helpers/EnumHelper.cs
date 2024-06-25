@@ -17,4 +17,8 @@ public static class EnumHelper
     {
         return Enum.TryParse(status, out result);
     }
+    public static bool TryGetProductUnit(string unit, out ProductUnit result)
+    {
+        return Enum.TryParse(unit, out result);
+    }
 }

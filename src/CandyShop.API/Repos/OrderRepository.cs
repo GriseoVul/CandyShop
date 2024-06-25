@@ -26,7 +26,12 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
     }
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
-        return await _context.Orders.OrderBy(x => x.Id).Take(300).Include(x => x.Products).ToArrayAsync();
+        return await _context.Orders
+        .Include(o => o.Items)
+        .ThenInclude(oi => oi.Product)
+        .OrderBy(x => x.Id)
+        .Take(300)
+        .ToArrayAsync();
     }    
     public async Task<Order> AddAsync(Order order)
     {
@@ -45,9 +50,10 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
                 return null;
             }            
             
-            existingOrder.Title = order.Title;
-            existingOrder.PhoneNumber = order.PhoneNumber;
-            existingOrder.Address = order.Address;
+            existingOrder.CustomerName = order.CustomerName;
+            existingOrder.CustomerPhoneNumber = order.CustomerPhoneNumber;
+            existingOrder.CustomerAddress = order.CustomerAddress;
+            existingOrder.AdditionalData = order.AdditionalData;
             existingOrder.Status = order.Status;
 
             return existingOrder;
@@ -64,9 +70,15 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
     }
     public async Task<int> DeleteAsync(int id)
     {
+        var order = _context.Orders.Find(id);
+        if(order == null)
+        {
+            return -1;
+        }
+        _context.Orders.Remove(order);
+        
         try
         {
-            await _context.Orders.Where(p => p.Id == id).ExecuteDeleteAsync();
             await _context.SaveChangesAsync();
             return id;
         }

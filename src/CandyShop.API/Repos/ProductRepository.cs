@@ -49,14 +49,12 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     {
         try
         {
-            var existingProduct = await _context.Products.FindAsync(product.Id);
-            if (existingProduct == null)
-            {
-                throw new Exception("null");
-            }
+            var existingProduct = await _context.Products.FindAsync(product.Id) ?? throw new Exception("null");
+
             existingProduct.Name = product.Name;
             existingProduct.Description = product.Description;
             existingProduct.Count = product.Count;
+            existingProduct.Units = product.Units;
             existingProduct.Price = product.Price;
             existingProduct.Discount = product.Discount;
             existingProduct.TotalPrice = product.TotalPrice;
@@ -119,5 +117,10 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         {
             return -1;
         }
+    }
+
+    public void ChangeState(Product product, EntityState state)
+    {
+        _context.Entry(product).State = state;
     }
 }

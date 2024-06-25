@@ -1,6 +1,6 @@
 ﻿namespace CandyShop.API.Enums;
 
-public enum ProductUnits
+public enum ProductUnit
 {
     Empty,
     Pcs,
