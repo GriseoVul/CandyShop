@@ -1,31 +1,32 @@
 import React, {useState, useEffect ,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Swal from 'sweetalert2';
+import { isUrl } from './MyContext';
 
 
 const ProductCard = ({item}) => {
-  const url = `https://gdw3fstj-5063.euw.devtunnels.ms/api/Image/`
-  const [isQuantity, setIsQuantity] = useState(0)
+  const url = `${isUrl}/Image/`
+  const [isCount, setIsCount] = useState(0)
   const { addToBasket, basketItems, removeFromBasket } = useContext(MyContext)
 useEffect(()=> {
   const existingItem = basketItems.find(basketItem => basketItem.id === item.id)
   if (existingItem){
-    setIsQuantity(existingItem.quantity)
+    setIsCount(existingItem.Count)
   }
 },[basketItems, item.id])
 
 const handlerZeroState = () => {
-  setIsQuantity(0)
+  setIsCount(0)
   removeFromBasket(item)
  } 
 
 const handlerAddToBasket = () => {
-  const newItem = {...item, quantity: isQuantity+1}
+  const newItem = {...item, Count: isCount+1}
   addToBasket(newItem)
 }
 const handlerRemoveFromBasket = () => {
-  if (isQuantity >1 ){
-    const newItem = {...item, quantity: isQuantity-1}
+  if (isCount >1 ){
+    const newItem = {...item, Count: isCount-1}
     addToBasket(newItem)
   } 
  else handlerZeroState()
@@ -38,8 +39,8 @@ const handlerRemoveFromBasket = () => {
         handlerZeroState();
       } 
       else {
-        setIsQuantity(value);
-        const newItem = { ...item, quantity: value };
+        setIsCount(value);
+        const newItem = { ...item, Count: value };
         addToBasket(newItem);
       }
     }
@@ -66,10 +67,12 @@ return (
     <img src={`${url}${item.imageNames}`} alt={item.name} onClick={handlerClick}/>
     <div className='product-list'>
         <h3>{item.name}</h3>
-        <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>
-        {item.discount > 0 && <span className='sale-price'>-{item.discount}%</span>} 
+        {item.discount > 0 ?
+                             <span className='price'><span style={{textDecoration: 'line-through',color: 'gray' }}>{item.price}₽</span> <span style={{color: 'var(--saleitemprice)'}}>-{item.discount}%</span><br/>{item.totalPrice}₽<span className='ye'>/{item.ye}</span></span> 
+                             : <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>}
+        {/* {item.discount > 0 && <span className='sale-price'>-{item.discount}%</span>}  */}
         {item.discount === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
-        {isQuantity === 0 ? (
+        {isCount === 0 ? (
           <button className={`button button-inbasket`} onClick={handlerAddToBasket}>В корзину</button>
         ) : (
           <div className="quantity-controls">
@@ -77,7 +80,7 @@ return (
             <input
               className="input-quantity"
               type="number"
-              value={isQuantity}
+              value={isCount}
               min="0"
               max="999"
               onChange={handleInputChange}/>
@@ -86,6 +89,7 @@ return (
           </div>
         )}
     </div>
+    {/* {!admin ? <><button>Удалить</button><button>Редактировать</button></> : <></>} */}
 </div>
 )
 };

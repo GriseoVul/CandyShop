@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import SellerItem from './SellerItem';
-
+import { isUrl } from './MyContext';
 
 const SellerPage = () => {
-    const url= `https://gdw3fstj-5063.euw.devtunnels.ms/api/Order`
+    const url= `${isUrl}/Order`
     const [isSellerBox, setIsSellerBox] = useState(false)
     const [sellerData, setSellerData] = useState([]);
     const toggleSellerBox = () => {

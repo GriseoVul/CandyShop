@@ -1,7 +1,8 @@
 import React from 'react';
+import { isUrl } from './MyContext';
 
 const AdminItem = ({item}) => {
-const url = `https://gdw3fstj-5063.euw.devtunnels.ms/api/Image/`
+const url = `${isUrl}/Image`
 function handlerClick(event){
     event.preventDefault();
 }

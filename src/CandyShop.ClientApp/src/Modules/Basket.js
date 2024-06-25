@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import { MyContext } from './MyContext';
 import ProductCard from './ProductCard';
 import Swal from 'sweetalert2';
+import { isUrl } from './MyContext';
 
 const Basket = () => {
   const { basketItems, setBasketItems, removeFromBasket} = useContext(MyContext);
   const [basketTotal, setBasketTotal] = useState(0);
-  const url = `https://gdw3fstj-5063.euw.devtunnels.ms/api/Order/create`
+  const url = `${isUrl}/Order/create`
   useEffect(() => {
     const total = basketItems.reduce((sum, item)=> sum += item.totalprice , 0)
     setBasketTotal(total);
@@ -54,8 +55,8 @@ const Basket = () => {
       if (result.isConfirmed) {
         const { name, phone } = result.value;
         const order = {
-          phoneNumber: phone,
-          userName: name,
+         customerPhoneNumber: phone,
+          customerName: name,
           products: basketItems,
         };
         Swal.fire({
@@ -65,6 +66,7 @@ const Basket = () => {
             Swal.showLoading();
           }
         }); 
+        console.log(order);
       postBasket(order)
       .then(()=> {
         Swal.fire('Заказ успешно создан','','success')

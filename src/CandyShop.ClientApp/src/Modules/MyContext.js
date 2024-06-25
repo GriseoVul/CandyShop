@@ -10,11 +10,11 @@ const MyContextProvider = ({ children }) => {
       if (existingItem) {
         return prevItems.map(item =>
           item.id === newItem.id
-            ? { ...item, quantity: newItem.quantity, totalprice: newItem.quantity * item.totalPrice }
+            ? { ...item, Count: newItem.Count, totalprice: newItem.Count * item.totalPrice }
             : item
         );
       } else {
-        return [...prevItems, { ...newItem, totalprice: newItem.quantity * newItem.totalPrice }];
+        return [...prevItems, { ...newItem, totalprice: newItem.Count * newItem.totalPrice }];
       }
     });
   };
@@ -30,3 +30,5 @@ const MyContextProvider = ({ children }) => {
   );
 };
 export default MyContextProvider;
+
+export const isUrl = `https://gdw3fstj-5063.euw.devtunnels.ms/api`

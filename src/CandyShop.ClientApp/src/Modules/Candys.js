@@ -1,10 +1,10 @@
 import React , {useEffect, useState} from 'react';
 import Candy from './Candy';
 import Slider from './Slider';
+import { isUrl } from './MyContext';
 
 const Candys = () => {
-    const url = `https://gdw3fstj-5063.euw.devtunnels.ms/api/Product`
-
+    const url = `${isUrl}/Product`
     const [candysItem, setCandysItem] = useState([])
     useEffect(()=> {
         const fetchData = async() => {
@@ -50,15 +50,15 @@ const Candys = () => {
         <Slider />
         <div className='CandysBox'>
         <div className='Candys'>
-   {candysItem.length > 0 ? candysItem.map((candy, index) => (
+   {candysItem.length > 0 ? (candysItem.map((candy, index) => (
        <Candy key={index} item={candy} />
-   )) : <p>Загрузка...</p>}
+   ))): <p>Загрузка...</p>}
+   {candysItem.length>0 && <button className={`scroll-to-top button`} onClick={handleScrollToTop}>Вверх</button>}
         </div> 
-        <button className={`scroll-to-top button`} onClick={handleScrollToTop}>Вверх</button>
+
         </div>
         </>
     );
 }
 
 export default Candys;
-
