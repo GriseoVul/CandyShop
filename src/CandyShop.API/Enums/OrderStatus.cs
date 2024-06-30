@@ -3,11 +3,10 @@
 public enum OrderStatus
 {
     Empty,
-    Created,
-    Pending,
-    Paid,
-    BeingPrepared,
-    Prepared,
-    Shipped,
-    Delivered
+    Created,  //новый
+    Pending, // в работе
+    IncorrectData, //Неверные данные
+    Canseled, // Отменён
+    Shipped, // Отправлен
+    Delivered // Завершён
 }

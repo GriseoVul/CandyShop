@@ -26,6 +26,7 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
     }
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
+        //feels good this is good practice  
         return await _context.Orders
         .Include(o => o.Items)
         .ThenInclude(oi => oi.Product)

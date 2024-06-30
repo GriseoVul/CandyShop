@@ -8,6 +8,9 @@ public class Order
     public string CustomerName { get; set;} = string.Empty; 
     public string CustomerPhoneNumber{ get; set;} = string.Empty;
     public string CustomerAddress { get; set;} = string.Empty;
+    public DateTime CreatedAt { get; set;} = DateTime.Now;
+    public DateTime UpdatedAt { get; set;} = DateTime.Now;
+    public string TrackId {get;set;} = string.Empty;
     public float TotalPrice { get 
         {
             float result = 0;
