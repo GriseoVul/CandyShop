@@ -2,8 +2,6 @@ import React, {useState, useEffect ,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Swal from 'sweetalert2';
 import { isUrl } from './MyContext';
-
-
 const ProductCard = ({item}) => {
   const url = `${isUrl}/Image/`
   const [isCount, setIsCount] = useState(0)

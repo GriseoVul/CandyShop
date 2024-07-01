@@ -31,4 +31,4 @@ const MyContextProvider = ({ children }) => {
 };
 export default MyContextProvider;
 
-export const isUrl = `https://gdw3fstj-5063.euw.devtunnels.ms/api`
+export const isUrl = `/api` // /api // https://gdw3fstj-5063.euw.devtunnels.ms/api

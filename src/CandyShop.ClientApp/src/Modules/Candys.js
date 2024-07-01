@@ -4,7 +4,7 @@ import Slider from './Slider';
 import { isUrl } from './MyContext';
 
 const Candys = () => {
-    const url = `${isUrl}/Product`
+    const url = `${isUrl}/Product` //api/Product //${isUrl}/Product
     const [candysItem, setCandysItem] = useState([])
     useEffect(()=> {
         const fetchData = async() => {
