@@ -12,6 +12,7 @@ public class Product
     public float Price { get; set; } = 0;
     public float Discount { get; set; } = 0;
     public float TotalPrice { get; set; } = 0;
+    public bool IsVisible{ get; set; } = false;
     public ProductCategory Category { get; set; } = ProductCategory.Empty;
     public ICollection<ProductImage> Images { get; set;} = [];
 }
