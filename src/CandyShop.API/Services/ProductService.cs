@@ -1,11 +1,11 @@
 using CandyShop.API.Models;
 using CandyShop.API.Enums;
 using CandyShop.API.DTOs;
+using CandyShop.API.DTOs.Mappers;
 using CandyShop.API.Repositories;
 using CandyShop.API.Options;
 using Microsoft.Extensions.Options;
 using CandyShop.API.Repos;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using CandyShop.API.Helpers;
 namespace CandyShop.API.Services;
 
@@ -29,15 +29,9 @@ public class ProductService(
         {
             return null;
         }
-        return new()
-        {
-            Id = product.Id,
-            Name = product.Name,
-            TotalPrice = product.TotalPrice,
-            ImageName = product.Images.First().Name
-        };
+        return product.ToDTO();
     }
-    public async Task<ProductDetailDTO?> GetByIdDetailAsync(int id)
+    public async Task<ProductDTO?> GetByIdDetailAsync(int id)
     {
         Product? product =  await _productRepository.GetByIdAsync(id);
         
@@ -45,117 +39,32 @@ public class ProductService(
         {
             return null;
         }
-
-        var images = await _productImageRepository.GetByProduct(product.Id);
-
-        var result = new ProductDetailDTO()
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            Price = product.Price,
-            Discount = product.Discount,
-            TotalPrice = product.TotalPrice,
-            Category = product.Category.ToString(),
-            ImageNames = images.Select(x => x.Name).ToArray()
-        };
-        return result;
+        
+        return product.ToDTO();
     }
-    public async Task<IEnumerable<ProductDetailDTO>> GetAllAsync()
+    public async Task<IEnumerable<ProductDTO>> GetAllAsync()
     {
 
         var Products = await _productRepository.GetAllAsync();
-        var result = new List<ProductDetailDTO>();
 
-        foreach (var product in Products)
-        {
-            var images = await _productImageRepository.GetByProduct(product.Id);
-            var image = images.FirstOrDefault();
-            var imageName = image?.Name ?? options.NoImageName;
-
-            result.Add( new ProductDetailDTO()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Discount = product.Discount,
-                TotalPrice = product.TotalPrice,
-                Category = product.Category.ToString(),
-                ImageNames = images.Select(x => x.Name).ToArray()
-            });
-        }
-        return result;
+        return  Products.ToDTO();
     }
-    public async Task<IEnumerable<ProductDetailDTO>> GetByCategoryAsync(ProductCategory category)
+    public async Task<IEnumerable<ProductDTO>> GetByCategoryAsync(ProductCategory category)
     {
         var Products = await _productRepository.GetByCategoryAsync(category);
         
-        var result = new List<ProductDetailDTO>();
-
-        foreach (var product in Products)
-        {
-            var images = await _productImageRepository.GetByProduct(product.Id);
-            var image = images.FirstOrDefault();
-            var imageName = image?.Name ?? options.NoImageName;
-
-            result.Add( new ProductDetailDTO()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Discount = product.Discount,
-                TotalPrice = product.TotalPrice,
-                Category = product.Category.ToString(),
-                ImageNames = images.Select(x => x.Name).ToArray()
-            });
-        }
-        return result;
+        return Products.ToDTO();
     }
-    public async Task<IEnumerable<ProductDetailDTO>> GetByNameAsync(string name)
+    public async Task<IEnumerable<ProductDTO>> GetByNameAsync(string name)
     {
         var Products = await _productRepository.GetByNameAsync(name);
         
-        var result = new List<ProductDetailDTO>();
-
-        foreach (var product in Products)
-        {
-            var images = await _productImageRepository.GetByProduct(product.Id);
-            var image = images.FirstOrDefault();
-            var imageName = image?.Name ?? options.NoImageName;
-
-            result.Add( new ProductDetailDTO()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Discount = product.Discount,
-                TotalPrice = product.TotalPrice,
-                Category = product.Category.ToString(),
-                ImageNames = images.Select(x => x.Name).ToArray()
-            });
-        }
-        return result;
+        return Products.ToDTO();
     }
 
-    public async Task<int?> CreateAsync(ProductDetailDTO productDTO)
+    public async Task<int?> CreateAsync(ProductDTO productDTO)
     {
-        if (!EnumHelper.TryGetProductCategory(productDTO.Category, out ProductCategory productCategory))
-            productCategory = ProductCategory.Empty;
-        
-        Product Result = new()
-        {
-            Id = productDTO.Id,
-            Name = productDTO.Name,
-            Description = productDTO.Description,
-            Count = 1,
-            Price = productDTO.Price,
-            Discount = productDTO.Discount,
-            TotalPrice = productDTO.TotalPrice,
-            Category = productCategory,
-        };
+        Product Result = productDTO.ToModel();
 
         List<ProductImage> images = [];
         foreach(var Name in productDTO.ImageNames)
@@ -174,11 +83,10 @@ public class ProductService(
 
         return (await _productRepository.AddAsync(Result))?.Id;
     }
-    public async Task<int> UpdateAsync(ProductDetailDTO productDTO)
+    public async Task<int> UpdateAsync(ProductDTO productDTO)
     {
-        if (!EnumHelper.TryGetProductCategory(productDTO.Category, out ProductCategory productCategory))
-            productCategory = ProductCategory.Empty;
-        
+        Product Result = productDTO.ToModel();
+
         List<ProductImage> images = [];
         foreach(var Name in productDTO.ImageNames)
         {
@@ -191,18 +99,8 @@ public class ProductService(
             };
             images.Add(newImage);
         }
-        Product Result = new()
-        {
-            Id = productDTO.Id,
-            Name = productDTO.Name,
-            Description = productDTO.Description,
-            Count = 1,
-            Price = productDTO.Price,
-            Discount = productDTO.Discount,
-            TotalPrice = productDTO.TotalPrice,
-            Category = productCategory,
-            Images = images
-        };
+        
+        Result.Images = images;
         return await _productRepository.UpdateAsync(Result);
     }
     public async Task<int> DeleteAsync(int id)

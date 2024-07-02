@@ -8,7 +8,7 @@ public class User
     public string Name { get; set; } = String.Empty;
     public string Login { get; set; } = String.Empty;
     public string HashPassword{ get; set; } = String.Empty;
-    public int PhoneNumber { get; set; } = Int32.MinValue;
+    public string PhoneNumber { get; set; } = String.Empty;
     public string Email { get; set; } = String.Empty;
     public UserRole Role { get; set; } = UserRole.Anonimus;
  

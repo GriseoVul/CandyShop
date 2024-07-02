@@ -1,5 +1,6 @@
 ﻿using CandyShop.API.Models;
 using CandyShop.API.Enums;
+using Microsoft.EntityFrameworkCore;
 namespace CandyShop.API.Repositories;
 
 public interface IProductRepository
@@ -14,4 +15,5 @@ public interface IProductRepository
     Task<int> UpdateAsync(Product product);
     Task UpdateAsync(IEnumerable<Product> products);
     Task<int> DeleteAsync(int id);
+    void ChangeState(Product product, EntityState state);
 }

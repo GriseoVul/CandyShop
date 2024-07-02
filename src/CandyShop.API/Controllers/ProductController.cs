@@ -25,7 +25,7 @@ public class ProductController
     }
 
     [HttpPost("getDetail")]
-    public async Task< ActionResult<ProductDetailDTO> > GetByIdDetail([FromBody]int id)
+    public async Task< ActionResult<ProductDTO> > GetByIdDetail([FromBody]int id)
     {
         var result = await _productService.GetByIdDetailAsync(id);
         if (result == null)
@@ -58,21 +58,21 @@ public class ProductController
     }
 
     [HttpPost("create")]
-    public async Task< ActionResult<int?> > Create(ProductDetailDTO dTO )
+    public async Task< ActionResult<int?> > Create(ProductDTO dTO )
     {
         var result = await _productService.CreateAsync(dTO);
         return Ok( result );
     }
 
     [HttpPut("update")]
-    public async Task< ActionResult<int?> > Update(ProductDetailDTO dTO )
+    public async Task< ActionResult<int?> > Update(ProductDTO dTO )
     {
         var result = await _productService.UpdateAsync(dTO);
         if (result == -1) return NotFound();
         return Ok( result );
     }
     [HttpDelete("delete")]
-    public async Task< ActionResult<ProductDetailDTO> > Delete([FromBody]int id)
+    public async Task< ActionResult<ProductDTO> > Delete([FromBody]int id)
     {
         var result = await _productService.DeleteAsync(id);
         if (result == -1) return NotFound();
