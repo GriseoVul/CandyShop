@@ -1,18 +1,7 @@
 import React , {useState} from "react";
 import Swal from 'sweetalert2';
 import { isUrl } from './MyContext';
-
-const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    }
-  });
+import Toast from "./Toast";
 
 const AddedItemForm = () => {
     // const url = `https://fakestoreapi.com/products`
@@ -23,18 +12,11 @@ const AddedItemForm = () => {
         description: '',
         price: '',
         discount: '',
-        ye: '',
+        units: '',
         availability: true
     });
     async function createProduct(data){
-        const loadingToast = Toast.fire({
-            icon: 'info',
-            title: 'Создание...',
-            timer: undefined,
-            didOpen: (toast) => {
-                Swal.showLoading();
-            }
-        });
+        Toast(0,0,true)
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -43,16 +25,10 @@ const AddedItemForm = () => {
             if (!response.ok){
                 throw new Error (`Error ${response.statusText}`)
             }
-            Toast.fire({
-                icon: "success",
-                title: "Успешно"
-              });
+            Toast('succes, успешно')
               return true
         } catch (error){
-            Toast.fire({
-                icon: "error",
-                title: "Не удалось создать"
-              });
+            Toast("error", 'Не удалось создать')
               return false
         }
     }
@@ -65,11 +41,8 @@ const AddedItemForm = () => {
     };   
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.ye || !formData.availability) {
-              Toast.fire({
-                icon: "error",
-                title: "Заполнены не все поля"
-              });
+        if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units || !formData.availability) {
+            Toast("error", 'Заполнены не все поля')
           } else {
             const data = new FormData();
             for (const key in formData) {
@@ -85,7 +58,7 @@ const AddedItemForm = () => {
                 description: '',
                 price: '',
                 discount: '',
-                ye: '',
+                units: '',
                 availability: true
             });
             document.querySelector('input[type="file"]').value = null;
@@ -108,7 +81,7 @@ const AddedItemForm = () => {
             <span>Скидка %</span><br/>
             <input className='input-public' type="number"  name="discount" value={formData.discount} onChange={handleChange}/><br/>
            <span>Условные единицы</span><br/>
-            <select className='input-public' name="ye" value={formData.ye} onChange={handleChange}><br/>
+            <select className='input-public' name="units" value={formData.units} onChange={handleChange}><br/>
             <option value=""></option>
                 <option value="Th">ШТ</option>
                 <option value="Kg">КГ</option>

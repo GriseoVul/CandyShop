@@ -10,13 +10,6 @@ const AddedSliderSpec = () => {
         slide: null,})
 
     async function createProduct(data){
-        //     icon: 'info',
-        //     title: 'Создание...',
-        //     timer: undefined,
-        //     didOpen: (toast) => {
-        //         Swal.showLoading();
-        //     }
-        // });
         Toast(0,0, true)
         try {
             const response = await fetch(url, {

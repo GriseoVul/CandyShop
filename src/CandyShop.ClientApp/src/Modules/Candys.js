@@ -53,7 +53,7 @@ const Candys = () => {
    {candysItem.length > 0 ? (candysItem.map((candy, index) => (
        <Candy key={index} item={candy} />
    ))): <p>Загрузка...</p>}
-   {candysItem.length>0 && <button className={`scroll-to-top button`} onClick={handleScrollToTop}>Вверх</button>}
+   {candysItem.length>0 && <button className={`scroll-to-top button`} style={{opacity: "50%"}} onClick={handleScrollToTop}>Вверх</button>}
         </div> 
 
         </div>

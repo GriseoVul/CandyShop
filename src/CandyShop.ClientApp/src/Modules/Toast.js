@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-const prot =  Swal.mixin({
+const prototipeToasts =  Swal.mixin({
   toast: true,
   position: "top-end",
   showConfirmButton: false,
@@ -14,7 +14,7 @@ const prot =  Swal.mixin({
 
 const Toast = (icon, title, load)=>{
 if (load) {
-  prot.fire({
+  prototipeToasts.fire({
     icon: 'info',
     title: 'Создание...',
     timer: undefined,
@@ -23,7 +23,7 @@ if (load) {
     }
 });
 } else {
-  prot.fire({
+  prototipeToasts.fire({
     icon: icon,
     title: title
   })
