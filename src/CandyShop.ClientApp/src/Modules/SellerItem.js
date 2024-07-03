@@ -1,61 +1,91 @@
 import React, {forwardRef, useEffect, useState} from 'react';
 import { isUrl } from './MyContext';
 import Toast from './Toast';
-
+import moment from 'moment';
 
 const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products
 
 const SellerItem = ({item}) => {
-const [isSelect, setisSelect] = useState(true);
-const [isTrack, setIsTrack] = useState('');
-const [selectedStatus, setSelectedStatus] = useState(item.status);
+const [isSelectStatus, setisSelectStatus] = useState(true);
+const [isSelectTrack, setIsSelectTrack] = useState(true);
+const [isSelectAdditionalData, setIsSelectAdditionalData] = useState(true);
+const [isSelectCustomerAddres, setisSelectCustomerAddres] = useState(true);
+
+const [isTrack, setIsTrack] = useState(item.trackId);
+const [isStatus, setIsStatus] = useState(item.status);
+const [isCustomerAdress, setIsCustomerAdress] = useState(item.customerAddress);
+const [isAdditionaldata, setIsAdditionaldata] = useState(item.additionalData);
+
 useEffect(() => {
-    setSelectedStatus(item.status);
+    setIsStatus(item.status);
 }, [item.status]);
 
+const isoData =(toISO)=>{
+    const date = moment(toISO)
+    return date.format('DD.MM.YYYY HH:mm')
+}
 const toggleSelect = () => {
-    setisSelect(!isSelect)
-    if (!isSelect){
-        editOrderStatus(selectedStatus)
+    setisSelectStatus(!isSelectStatus)
+    if (!isSelectStatus){
+        editOrderStatus(isStatus)
     }
 }
-const editOrderStatus = async (status) => {
-    Toast(0,0,true)
+const toggleTrackInput = () => {
+    setIsSelectTrack(!isSelectTrack)
+    if (!isSelectTrack){
+        addTrack(isTrack)  
+    }
+}
+
+const toggleCustomerAddress = () => {
+    setisSelectCustomerAddres(!isSelectCustomerAddres)
+    if (!isSelectCustomerAddres){
+        editCustomerAdress(isCustomerAdress)
+    }
+}
+const updateOrder = async (updateData) => {
+    Toast(0,'Сохранение...',true)
     try {
         const response = await fetch(`${url}/${item.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({...item, status: status})
+            body: JSON.stringify({...item, ...updateData})
         })
         if (!response.ok){
             throw new Error(`Error ${response.statusText}`)
         } else {
-            Toast('success', 'Успешно')
+            Toast('success', 'Успешно!')
         }
         } catch (error){
-            Toast("error", 'Не удалось изменить статус')
+            //Все доп запросы сюда
+            if (updateData.status) {
+                setIsStatus(item.status);
+            } else if (updateData.trackId) {
+                setIsTrack(item.trackId);
+            } else if (updateData.customerAddress){
+                setIsCustomerAdress(item.customerAddress)
+            }
+            Toast("error", 'Не удалось изменить.')
         }
 }
-const addTrack = async (track) => {
-    Toast(0,0,true)
-    try {
-        const response = await fetch(`${url}/${item.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({...item, trackId: track})
-        })
-        if (!response.ok){
-            throw new Error(`Error ${response.statusText}`)
-        } else {
-            Toast('success', 'Успешно')
-        }
-    } catch (error) {
-        Toast('error', 'Не удалось добавить трекномер')
-    }
+
+const editOrderStatus = (status) => {
+    updateOrder({ status });
+};
+
+const addTrack = (trackId) => {
+    updateOrder({ trackId: trackId });
+};
+
+const editCustomerAdress = (customerAddress) => {
+    updateOrder({customerAddress: customerAddress})
 }
+
+
+
 const selectStatus = (e) => {
     const newStatus = e.target.value
-    setSelectedStatus(newStatus)
+    setIsStatus(newStatus)
 }
 
 const inputTrack = (e)=> {
@@ -63,8 +93,14 @@ const inputTrack = (e)=> {
     setIsTrack(newTrack)
 }
 
-const handleClickAddTrack= ()=>{
-addTrack(isTrack)
+const inputCustomerAddress = (e)=> {
+    const newAddress = e.target.value
+    setIsCustomerAdress(newAddress)
+}
+
+const inputAdditionalData = (e) => {
+    const newAdditionalData = e.target.value
+    setIsAdditionaldata(newAdditionalData)
 }
     return (
       <><div className='Seller-item'>
@@ -73,8 +109,11 @@ addTrack(isTrack)
             </div>
             <div className='Contact'>
             <span><span style={{fontSize: '20px'}}>{item.customerName}</span> <span><a href={`tel:${item.customerPhoneNumber}`}>{item.customerPhoneNumber}</a></span></span> <br/><br/>
-                <span><span>08.07.2024</span> <span>14:15</span></span><br/><br/>
-                <select className='select-status' value={selectedStatus}disabled={isSelect} onChange={selectStatus}>
+                <span>Создан  {isoData(item.createdAt)}</span><br/>
+                <span>Изменен {isoData(item.updatedAt)}</span><br/><br/>
+                <textarea className='input-public' type="text" name="description" style={{height: '60px'}}  value={isCustomerAdress} placeholder='Адрес заказа' disabled={isSelectCustomerAddres} onChange={inputCustomerAddress}></textarea>
+                <button className='button' onClick={toggleCustomerAddress} >{isSelectCustomerAddres ? "Изменить" : "Готово"}</button><br/>
+                <select className='select-status' value={isStatus}disabled={isSelectStatus} onChange={selectStatus}>
                     <option value="Empty">Новый</option>
                     <option value="Pending">В работе</option>
                     <option value="Shipped">Отправлен</option>
@@ -83,7 +122,7 @@ addTrack(isTrack)
                     <option value="Canseled">Отменен</option>
                 </select>
                 <button className='button' onClick={toggleSelect}>
-                    {!isSelect ? ("Готово"):("Изменить")}
+                    {!isSelectStatus ? ("Готово"):("Изменить")}
                 </button>
                 <ul>
                     заказ
@@ -94,11 +133,11 @@ addTrack(isTrack)
                 <button className='button'>Изменить</button>
                 <h3>Итого: {item.totalprice}</h3>
                 {/* <label>Трекномер</label><br/> */}
-                <input className='input-public' placeholder='Трекномер' onChange={inputTrack}></input>
-                <button className='button' onClick={handleClickAddTrack}>Добавить</button><br/><br/>
-                <textarea className='input-public' type="text" name="description"style={{height: '100px'}} placeholder='Примечание'></textarea><br/>
-                <button className='button' onClick={handleClickAddTrack}>Добавить</button><br/><br/><br/>
-                <button className='button'style={{marginBottom: '19px'}}>Печатать</button> 
+                <input className='input-public' placeholder='Трекномер' value={isTrack} disabled={isSelectTrack}onChange={inputTrack}></input>
+                <button className='button' onClick={toggleTrackInput}>{isSelectTrack ? "Изменить" : "Готово"}</button><br/><br/>
+                <textarea className='input-public' type="text" name="description" value={'item.additionalData'}style={{height: '100px'}} placeholder='Примечание' disabled={isSelectAdditionalData}></textarea>
+                <button className='button' >Добавить</button><br/><br/><br/>
+                <button className='button'style={{marginBottom: '19px'}}>Печатать</button>
             </div>
         </div></>  
     );

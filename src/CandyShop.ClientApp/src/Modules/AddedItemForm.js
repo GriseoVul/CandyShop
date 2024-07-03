@@ -16,7 +16,7 @@ const AddedItemForm = () => {
         availability: true
     });
     async function createProduct(data){
-        Toast(0,0,true)
+        Toast(0,'Создание...',true)
         try {
             const response = await fetch(url, {
                 method: 'POST',

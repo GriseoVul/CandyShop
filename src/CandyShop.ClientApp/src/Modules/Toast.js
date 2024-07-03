@@ -11,12 +11,14 @@ const prototipeToasts =  Swal.mixin({
     toast.onmouseleave = Swal.resumeTimer;
   }
 })
-
+/**
+ * @param {any} icon if 0 = "info"
+ */
 const Toast = (icon, title, load)=>{
 if (load) {
   prototipeToasts.fire({
     icon: 'info',
-    title: 'Создание...',
+    title: title,
     timer: undefined,
     didOpen: (toast) => {
         Swal.showLoading();
@@ -30,4 +32,4 @@ if (load) {
 }
 }
 
-export default Toast
+export default Toast //icon = 0 as "info"
