@@ -13,6 +13,6 @@ public class Product
     public float Discount { get; set; } = 0;
     public float TotalPrice { get; set; } = 0;
     public bool IsVisible{ get; set; } = false;
-    public ProductCategory Category { get; set; } = ProductCategory.Empty;
+    public ProductType Category { get; set; } = null!;
     public ICollection<ProductImage> Images { get; set;} = [];
 }

@@ -37,10 +37,10 @@ public class ProductController
     [HttpPost("getByCategory")]
     public async Task< ActionResult< IEnumerable<ProductDTO> > > GetByCategory([FromBody] string category)
     {
-        if (!EnumHelper.TryGetProductCategory(category, out ProductCategory productCategory))
-            return NotFound();
+        // if (!EnumHelper.TryGetProductCategory(category, out ProductCategory productCategory))
+        //     return NotFound();
 
-        var result = await _productService.GetByCategoryAsync(productCategory);
+        var result = await _productService.GetByCategoryAsync(category);
         if (result == null)
             return NotFound();
 

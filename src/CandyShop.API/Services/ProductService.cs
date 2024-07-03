@@ -49,7 +49,7 @@ public class ProductService(
 
         return  Products.ToDTO();
     }
-    public async Task<IEnumerable<ProductDTO>> GetByCategoryAsync(ProductCategory category)
+    public async Task<IEnumerable<ProductDTO>> GetByCategoryAsync(string category)
     {
         var Products = await _productRepository.GetByCategoryAsync(category);
         

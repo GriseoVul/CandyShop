@@ -9,8 +9,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Order> Orders{ get; set; }
     public DbSet<OrderItem> Items{ get; set; }
     public DbSet<Product> Products{ get; set; }
+    public DbSet<ProductType> ProductTypes{ get; set; }
     public DbSet<ProductImage> ProductImages{ get; set; }
     public DbSet<UserAvatar> UserAvatars{ get; set; }
+    public DbSet<SpecialOffer> SpecialOffers{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +43,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         .WithOne(p => p.Product)
         .HasForeignKey(p => p.ProductId)
         .OnDelete(DeleteBehavior.Cascade)
+        .IsRequired(false);
+
+        modelBuilder.Entity<Product>()
+        .HasOne(p => p.Category )
+        .WithMany()
+        .HasForeignKey("CategoryId")
+        .OnDelete(DeleteBehavior.SetNull)
         .IsRequired(false);
     }
 }
