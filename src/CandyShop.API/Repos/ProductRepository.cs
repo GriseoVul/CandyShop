@@ -24,9 +24,9 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     {
         return await _context.Products.Where(p => p.Name == name).ToListAsync();
     }    
-    public async Task<IEnumerable<Product>> GetByCategoryAsync(ProductCategory category)
+    public async Task<IEnumerable<Product>> GetByCategoryAsync(string category)
     {
-        List<Product> result = await _context.Products.Where(p => p.Category == category).ToListAsync();
+        List<Product> result = await _context.Products.Where(p => p.Category.Name == category).ToListAsync();
         return result;
     }
     public async Task<IEnumerable<Product>> GetAllAsync()

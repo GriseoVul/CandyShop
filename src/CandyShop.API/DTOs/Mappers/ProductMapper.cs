@@ -18,7 +18,8 @@ public static class ProductMapper
             Units = product.Units.ToString(),
             Price = product.Price,
             Discount = product.Discount,
-            Category = product.Category.ToString(),
+            //old
+            //Category = product.Category.ToString(),
             ImageNames = product.Images.Select(x => x.Name).ToArray(),
         };
         
@@ -50,8 +51,8 @@ public static class ProductMapper
             Units = unit,
             Price = dto.Price,
             Discount = dto.Discount,
-            Category = category
-
+            //old
+            //Category = category
         };
 
         return model;
