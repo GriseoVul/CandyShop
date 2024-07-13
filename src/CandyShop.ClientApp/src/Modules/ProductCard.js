@@ -68,7 +68,7 @@ return (
         {item.discount > 0 ?
                              <span className='price'><span style={{textDecoration: 'line-through',color: 'gray' }}>{item.price}₽</span> <span style={{color: 'var(--saleitemprice)'}}>-{item.discount}%</span><br/>{item.totalPrice}₽<span className='ye'>/{item.ye}</span></span> 
                              : <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>}
-        {/* {item.discount > 0 && <span className='sale-price'>-{item.discount}%</span>}  */}
+      
         {item.discount === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
         {isCount === 0 ? (
           <button className={`button button-inbasket`} onClick={handlerAddToBasket}>В корзину</button>
@@ -87,7 +87,6 @@ return (
           </div>
         )}
     </div>
-    {/* {!admin ? <><button>Удалить</button><button>Редактировать</button></> : <></>} */}
 </div>
 )
 };

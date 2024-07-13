@@ -9,27 +9,51 @@ const getProduct = ({request, params, cookies}) => {
     discount: 20,
     totalPrice: 400,
     ye: 'шт',
-    description: 'Sonne'
+    description: 'Sonne',
+    count: '',
   },
   {
     id: "1",
     imageNames: 'Picture name',
     name: 'Candy name',
-    price: 500,
+    price: 9700,
+    discount: 20,
+    totalPrice: 400,
+    ye: 'шт',
+    description: 'Sonne',
+    count: 0,
+  },
+  {
+    id: "2",
+    imageNames: 'Picture name',
+    name: 'Candy name',
+    price: 51200,
     discount: 20,
     totalPrice: 400,
     ye: 'шт',
     description: 'Sonne'
   },
   {
-    id: "2",
+    id: "3",
+    imageNames: 'Picture name',
+    name: 'Candy name',
+    price: 530,
+    discount: 20,
+    totalPrice: 400,
+    ye: 'шт',
+    description: 'Sonne',
+    count: 0,
+  },
+  {
+    id: "4",
     imageNames: 'Picture name',
     name: 'Candy name',
     price: 500,
     discount: 20,
     totalPrice: 400,
     ye: 'шт',
-    description: 'Sonne'
+    description: 'Sonne',
+    count: '',
   },
 ])
 }
@@ -58,13 +82,7 @@ const getOrder = ({request, params, cookies}) => {
                     name: 'Name2',
                     price: 500,
                     count: 10
-                },                
-                {
-                    id: 2,
-                    name: 'Name3',
-                    price: 1000,
-                    count: 10
-                }
+                }            
             ],
             totalprice:19000
 
@@ -90,13 +108,13 @@ const getOrder = ({request, params, cookies}) => {
                   id: 1,
                   name: 'Name2',
                   price: 500,
-                  count: 1
+                  count: 4
               },                
               {
-                  id: 2,
-                  name: 'Name3',
+                  id: 4,
+                  name: 'Name5',
                   price: 1000,
-                  count: 1
+                  count: 5
               }
           ],
           totalprice:1900

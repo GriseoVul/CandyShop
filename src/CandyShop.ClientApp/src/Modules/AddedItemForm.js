@@ -41,7 +41,7 @@ const AddedItemForm = () => {
     };   
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units || !formData.availability) {
+        if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units) {
             Toast("error", 'Заполнены не все поля')
           } else {
             const data = new FormData();

@@ -5,6 +5,8 @@
   --nav-link-color: #000;
   --search-input-border-color: #ccc;
   --search-button-background-color: #b80000;
+  --confirm-button-color: #32b453;
+  --confirm-button-color-hover: #2ae058;
   --search-button-background-color-hover: #d40000;
   --search-button-color: #fff;
   --saleitemprice: #006eff;
@@ -323,6 +325,29 @@ body::-webkit-scrollbar-thumb {
 .button-inbasket {
   width: 160px;
 }
+
+.buttonOK {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0px 15px;
+  background: var(--confirm-button-color);
+  border-radius: 10px;
+  border-color: wheat;
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 28px;
+  transition: .3s ease-in;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  &:hover {
+    background-color: var(--confirm-button-color-hover);
+  }
+}
+
 .ye{
   color: #000;
   font-size: 16px;
