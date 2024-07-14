@@ -9,9 +9,7 @@ const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products
 
 const SellerItem = ({item, dataset}) => {
 const [isSelectStatus, setisSelectStatus] = useState(true);
-const [isSelectTrack, setIsSelectTrack] = useState(true);
-const [isSelectAdditionalData, setIsSelectAdditionalData] = useState(true);
-const [isSelectCustomerAddres, setisSelectCustomerAddres] = useState(true);
+const [isVisibleOrder, setIsVisibleOrder] = useState(false);
 
 const [isTrack, setIsTrack] = useState(item.trackId);
 const [isStatus, setIsStatus] = useState(item.status);
@@ -39,6 +37,10 @@ const isoData =(toISO)=>{
     return date.format('DD.MM.YYYY HH:mm')
 }
 
+const accordion = () =>{
+    setIsVisibleOrder(!isVisibleOrder)
+}
+
 const toggleSelect = () => {
     setisSelectStatus(!isSelectStatus)
     if (!isSelectStatus){
@@ -53,7 +55,6 @@ const toggleSelect = () => {
             if (result.isConfirmed) {
                 editALL(isStatus,isTrack, isCustomerAdress, isAdditionaldata)
             } else if (
-              /* Read more about handling dismissals below */
               result.dismiss === Swal.DismissReason.cancel
             ) {
               setisSelectStatus(false)
@@ -61,26 +62,7 @@ const toggleSelect = () => {
           });
     }
 }
-// const toggleTrackInput = () => {
-//     setIsSelectTrack(!isSelectTrack)
-//     if (!isSelectTrack){
-//         addTrack(isTrack)  
-//     }
-// }
 
-// const toggleCustomerAddress = () => {
-//     setisSelectCustomerAddres(!isSelectCustomerAddres)
-//     if (!isSelectCustomerAddres){
-//         editCustomerAdress(isCustomerAdress)
-//     }
-// }
-
-// const toggleAdditionalData =() => {
-//     setIsSelectAdditionalData(!isSelectAdditionalData)
-//     if (!isSelectAdditionalData){
-//         editAdditionalData(isAdditionaldata)
-//     }
-// }
 
 const updateOrder = async (updateData) => {
     Toast(0,'Сохранение...',true)
@@ -96,16 +78,6 @@ const updateOrder = async (updateData) => {
             Toast('success', 'Успешно!')
         }
         } catch (error){
-            //Все доп запросы сюда
-            // if (updateData.status) {
-            //     setIsStatus(item.status);
-            // } else if (updateData.trackId) {
-            //     setIsTrack(item.trackId);
-            // } else if (updateData.customerAddress){
-            //     setIsCustomerAdress(item.customerAddress)
-            // } else if (updateData.additionalData){
-            //     setIsAdditionaldata(item.additionalData)
-            // }
             if (updateData) {
                     setIsStatus(item.status);
                     setIsTrack(item.trackId);
@@ -124,22 +96,6 @@ const editALL = (status, trackId, customerAddress, additionalData)=>{
         additionalData: additionalData,
      });
 }
-
-// const editOrderStatus = (status) => {
-//     updateOrder({ status });
-// };
-
-// const addTrack = (trackId) => {
-//     updateOrder({ trackId: trackId });
-// };
-
-// const editCustomerAdress = (customerAddress) => {
-//     updateOrder({customerAddress: customerAddress})
-// }
-
-// const editAdditionalData = (additionalData) => {
-//     updateOrder ({additionalData: additionalData})
-// }
 
 const selectStatus = (e) => {
     const newStatus = e.target.value
@@ -177,7 +133,6 @@ const cancelButton = () => {
             setIsAdditionaldata(item.additionalData)
             setisSelectStatus(true)
         } else if (
-          /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
           setisSelectStatus(true)
@@ -185,62 +140,6 @@ const cancelButton = () => {
       });
 }
 
-const editOrder = () =>{
-    if (!dataset || dataset.length === 0) {
-        Toast("error", "Данные продуктов еще не загружены.");
-        return;
-    }
-    //!
-    const orderProducts= item.products
-    let index = 0;
-    console.log('заказы',orderProducts);
-    console.log('продукты',isdataset);
-    const thisProducts = []
-        for (const i of isdataset) {
-            thisProducts.push(isdataset[index])
-            for (let j = 0; j< orderProducts.length; j++){
-                if (orderProducts[j].id == isdataset[index].id){
-                    thisProducts[index].count =orderProducts[j].count
-                }
-            }
-            index++
-            console.log('thisProducts', thisProducts);
-            setDataset(thisProducts)
-        }
-    //!
-    async function start(){
-        const { value: isdataset} = MySwal.fire({
-            title: 'Редактировать товары',
-            html: (
-                <div>
-                    {dataset.map((product, index) => (
-                        <div key={index}>
-                            <div>{product.name}</div>
-                            <div>{product.price}</div>
-                            <input
-                                type="number"
-                                defaultValue={product.count}
-                                onChange={(e) => handleProductChange(index, 'count', e.target.value)}
-                            />
-                        </div>
-                    ))}
-                </div>
-            ),
-            confirmButtonText: 'Сохранить',
-            preConfirm: () => {
-                const filteredProducts = isdataset
-                return filteredProducts;
-            }
-        });
-    };
-    start(isdataset)
-}
-
-const handleProductChange = (index, field, value) => {
-    const updatedProducts = [...item.products];
-    updatedProducts[index][field] = value;
-    item.products = updatedProducts; // Updating the original item.products to reflect changes
-};
     return (
       <><div className='Seller-item'>
             <div className='NumbOfOrder'>
@@ -261,14 +160,24 @@ const handleProductChange = (index, field, value) => {
                 <br/><input className='input-public' placeholder='Трекномер' value={isTrack} style={{width: '325px'}} disabled={isSelectStatus}onChange={inputTrack}></input><br/><br/>
                 <textarea className='input-public' type="text" name="description" style={{height: '45px', width: '325px' }}  value={isCustomerAdress} placeholder='Адрес заказа' disabled={isSelectStatus} onChange={inputCustomerAddress}></textarea>
                 <div className='Order-items'>
-                заказ. типо список
-                </div>
-                <ul>
-                    {item.products.map((i, index)=> (
-                        <li key={index} item={i}>{i.name} Цена:{i.price} Количество:{i.count} Итого:{i.price * i.count}</li>
-                    ))}
-                </ul>
-                <h3>Итого: {item.totalprice}</h3>
+                    <br/><div className='Order-header' onClick={accordion}><h3>{!isVisibleOrder ? 'Показать детали заказа' : 'Скрыть детали заказа'}</h3></div>
+                    {isVisibleOrder ? 
+                        <div className='Order-body'> <br/>
+                              {item.products.map((i, index)=> (
+                                 <div key={index}>
+                                 <h3>{i.name}</h3>
+                                 <div className='Order-flex'>
+                                      <div className='Order-flex-item'>Кол-во: {i.count}</div>
+                                      <div className='Order-flex-item'>* {i.price}₽</div>
+                                      <div className='Order-flex-item'>= {i.price * i.count}₽</div>
+                                 </div><br/>
+                              </div>
+                                 ))}
+                             <h3>Итого: {item.totalprice}</h3><br/>
+                             <button className='button'>Изменить состав</button>
+
+                        </div>  : <></>}
+                </div> <br/>
                 <textarea className='input-public' type="text" name="description" value={isAdditionaldata} style={{height: '100px', width: '325px'}} placeholder='Примечание' onChange={inputAdditionalData} disabled={isSelectStatus}></textarea><br/>
                 {!isSelectStatus && <button className='button' onClick={cancelButton}>Отменить</button>}
                 <button className='button' onClick={toggleSelect}>{isSelectStatus ? "Изменить" : "Готово"}</button><br/><br/><br/>

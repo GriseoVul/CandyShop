@@ -588,7 +588,6 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
     border-bottom: 2px solid var(--search-button-background-color-hover);
   }
 }
-
 .input-public{
   min-width: 200px;
   padding: 5px;
@@ -601,6 +600,49 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
   border: 1px solid var(--search-input-border-color);
   border-radius: 4px;
  }
+
+.Order-header {
+  background-color: var(--search-button-background-color);
+  border-radius: 0.4rem;
+  color: var(--search-button-color);
+  cursor: pointer;
+  padding: 1px;
+  width: 70%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-border-radius: 0.4rem;
+  -moz-border-radius: 0.4rem;
+  -ms-border-radius: 0.4rem;
+  -o-border-radius: 0.4rem;
+  &:hover{
+    background-color: var(--search-button-background-color-hover);
+  }
+}
+.Order.header, h3 {
+  margin: 3px;
+}
+
+.Order-flex{
+  display: flex;
+  justify-content: space-between;
+}
+
+ .Order-body {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 100%;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
 /*!Seller Interface  */
 
 .scroll-to-top {
