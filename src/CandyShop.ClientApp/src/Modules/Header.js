@@ -20,6 +20,8 @@ const Header = () => {
             {
                 basketItems.length === 0 ? (<Link to={'/Busket'}>Корзина</Link>):(<Link to={'/Busket'}>Корзина({basketItems.length})</Link>)
             }
+
+            <Link to={'/EditOrder'}>EditOrder</Link>
            
         </div>
     </header>

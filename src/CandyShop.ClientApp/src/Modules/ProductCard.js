@@ -5,11 +5,11 @@ import { isUrl } from './MyContext';
 const ProductCard = ({item}) => {
   const url = `${isUrl}/Image/`
   const [isCount, setIsCount] = useState(0)
-  const { addToBasket, basketItems, removeFromBasket } = useContext(MyContext)
+  const { addToBasket, basketItems, removeFromBasket,setBasketItems } = useContext(MyContext)
 useEffect(()=> {
   const existingItem = basketItems.find(basketItem => basketItem.id === item.id)
-  if (existingItem){
-    setIsCount(existingItem.Count)
+  if (existingItem && existingItem.count > 0){
+    setIsCount(existingItem.count)
   }
 },[basketItems, item.id])
 
@@ -19,12 +19,15 @@ const handlerZeroState = () => {
  } 
 
 const handlerAddToBasket = () => {
-  const newItem = {...item, Count: isCount+1}
+  const newItem = {...item, count: isCount+1}
+  setIsCount(prevCount => prevCount + 1);
   addToBasket(newItem)
+
 }
 const handlerRemoveFromBasket = () => {
   if (isCount >1 ){
-    const newItem = {...item, Count: isCount-1}
+    const newItem = {...item, count: isCount-1}
+    setIsCount(prevCount => prevCount - 1); 
     addToBasket(newItem)
   } 
  else handlerZeroState()
@@ -38,7 +41,7 @@ const handlerRemoveFromBasket = () => {
       } 
       else {
         setIsCount(value);
-        const newItem = { ...item, Count: value };
+        const newItem = { ...item, count: value };
         addToBasket(newItem);
       }
     }

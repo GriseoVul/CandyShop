@@ -3,6 +3,7 @@ import React, { createContext, useState } from 'react';
 export const MyContext = createContext();
 const MyContextProvider = ({ children }) => {
   const [basketItems, setBasketItems] = useState([]);
+  const [allData, setAllData] = useState([])
 
   const addToBasket = (newItem) => {
     setBasketItems((prevItems) => {
@@ -10,11 +11,11 @@ const MyContextProvider = ({ children }) => {
       if (existingItem) {
         return prevItems.map(item =>
           item.id === newItem.id
-            ? { ...item, Count: newItem.Count, totalprice: newItem.Count * item.totalPrice }
+            ? { ...item, count: newItem.count, totalprice: newItem.count * item.totalPrice }
             : item
         );
       } else {
-        return [...prevItems, { ...newItem, totalprice: newItem.Count * newItem.totalPrice }];
+        return [...prevItems, { ...newItem, totalprice: newItem.count * newItem.totalPrice }];
       }
     });
   };
@@ -24,7 +25,7 @@ const MyContextProvider = ({ children }) => {
   }
 
   return (
-    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket, removeFromBasket}}>
+    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket, removeFromBasket, setAllData, allData}}>
       {children}
     </MyContext.Provider>
   );

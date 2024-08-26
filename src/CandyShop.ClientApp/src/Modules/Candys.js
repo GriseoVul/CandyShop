@@ -47,7 +47,6 @@ const Candys = () => {
     }
     return (
         <>
-        <Slider />
         <div className='CandysBox'>
         <div className='Candys'>
    {candysItem.length > 0 ? (candysItem.map((candy, index) => (

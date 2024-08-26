@@ -1,13 +1,18 @@
-import React, {forwardRef, useEffect, useState} from 'react';
+import React, {forwardRef, useEffect, useState,useContext} from 'react';
+import { MyContext } from './MyContext';
 import { isUrl } from './MyContext';
 import Toast from './Toast';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import {Link, useNavigate} from "react-router-dom";
 
 const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products
 
 const SellerItem = ({item, dataset}) => {
+
+const { addToBasket,setBasketItems ,basketItems, removeFromBasket, setAllData } = useContext(MyContext)
+
 const [isSelectStatus, setisSelectStatus] = useState(true);
 const [isVisibleOrder, setIsVisibleOrder] = useState(false);
 
@@ -39,6 +44,7 @@ const isoData =(toISO)=>{
 
 const accordion = () =>{
     setIsVisibleOrder(!isVisibleOrder)
+
 }
 
 const toggleSelect = () => {
@@ -117,6 +123,32 @@ const inputAdditionalData = (e) => {
     setIsAdditionaldata(newAdditionalData)
 }
 
+const editOrderItems = () => {
+  const updatedBasketItems = dataset.map((data) => {
+    console.log(data);
+    console.log(item.products);
+    const dataId = String(data.id)
+      // Находим соответствующий продукт в item.products по ID
+      const product = item.products.find(product => String(product.id) === dataId);
+      console.log('product',product);
+      // Если продукт найден, добавляем свойство count
+      if (product) {
+          return { ...data, count: product.count };
+      }
+      // Если соответствующего продукта нет, возвращаем оригинальные данные или null, в зависимости от логики
+      return { ...data, count: 0 }; // можно вернуть null, если так нужно
+  });
+  // Фильтруем элементы, чтобы убрать те, у которых count равен 0, если это необходимо
+  const filteredBasketItems = updatedBasketItems.filter(item => item.count > 0);
+  // Обновляем корзину, если есть элементы для добавления
+  if (filteredBasketItems.length > 0) {
+      setBasketItems(filteredBasketItems);
+      console.log('Итоговая корзина', filteredBasketItems);
+  } else {
+      console.log('Нет товаров для добавления');
+  }
+}
+
 const cancelButton = () => {
     swalWithBootstrapButtons.fire({
         title: "Отменить изменения?",
@@ -174,8 +206,7 @@ const cancelButton = () => {
                               </div>
                                  ))}
                              <h3>Итого: {item.totalprice}</h3><br/>
-                             <button className='button'>Изменить состав</button>
-
+                             <button className='button' onClick={editOrderItems}>Изменить состав</button>
                         </div>  : <></>}
                 </div> <br/>
                 <textarea className='input-public' type="text" name="description" value={isAdditionaldata} style={{height: '100px', width: '325px'}} placeholder='Примечание' onChange={inputAdditionalData} disabled={isSelectStatus}></textarea><br/>
