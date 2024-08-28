@@ -9,7 +9,7 @@ const Basket = () => {
   const [basketTotal, setBasketTotal] = useState(0);
   const url = `${isUrl}/Order/create`
   useEffect(() => {
-    const total = basketItems.reduce((sum, item)=> sum += item.totalprice , 0)
+    const total = basketItems.reduce((sum, item)=> sum += item.totalprice*item.count , 0)
     setBasketTotal(total);
   }, [basketItems, setBasketItems,removeFromBasket])
 
@@ -37,8 +37,8 @@ const Basket = () => {
     Swal.fire({
       title: 'Введите ваши данные',
       html: `
-        <input type="text" id="swal-input1" class="swal2-input" placeholder="Имя">
-        <input type="tel" id="swal-input2" class="swal2-input" placeholder="Телефон">
+        <input type="text" id="swal-input1" class="swal2-input" style="margin: 0px" placeholder="Имя">
+        <input type="tel" id="swal-input2" class="swal2-input" style="margin: 0px" placeholder="Телефон">
       `,
       focusConfirm: false,
       preConfirm: () => {

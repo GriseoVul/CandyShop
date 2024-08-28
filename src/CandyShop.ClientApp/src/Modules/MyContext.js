@@ -4,6 +4,8 @@ export const MyContext = createContext();
 const MyContextProvider = ({ children }) => {
   const [basketItems, setBasketItems] = useState([]);
   const [allData, setAllData] = useState([])
+  const [editOrderId, setEditOrderId] = useState(0)
+  const [copyState, setCopyState] = useState('')
 
   const addToBasket = (newItem) => {
     setBasketItems((prevItems) => {
@@ -25,7 +27,7 @@ const MyContextProvider = ({ children }) => {
   }
 
   return (
-    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket, removeFromBasket, setAllData, allData}}>
+    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket, removeFromBasket, setAllData, allData, editOrderId, setEditOrderId, copyState, setCopyState}}>
       {children}
     </MyContext.Provider>
   );

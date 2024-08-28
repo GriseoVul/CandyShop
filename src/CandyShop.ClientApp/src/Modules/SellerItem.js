@@ -1,17 +1,17 @@
 import React, {forwardRef, useEffect, useState,useContext} from 'react';
 import { MyContext } from './MyContext';
 import { isUrl } from './MyContext';
-import Toast from './Toast';
+import Toast , {swalWithBootstrapButtons} from './Toast';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import {Link, useNavigate} from "react-router-dom";
 
-const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products
+const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products ${isUrl}/Order/PUT
 
 const SellerItem = ({item, dataset}) => {
 
-const { addToBasket,setBasketItems ,basketItems, removeFromBasket, setAllData } = useContext(MyContext)
+const { addToBasket,setBasketItems ,basketItems, removeFromBasket, setAllData,setEditOrderId, setCopyState } = useContext(MyContext)
 
 const [isSelectStatus, setisSelectStatus] = useState(true);
 const [isVisibleOrder, setIsVisibleOrder] = useState(false);
@@ -21,17 +21,19 @@ const [isStatus, setIsStatus] = useState(item.status);
 const [isCustomerAdress, setIsCustomerAdress] = useState(item.customerAddress);
 const [isAdditionaldata, setIsAdditionaldata] = useState(item.additionalData);
 const [isOrderProduct, setIsOrderProduct] = useState(item.products)
-const [isdataset, setDataset] = useState(dataset)
+const [isdataset, setDataset] = useState(dataset);
+
+const navigateToEditOrder = useNavigate();
 
 const MySwal = withReactContent(Swal);
-const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      confirmButton: "buttonOK",
-      cancelButton: "button"
-    },
-    buttonsStyling: false,
-    allowOutsideClick: false,
-  });
+// const swalWithBootstrapButtons = Swal.mixin({
+//     customClass: {
+//       confirmButton: "buttonOK",
+//       cancelButton: "button"
+//     },
+//     buttonsStyling: false,
+//     allowOutsideClick: false,
+//   });
 
 useEffect(() => {
     setIsStatus(item.status);
@@ -143,10 +145,14 @@ const editOrderItems = () => {
   // Обновляем корзину, если есть элементы для добавления
   if (filteredBasketItems.length > 0) {
       setBasketItems(filteredBasketItems);
+      setCopyState(filteredBasketItems)
+      setEditOrderId(item.id)
+      console.log(item.id);
       console.log('Итоговая корзина', filteredBasketItems);
   } else {
       console.log('Нет товаров для добавления');
   }
+  navigateToEditOrder('/EditOrder')
 }
 
 const cancelButton = () => {

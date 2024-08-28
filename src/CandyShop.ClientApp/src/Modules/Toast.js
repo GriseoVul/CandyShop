@@ -32,4 +32,13 @@ if (load) {
 }
 }
 
+export const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "buttonOK",
+    cancelButton: "button"
+  },
+  buttonsStyling: false,
+  allowOutsideClick: false,
+});
+
 export default Toast //icon = 0 as "info"
