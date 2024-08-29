@@ -20,7 +20,7 @@ const SellerEditCandys = () => {
     useEffect(() =>{
       const total = basketItems.reduce((sum, item)=> sum += item.totalPrice*item.count , 0)
       setBasketTotal(total);
-    },[basketItems, basketTotal])
+    },[basketItems])
 
     const acceptEditing = async () => {
       Toast(0,'Сохранение...', true)
@@ -61,7 +61,7 @@ const SellerEditCandys = () => {
     }
 
     const cancelEdit = () => {
-      setBasketItems(copyState);
+      setBasketItems([]);
       navigateToSeller('/Seller');  // Обратите внимание на правильное имя функции
     };
 

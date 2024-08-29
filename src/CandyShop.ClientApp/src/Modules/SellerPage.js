@@ -73,11 +73,11 @@ const SellerPage = () => {
         <div className='SellerPage'>
             <div className={isSellerBox ? 'SellerBox' : ''}>
             {sellerData.map((item, index) => (
-                <SellerItem key={index} item = {item} dataset={dataset}/>
+               <><SellerItem key={index} item = {item} dataset={dataset}/><br/></>
             ))
             }
             </div>
-        </div>
+        </div><br/>
         </>
     );
 }

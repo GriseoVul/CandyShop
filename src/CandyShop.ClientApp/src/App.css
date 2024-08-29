@@ -18,6 +18,7 @@
 .paginationBox {
   max-width: 98%;
   min-width: 370px;
+  user-select: none;
 }
 
 .pagination {

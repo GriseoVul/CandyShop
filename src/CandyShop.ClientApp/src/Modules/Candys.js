@@ -8,7 +8,7 @@ const Candys = () => {
     const url = `${isUrl}/Product` //api/Product //${isUrl}/Product
     const [candysItem, setCandysItem] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage] = useState(2) //Количкество товаров на странице
+    const [itemsPerPage] = useState(12) //Количкество товаров на странице
 
 
     useEffect(()=> {
@@ -63,9 +63,8 @@ const Candys = () => {
    {currentItems.length > 0 ? (currentItems.map((candy, index) => (
        <Candy key={index} item={candy} />
    ))): <p>Загрузка...</p>}
-   {candysItem.length>0 && <button className={`scroll-to-top button`} style={{opacity: "50%"}} onClick={handleScrollToTop}>Вверх</button>}
+   {/* {candysItem.length>0 && <button className={`scroll-to-top button`} style={{opacity: "50%"}} onClick={handleScrollToTop}>Вверх</button>} */}
         </div> 
-
         </div>
         <div className='paginationBox'>
         <ResponsivePagination 
