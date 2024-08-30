@@ -6,6 +6,7 @@ const MyContextProvider = ({ children }) => {
   const [allData, setAllData] = useState([])
   const [editOrderId, setEditOrderId] = useState(0)
   const [copyState, setCopyState] = useState('')
+  const [filteredData, setFilteredData] = useState([])  
 
   const addToBasket = (newItem) => {
     setBasketItems((prevItems) => {
@@ -27,7 +28,7 @@ const MyContextProvider = ({ children }) => {
   }
 
   return (
-    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket, removeFromBasket, setAllData, allData, editOrderId, setEditOrderId, copyState, setCopyState}}>
+    <MyContext.Provider value={{ basketItems, setBasketItems, addToBasket, removeFromBasket, setAllData, allData, editOrderId, setEditOrderId, copyState, setCopyState, filteredData, setFilteredData}}>
       {children}
     </MyContext.Provider>
   );

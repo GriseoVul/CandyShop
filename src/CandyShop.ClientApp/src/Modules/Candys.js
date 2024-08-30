@@ -1,4 +1,5 @@
-import React , {useEffect, useState} from 'react';
+import React , {useEffect, useState,useContext} from 'react';
+import { MyContext } from './MyContext';
 import Candy from './Candy';
 import ResponsivePagination from 'react-responsive-pagination'
 import { dropEllipsis } from 'react-responsive-pagination/narrowBehaviour';
@@ -6,6 +7,7 @@ import { isUrl } from './MyContext';
 
 const Candys = () => {
     const url = `${isUrl}/Product` //api/Product //${isUrl}/Product
+    const { basketItems, filteredData, setFilteredData, allData,setAllData} = useContext(MyContext);
     const [candysItem, setCandysItem] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(12) //Количкество товаров на странице
@@ -17,6 +19,7 @@ const Candys = () => {
                 const data = await getCandysData();
                 console.log(data)
                 setCandysItem(data)
+                setAllData(data)
                 return data;
             } 
             catch (error){
@@ -28,7 +31,7 @@ const Candys = () => {
 
     const handleScrollToTop = () => { // перемотка к началу страницы
         window.scrollTo({
-            top: 0,
+            top: 110,
             behavior: 'smooth'
         });
     };

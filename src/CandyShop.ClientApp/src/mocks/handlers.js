@@ -4,7 +4,7 @@ const getProduct = ({request, params, cookies}) => {
     {
     id: "0",
     imageNames: 'Picture name',
-    name: 'Candy name',
+    name: 'Тест',
     price: 500,
     discount: 20,
     totalPrice: 400,
@@ -212,7 +212,7 @@ const getProduct = ({request, params, cookies}) => {
   {
     id: "19",
     imageNames: 'Picture name',
-    name: 'Candy name',
+    name: 'Конфета 666',
     price: 500,
     discount: 20,
     totalPrice: 400,
@@ -223,7 +223,7 @@ const getProduct = ({request, params, cookies}) => {
   {
     id: "20",
     imageNames: 'Picture name',
-    name: 'Candy name',
+    name: 'КОнфеТа666',
     price: 500,
     discount: 20,
     totalPrice: 400,
