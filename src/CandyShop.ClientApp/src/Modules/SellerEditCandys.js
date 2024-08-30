@@ -12,10 +12,28 @@ import { useNavigate } from 'react-router-dom';
 const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products   ${isUrl}/Order/PUT
 
 const SellerEditCandys = () => {
-    const { basketItems, setBasketItems,editOrderId, copyState} = useContext(MyContext);
+    const { basketItems, setBasketItems,editOrderId, filteredData, setFilteredData, allData} = useContext(MyContext);
     const [basketTotal, setBasketTotal] = useState(0);
+    const [searchQuery, setSearchQuery] = useState('')
 
     const navigateToSeller = useNavigate();
+
+    const handlesearchInputChange = (e) => {
+      setSearchQuery(e.target.value)
+  }
+
+  useEffect(() => {
+      if (searchQuery.trim() !== ''){
+          //фильтрация данных 
+          const filteredItems = allData.filter(item =>
+              item.name.toLowerCase().includes(searchQuery.toString().toLowerCase()))
+              setFilteredData(filteredItems)
+              console.log('resfind', filteredData);
+      } else {
+          setFilteredData(allData)
+          console.log('filtereddata false', filteredData);
+      }
+  },[allData, searchQuery])
 
     useEffect(() =>{
       const total = basketItems.reduce((sum, item)=> sum += item.totalPrice*item.count , 0)
@@ -85,7 +103,7 @@ const SellerEditCandys = () => {
     }
     
     return (
-        <><h3>В заказе</h3>
+        <><h3 style={{textAlign: 'center', marginTop: '20px'}}>В заказе</h3>
             <div className='CandysBox'>
       {basketItems.length === 0 ? (
         <p style={{marginBottom: '100px', marginTop: '100px'}}>Корзина пуста</p>
@@ -104,9 +122,11 @@ const SellerEditCandys = () => {
     <h2 style={{textAlign: 'center', marginBottom: '20px'}}>Итого: {basketTotal} ₽ </h2>
       <button className='button' onClick={confirmEditing}>Изменить</button>
       <button className='button' onClick={confirmCancelEdit}>Назад</button>
+    </div>   
+    <h3 style={{textAlign: 'center', marginTop: '40px'}}>Добавить в заказ</h3>
+    <div className='CandysBox' style={{margin: '20px 0px'}}>
+      <input type="text" className={`search-input search-in-edit`} placeholder="Найти товар" value={searchQuery} onChange={handlesearchInputChange}></input>
     </div>
-
-        <h3>Добавить в заказ</h3>
         <Candys />
         </>
 

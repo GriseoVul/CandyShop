@@ -18,7 +18,8 @@ const Candys = () => {
             try{
                 const data = await getCandysData();
                 console.log(data)
-                setCandysItem(data)
+                // setCandysItem(data)
+                setFilteredData(data)
                 setAllData(data)
                 return data;
             } 
@@ -27,7 +28,11 @@ const Candys = () => {
             }
         }
         fetchData()
-    }, [])
+    }, [setFilteredData, setAllData])
+
+    useEffect(()=> {
+        setCurrentPage(1)
+    },[filteredData, setFilteredData])
 
     const handleScrollToTop = () => { // перемотка к началу страницы
         window.scrollTo({
@@ -57,7 +62,8 @@ const Candys = () => {
     // пагинатор
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = candysItem.slice(indexOfFirstItem, indexOfLastItem)
+    // const currentItems = candysItem.slice(indexOfFirstItem, indexOfLastItem)
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem)
 
     return (
         <>
@@ -70,16 +76,16 @@ const Candys = () => {
         </div> 
         </div>
         <div className='paginationBox'>
-        <ResponsivePagination 
+        { filteredData.length > itemsPerPage && (<ResponsivePagination 
             current={currentPage}
-            total={Math.ceil(candysItem.length / itemsPerPage)}
+            // total={Math.ceil(candysItem.length / itemsPerPage)}
+            total={Math.ceil(filteredData.length / itemsPerPage)}
             onPageChange={page => {
                 setCurrentPage(page);
                 handleScrollToTop();
                 }
             }
-         
-        />
+        />)}
         </div><br/><br/>
         </>
     );
