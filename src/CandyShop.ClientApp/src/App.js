@@ -9,6 +9,7 @@ import SellerPage from './Modules/SellerPage';
 import AdminConsole from './Modules/AdminConsole';
 import SellerEditCandys from './Modules/SellerEditCandys';
 import ClientPage from './Modules/ClientPage';
+import SearchResultPage from './Modules/SearchResultPage';
 
 import React, { Component } from 'react';
 import { createRoot, HashRouter, Route, Routes, Link} from "react-router-dom";
@@ -25,6 +26,7 @@ class App extends Component {
       <Header />
       <Routes>
         <Route path='/' element ={<ClientPage />}></Route>
+        <Route path='/Search' element = {<SearchResultPage />}></Route>
         <Route path='/Busket' element = {<Basket />}></Route>
         <Route path='/Seller' element = {<SellerPage />}></Route>
         <Route path='/Panel' element = {<AdminConsole />}></Route>

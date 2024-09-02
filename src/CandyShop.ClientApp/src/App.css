@@ -12,7 +12,9 @@
   --saleitemprice: #006eff;
   --min-column-width: 300px;
 }
-
+br {
+  user-select: none;
+}
 /*!Pagination */
 
 .paginationBox {
@@ -49,8 +51,13 @@
 }
 
 .page-item a.page-link:hover {
-  color: var(--search-button-color) !important;
-  background-color: var(--search-button-background-color-hover);
+    color: var(--search-button-color) !important;
+    background-color: var(--search-button-background-color-hover);
+    transition: .1s ease-in;
+    -webkit-transition: .1s ease-in;
+    -moz-transition: .1s ease-in;
+    -ms-transition: .1s ease-in;
+    -o-transition: .1s ease-in;
 }
 
 .page-item.active .page-link {
@@ -189,6 +196,7 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--search-button-background-color);
   color: var(--search-button-color);
   cursor: pointer;
+  user-select: none;
   transition: .3s ease-in;
   &:hover {
     
@@ -364,6 +372,7 @@ body::-webkit-scrollbar-thumb {
   text-transform: uppercase;
   font-size: 12px;
   line-height: 28px;
+  user-select: none;
   transition: .3s ease-in;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -377,10 +386,12 @@ body::-webkit-scrollbar-thumb {
 }
 .button-delete {
   width: 160px;
+  user-select: none;
 }
 
 .button-inbasket {
   width: 160px;
+  user-select: none;
 }
 
 .buttonOK {
@@ -396,6 +407,7 @@ body::-webkit-scrollbar-thumb {
   font-size: 12px;
   line-height: 28px;
   transition: .3s ease-in;
+  user-select: none;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;

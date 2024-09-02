@@ -52,7 +52,8 @@ const handlerRemoveFromBasket = () => {
         html: `
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; margin: auto;">
         <img src="${`${url}${item.imageNames}`}" alt="image" style="width: 100%; max-width: 300px; height: auto; border-radius: 10px;">
-        <p style="text-align: center; margin: 10px 0;">${item.description}</p>
+        <p style="text-align: center; margin: 20px 0;">Категория: ${item.category}</p>
+        <p style="text-align: center; margin: 10px 0;">Описание: ${item.description}</p>
       </div>
         `,
         showConfirmButton: false,
@@ -65,11 +66,11 @@ const handlerRemoveFromBasket = () => {
   }
 return (
 <div className='product-item'>
-    <img src={`${url}${item.imageNames}`} alt={item.name} onClick={handlerClick}/>
+    <img src={`${url}${item.imageNames}`} loading="lazy" alt={item.name} onClick={handlerClick}/>
     <div className='product-list'>
         <h3>{item.name}</h3>
         {item.discount > 0 ?
-                             <span className='price'><span style={{textDecoration: 'line-through',color: 'gray' }}>{item.price}₽</span> <span style={{color: 'var(--saleitemprice)'}}>-{item.discount}%</span><br/>{item.totalPrice}₽<span className='ye'>/{item.ye}</span></span> 
+                             <span className='price'><span style={{textDecoration: 'line-through',color: 'gray' }}>{item.price}₽</span> <span style={{color: 'var(--saleitemprice)'}}>-{item.discount}%</span><br/>{item.totalPrice}₽<span className='ye'>/{item.units}</span></span> 
                              : <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>}
       
         {item.discount === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>

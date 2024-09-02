@@ -2,7 +2,6 @@ import React , {useEffect, useState,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Candy from './Candy';
 import ResponsivePagination from 'react-responsive-pagination'
-import { dropEllipsis } from 'react-responsive-pagination/narrowBehaviour';
 import { isUrl } from './MyContext';
 
 const Candys = () => {
@@ -17,9 +16,9 @@ const Candys = () => {
         const fetchData = async() => {
             try{
                 const data = await getCandysData();
-                console.log(data)
-                // setCandysItem(data)
-                setFilteredData(data)
+                if (!filteredData.length){
+                    setFilteredData(data);
+                }
                 setAllData(data)
                 return data;
             } 

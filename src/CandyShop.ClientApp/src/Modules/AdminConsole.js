@@ -5,10 +5,16 @@ import Slider from './Slider';
 import { isUrl } from './MyContext';
 import AddedItemForm  from './AddedItemForm';
 import AddedSliderSpec from './AddedSliderSpec';
+import AddedCategory from './AddedCategory';
 
 const AdminConsole = () => {
     const [CardButton, setCardButton] = useState(true)
     const [SliderButton, setSliderButton] = useState(true)
+    const [categoryButton, setCategoryButton] = useState(true)
+
+    const toggleVisibleCategoryButton = () =>{
+        setCategoryButton(!categoryButton)
+    }
     const toggleVisibleCardButton = () => {
         setCardButton(!CardButton)
     }
@@ -17,10 +23,14 @@ const AdminConsole = () => {
     }
     return (
         <div>
-            <button className='button' onClick={toggleVisibleCardButton}>Карточки товара</button>
-            <button className='button' onClick={toggleVisibleSliderButton}>Спец. предложения</button>
+            <button className='button' onClick={toggleVisibleCardButton}>Товары</button>
+            <button className='button' onClick={toggleVisibleSliderButton}>Спец.предложения</button>
+            <button className='button' onClick={toggleVisibleCategoryButton}>Категории</button>
+            <br/>
+
             {!CardButton ? <><AddedItemForm/></> : <></>}
             {!SliderButton ? <><AddedSliderSpec/></>: <></>}
+            {!categoryButton ? <><AddedCategory/></>: <></>}
         </div>
     );
 }

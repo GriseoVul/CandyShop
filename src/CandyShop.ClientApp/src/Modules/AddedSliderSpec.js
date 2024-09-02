@@ -1,5 +1,4 @@
 import React , {useState} from "react";
-import Swal from 'sweetalert2';
 import { isUrl } from './MyContext';
 import Toast from "./Toast";
 
@@ -7,7 +6,8 @@ const AddedSliderSpec = () => {
     const url = `${isUrl}/Product/create`
 
     const [formData, setFormData] = useState({
-        slide: null,})
+        slide: null,
+    })
 
     async function createProduct(data){
         Toast(0,'Создание...', true)
@@ -19,7 +19,7 @@ const AddedSliderSpec = () => {
             if (!response.ok){
                 throw new Error (`Error ${response.statusText}`)
             }
-            Toast('succes', 'успешно',)
+            Toast('succes', 'Успешно')
               return true
         } catch (error){
             Toast('error' , 'Не удалось создать')

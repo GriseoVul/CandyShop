@@ -1,11 +1,12 @@
-import React , {useState} from "react";
-import Swal from 'sweetalert2';
+import React , {useEffect, useState} from "react";
 import { isUrl } from './MyContext';
 import Toast from "./Toast";
 
 const AddedItemForm = () => {
     // const url = `https://fakestoreapi.com/products`
     const url = `${isUrl}/Product/create`
+    const url2 = `${isUrl}/Category`
+    const [itemCategories, setItemCategories] = useState([])
     const [formData, setFormData] = useState({
         image: null,
         name: '',
@@ -13,8 +14,37 @@ const AddedItemForm = () => {
         price: '',
         discount: '',
         units: '',
-        availability: true
+        availability: true,
+        category:'',
     });
+
+    useEffect(()=>{
+        const fetchCategory = async() => {
+            try{
+                const data = await getCategorys();
+                setItemCategories(data)
+                console.log(itemCategories);
+            } catch (error){
+                console.log(error);
+            }
+        }
+        fetchCategory();
+    },[])
+
+    async function getCategorys(){
+        try{
+            const response = await fetch(url2,{
+                method: 'GET',
+            })
+            if (!response.ok){
+                const errorText = await response.json();
+                throw new Error(errorText.error || `${response.status}`)
+            }
+            return response.json();
+        } catch (error){
+            throw new Error(error.massage)
+        }
+    }
     async function createProduct(data){
         Toast(0,'Создание...',true)
         try {
@@ -25,23 +55,47 @@ const AddedItemForm = () => {
             if (!response.ok){
                 throw new Error (`Error ${response.statusText}`)
             }
-            Toast('succes, успешно')
+            Toast('success', 'успешно')
               return true
         } catch (error){
             Toast("error", 'Не удалось создать')
               return false
         }
     }
+ 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
+        let updatedValue;
+        if (type === 'file') {
+            // Если тип поля файл, то сохраняем первый выбранный файл
+            updatedValue = files[0];
+        } else if (type === 'number') {
+            // Если тип поля число
+            if (value === '') {
+                // Если значение пустое, сохраняем пустую строку
+                updatedValue = '';
+            } else {
+                // В противном случае преобразуем значение в число
+                updatedValue = Number(value);
+            }
+        } else if (name === 'availability') {
+            // Если имя поля - availability, преобразуем значение в boolean
+            updatedValue = value === 'true';
+        } else {
+            // Для всех остальных типов полей сохраняем значение как есть
+            updatedValue = value;
+        }
+        // Обновляем состояние с новыми значениями
         setFormData(prevState => ({
             ...prevState,
-            [name]: type === 'file' ? files[0] : (type === 'number' ? Number(value) : (name === 'availability' ? value === 'true' : value))
+            [name]: updatedValue
         }));
-    };   
+    };
+    
+
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units) {
+        if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units || !formData.category) {
             Toast("error", 'Заполнены не все поля')
           } else {
             const data = new FormData();
@@ -59,10 +113,20 @@ const AddedItemForm = () => {
                 price: '',
                 discount: '',
                 units: '',
-                availability: true
+                availability: true,
+                category:'',
             });
             document.querySelector('input[type="file"]').value = null;
           }
+    }
+}
+    const handleInputSellChange = (e) =>{
+        const value = e.target.value;
+        if (value === '' || (parseInt(value,10) >= 0 && parseInt(value, 10)<=100)){
+            setFormData(prevState => ({
+                ...prevState,
+                discount: value
+        }))
     }
 }
     return(
@@ -71,27 +135,35 @@ const AddedItemForm = () => {
         <div className='product-list'>
             <form onSubmit={handleSubmit}>
             <span>Изображение товара</span><br/>
-            <input className='input-public' type="file" name="image" placeholder='Изображение товара' accept=".jpg, .jpeg, .png, .webm, .webp" onChange={handleChange}/><br/><br/>
+            <input className='input-public' style={{width: '325px'}}type="file" name="image" placeholder='Изображение товара' accept=".jpg, .jpeg, .png, .webm, .webp" onChange={handleChange}/><br/><br/>
             <span>Название</span><br/>
-            <input className='input-public' type="text" name="name" value={formData.name}onChange={handleChange}/><br/>
+            <input className='input-public' style={{width: '325px'}}type="text" name="name" value={formData.name}onChange={handleChange}/><br/>
+            <span>Категория</span><br/>
+            {/* <input className='input-public' type="text" name="category" value={formData.category}onChange={handleChange}/><br/> */}
+            <select className="input-public"style={{width: '337px' }} type='text' name='category'placeholder="Категория" value={formData.category}onChange={handleChange}>
+                <option value=''></option>
+                {itemCategories.map((item, index)=>(
+                    <option key={index} value={item.name}>{item.name}</option>
+                ))}
+            </select><br/>
             <span>Описание</span><br/>
-            <textarea className='input-public' type="text" name="description" value={formData.description} style={{height: '100px'}} onChange={handleChange}/><br/>
+            <textarea className='input-public' style={{width: '325px', height: '100px'}} type="text" name="description" value={formData.description} onChange={handleChange}/><br/>
             <span>Цена ₽</span><br/>
-            <input className='input-public' type="number" name="price" value={formData.price} onChange={handleChange}/><br/>
+            <input className='input-public' style={{width: '325px'}} type="number" name="price" value={formData.price} onChange={handleChange}/><br/>
             <span>Скидка %</span><br/>
-            <input className='input-public' type="number"  name="discount" value={formData.discount} onChange={handleChange}/><br/>
+            <input className='input-public' style={{width: '325px'}} type="number"  name="discount" value={formData.discount} onChange={handleInputSellChange}/><br/>
            <span>Условные единицы</span><br/>
-            <select className='input-public' name="units" value={formData.units} onChange={handleChange}><br/>
+            <select className='input-public' style={{width: '337px' }}name="units" value={formData.units} onChange={handleChange}><br/>
             <option value=""></option>
-                <option value="Th">ШТ</option>
-                <option value="Kg">КГ</option>
+                <option value="ШТ">ШТ</option>
+                <option value="КГ">КГ</option>
             </select><br/>
             <span>Видимость покупателю</span><br/>
-            <select className='input-public' name="availability" value={formData.availability} onChange={handleChange}><br/>
+            <select className='input-public' style={{width: '337px' }}name="availability" value={formData.availability} onChange={handleChange}><br/>
                 <option value="true">Да</option>
                 <option value="false">Нет</option>
             </select><br/>
-            <button className='button' type='submit'>Создать</button>
+           <br/> <button className='button' type='submit'>Создать</button>
             </form>
         </div>
     </div>

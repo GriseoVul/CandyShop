@@ -8,9 +8,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: '',
+    category: "Печенье",
+    availability: true
   },
   {
     id: "1",
@@ -19,9 +21,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 9700,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: 0,
+    category: "Конфеты",
+    availability: true
   },
   {
     id: "2",
@@ -30,8 +34,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 51200,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne'
+    units: 'шт',
+    description: 'Sonne',
+    count: 0,
+    category: "Конфеты",
+    availability: true
   },
   {
     id: "3",
@@ -40,9 +47,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 530,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: 0,
+    category: "Конфеты",
+    availability: true
   },
   {
     id: "4",
@@ -51,9 +60,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
-    count: '',
+    count: 0,
+    category: "Конфеты",
+    availability: true
   },
   {
     id: "5",
@@ -62,9 +73,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: '',
+    category: "Без сахара",
+    availability: false
   },
   {
     id: "6",
@@ -73,9 +86,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: '',
+    category: "Конфеты",
+    availability: true
   },
   {
     id: "7",
@@ -84,9 +99,11 @@ const getProduct = ({request, params, cookies}) => {
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: '',
+    category: "Печенье",
+    availability: true
   },
   {
     id: "8",
@@ -95,153 +112,64 @@ const getProduct = ({request, params, cookies}) => {
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: '',
+    category: "Конфеты",
+    availability: true
   },
   {
     id: "9",
     imageNames: 'Picture name',
-    name: 'Candy name',
+    name: 'Candy name9',
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'шт',
     description: 'Sonne',
     count: '',
+    category: "Печенье",
+    availability: false
   },
   {
     id: "10",
     imageNames: 'Picture name',
-    name: 'Candy name',
+    name: 'Candy name 10',
     price: 500,
     discount: 20,
     totalPrice: 400,
-    ye: 'шт',
+    units: 'ед',
     description: 'Sonne',
-    count: '',
+    count: '',    
+    category: "Печенье",
+    availability: true
   },
   {
-    id: "11",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "12",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "13",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "14",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "15",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "16",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "17",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "18",
-    imageNames: 'Picture name',
-    name: 'Candy name',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "19",
-    imageNames: 'Picture name',
-    name: 'Конфета 666',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "20",
-    imageNames: 'Picture name',
-    name: 'КОнфеТа666',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
-  {
-    id: "21",
-    imageNames: 'Picture name',
-    name: 'Candy name 21',
-    price: 500,
-    discount: 20,
-    totalPrice: 400,
-    ye: 'шт',
-    description: 'Sonne',
-    count: '',
-  },
+  id: "11",
+  imageNames: 'Picture name',
+  name: 'Candy name 11',
+  price: 500,
+  discount: 20,
+  totalPrice: 400,
+  units: 'ед',
+  description: 'Sonne',
+  count: '',    
+  category: "Печенье",
+  availability: true
+},
+{
+id: "12",
+imageNames: 'Picture name',
+name: 'Candy name 12',
+price: 500,
+discount: 20,
+totalPrice: 400,
+units: 'шт',
+description: 'Sonne',
+count: '',    
+category: "Печенье",
+availability: true
+},
 ])
 }
 
@@ -309,8 +237,29 @@ const getOrder = ({request, params, cookies}) => {
       }
     ])
 }
+
+const getCategory = ({request, params, cookies}) =>{
+  return HttpResponse.json(
+    [
+      {
+        id: '0',
+        name: 'Печенье'
+      },
+      {
+        id: '1',
+        name: 'Конфеты'
+      },
+      {
+        id: '2',
+        name: 'Без сахара'
+      },
+    ]
+  )
+}
+
 const  getProductHandler = http.get('/api/Product', getProduct)
 const getgetOrder = http.get('api/Order', getOrder)
+const getgetCategory = http.get('api/Category', getCategory)
 
 const postPostBasket = http.post('/api/Order/create', async ({request})=>{
     const info = await request
@@ -322,4 +271,4 @@ const postPostBasket = http.post('/api/Order/create', async ({request})=>{
   console.log('Updating post "%s" with:', id, nextPost)
  })
 
-export const handlers = [getProductHandler, postPostBasket, getgetOrder, putEditOrder]
+export const handlers = [getProductHandler, postPostBasket, getgetOrder, putEditOrder, getgetCategory]
