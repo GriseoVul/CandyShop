@@ -22,7 +22,7 @@ public static class SeedData
                 Random r = new();
                 
                 //adding ProductCategories
-                if(!context.ProductTypes.Any())
+                if(!context.ProductCategories.Any())
                 {
                     List<String> StandartTypes = [
                         "Empty",
@@ -44,7 +44,7 @@ public static class SeedData
                     ];
                     foreach(var t in StandartTypes)
                     {
-                        context.ProductTypes.Add(new ProductType
+                        context.ProductCategories.Add(new ProductCategory
                         {
                             Name = t,
                         });
@@ -52,9 +52,9 @@ public static class SeedData
                 }
                 context.SaveChanges(); 
                 //Adding Products
-                if (!context.Products.Any() && context.ProductTypes.Any())
+                if (!context.Products.Any() && context.ProductCategories.Any())
                 {
-                    var countTypes = context.ProductTypes.Count();
+                    var countTypes = context.ProductCategories.Count();
                     List<string> CandyNames = [
                         "fo","to","po","no","so",
                         "fi","ti","pi","ni","si",
@@ -85,14 +85,14 @@ public static class SeedData
                             Price = price,
                             Discount = discount,
                             TotalPrice = price - (price / 100 * discount),
-                            Category = context.ProductTypes.AsEnumerable().OrderBy(a => r.Next(countTypes)).Take(1).First(),
+                            Category = context.ProductCategories.AsEnumerable().OrderBy(a => r.Next(countTypes)).Take(1).First(),
                             Images = [ image.Entity ]
                         });
                     };
                 }
                 context.SaveChanges(); 
                 //Adding Orders, OrderItems and Users
-                if(!context.Orders.Any() && context.Products.Any() && context.ProductTypes.Any())
+                if(!context.Orders.Any() && context.Products.Any() && context.ProductCategories.Any())
                 {
                     for(int i = 0; i < OrderCount; i++)
                     {

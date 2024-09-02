@@ -46,6 +46,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 builder.Services.AddControllers(); 
 
 builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("FileStorage"));
@@ -106,6 +108,10 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "order",
     pattern: "api/{controller=Order}/{Action=GetAllAsync}"
+);
+app.MapControllerRoute(
+    name: "category",
+    pattern: "api/{controller=Category}/{Action=GetAll}"
 );
 
 //allow cors

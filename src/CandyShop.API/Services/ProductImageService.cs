@@ -14,7 +14,7 @@ public class ProductImageService(
     private readonly FileStorageOptions options = options.Value;
     private readonly IWebHostEnvironment _environment = environment;
 
-
+    //TODO Доделать!
     public async Task<Stream?> GetImage(string name)
     {
         var FilePath = Path.Combine(_environment.WebRootPath, options.ProductStoragePath, name);

@@ -19,7 +19,7 @@ public static class ProductMapper
             Price = product.Price,
             Discount = product.Discount,
             //old
-            //Category = product.Category.ToString(),
+            Category = product.Category.Name,
             ImageNames = product.Images.Select(x => x.Name).ToArray(),
         };
         
@@ -33,10 +33,11 @@ public static class ProductMapper
 
     public static Product ToModel(this ProductDTO dto)
     {
-        if(!EnumHelper.TryGetProductCategory(dto.Category, out var category))
-        {
-            category = ProductCategory.Empty;
-        }
+        //TODO
+        // if(!EnumHelper.TryGetProductCategory(dto.Category, out var category))
+        // {
+        //     category = ProductCategory.Empty;
+        // }
         if(!EnumHelper.TryGetProductUnit(dto.Units, out var unit))
         {
             unit = ProductUnit.Empty;

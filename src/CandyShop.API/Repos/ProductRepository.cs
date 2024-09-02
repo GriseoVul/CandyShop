@@ -9,7 +9,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     private readonly ApplicationDbContext _context = context;
     public async Task<Product?> GetByIdAsync(int id)
     {
-        return await _context.Products.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Products.Include(x => x.Images).Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
     }
     public async Task<IEnumerable<Product>> GetRangeFromAsync(int id, int count)
     {
@@ -22,7 +22,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     }
     public async Task<IEnumerable<Product>> GetByNameAsync(string name)
     {
-        return await _context.Products.Where(p => p.Name == name).ToListAsync();
+        return await _context.Products.Include(x => x.Images).Include(x => x.Category).Where(p => p.Name == name).ToListAsync();
     }    
     public async Task<IEnumerable<Product>> GetByCategoryAsync(string category)
     {
@@ -31,7 +31,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     }
     public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return await _context.Products.Take(100).ToListAsync();
+        return await _context.Products.Include(x => x.Images).Include(x => x.Category).Take(100).ToListAsync();
     }
     public async Task<Product?> AddAsync(Product product)
     {
@@ -66,7 +66,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         }
         catch (DbUpdateConcurrencyException)
         {
-            // Логирование или обработка исключения
+            
             return -1;
         }
         catch (Exception ex)
