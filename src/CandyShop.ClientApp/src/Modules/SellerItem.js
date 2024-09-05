@@ -218,7 +218,7 @@ const cancelButton = () => {
                 <textarea className='input-public' type="text" name="description" value={isAdditionaldata} style={{height: '100px', width: '325px'}} placeholder='Примечание' onChange={inputAdditionalData} disabled={isSelectStatus}></textarea><br/>
                 {!isSelectStatus && <button className='button' onClick={cancelButton}>Отменить</button>}
                 <button className='button' onClick={toggleSelect}>{isSelectStatus ? "Изменить" : "Готово"}</button><br/><br/><br/>
-                <button className='button'style={{marginBottom: '19px'}}>Печатать</button>
+                {/* <button className='button'style={{marginBottom: '19px'}}>Печатать</button> */}
             </div>
         </div></>  
     );

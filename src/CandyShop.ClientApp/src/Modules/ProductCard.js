@@ -6,6 +6,9 @@ const ProductCard = ({item}) => {
   const url = `${isUrl}/Image/`
   const [isCount, setIsCount] = useState(0)
   const { addToBasket, basketItems, removeFromBasket,setBasketItems } = useContext(MyContext)
+
+  const errorImage = `https://placehold.co/100/f8f8f8/000000?text=Что-то+пошло+не+так:(`
+
 useEffect(()=> {
   const existingItem = basketItems.find(basketItem => basketItem.id === item.id)
   if (existingItem && existingItem.count > 0){
@@ -47,17 +50,26 @@ const handlerRemoveFromBasket = () => {
     }
   };
   const showProductAlert = () => {
+    const img = new Image();
+    const imageSrc = `${url}${item.imageNames}`; // Попытка загрузить основное изображение
+  
+    img.src = imageSrc;
+    img.onerror = () => {
+      img.src = errorImage; // Если ошибка, подставляем заглушку
+    };
+    img.onload =() => {
       Swal.fire({
         title: item.name,
         html: `
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; margin: auto;">
-        <img src="${`${url}${item.imageNames}`}" alt="image" style="width: 100%; max-width: 300px; height: auto; border-radius: 10px;">
+        <img src="${img.src}" alt="image" style="width: 100%; max-width: 300px; height: auto; border-radius: 10px;">
         <p style="text-align: center; margin: 20px 0;">Категория: ${item.category}</p>
         <p style="text-align: center; margin: 10px 0;">Описание: ${item.description}</p>
       </div>
         `,
         showConfirmButton: false,
       });
+    }
     };
 
   function handlerClick(event){
@@ -66,7 +78,9 @@ const handlerRemoveFromBasket = () => {
   }
 return (
 <div className='product-item'>
-    <img src={`${url}${item.imageNames}`} loading="lazy" alt={item.name} onClick={handlerClick}/>
+    <img src={`${url}${item.imageNames}`} loading="lazy" alt={item.name} onClick={handlerClick} onError={(e) => e.target.src = errorImage}/> 
+    {/* ${url}${item.imageNames} */}
+        {/* https://i.ibb.co/V9WdKPS/3.png */}
     <div className='product-list'>
         <h3>{item.name}</h3>
         {item.discount > 0 ?
@@ -75,7 +89,7 @@ return (
       
         {item.discount === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
         {isCount === 0 ? (
-          <button className={`button button-inbasket`} onClick={handlerAddToBasket}>В корзину</button>
+          <div className="quantity-controls"><button className={`button button-inbasket`}style={{margin:'16px 0px'}} onClick={handlerAddToBasket}>В корзину</button></div>
         ) : (
           <div className="quantity-controls">
             <button className="button" onClick={handlerRemoveFromBasket}>-</button>

@@ -70,7 +70,14 @@ const Candys = () => {
         <div className='Candys'>
    {currentItems.length > 0 ? (currentItems.map((candy, index) => (
        <Candy key={index} item={candy} />
-   ))): <p>Загрузка...</p>}
+   ))): filteredData.length == 0 ?(<p>Ничего не найдено :(</p>):(<p>Загрузка...</p>)}
+           {4>currentItems.length >0 && (
+            <>         
+             <div className="empty-block" ></div>       
+             <div className="empty-block" ></div>
+             <div className="empty-block" ></div>
+             </>
+        )}
    {/* {candysItem.length>0 && <button className={`scroll-to-top button`} style={{opacity: "50%"}} onClick={handleScrollToTop}>Вверх</button>} */}
         </div> 
         </div>

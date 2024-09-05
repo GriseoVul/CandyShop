@@ -50,14 +50,14 @@ const Header = () => {
             <Link to ={'/'}>Наши Вкусняшки</Link>
         </div>
         <div class="header-center">
-           <input
+           {/* <input
     type="text"
     class="search-input"
     placeholder="Найти товар"
     value={searchQuery}
     onChange={handlesearchInputChange}
     onKeyPress={handleKeyPress}></input>
-            <button class="search-button" onClick={handleSearch}>НАЙТИ</button>
+            <button className="search-button" onClick={handleSearch}>НАЙТИ</button> */}
         </div>
         <div class="header-right">
             <Link to = {'/Panel'}>Admin</Link>

@@ -2,6 +2,7 @@ import React , {useEffect, useState, useContext} from 'react';
 import Candy from './Candy';
 import Candys from './Candys';
 import ProductCard from './ProductCard';
+import Search from './Search';
 import { isUrl } from './MyContext';
 import { MyContext } from './MyContext';
 import Toast, {swalWithBootstrapButtons} from './Toast';
@@ -124,9 +125,7 @@ const SellerEditCandys = () => {
       <button className='button' onClick={confirmCancelEdit}>Назад</button>
     </div>   
     <h3 style={{textAlign: 'center', marginTop: '40px'}}>Добавить в заказ</h3>
-    <div className='CandysBox' style={{margin: '20px 0px'}}>
-      <input type="text" className={`search-input search-in-edit`} placeholder="Найти товар" value={searchQuery} onChange={handlesearchInputChange}></input>
-    </div>
+    <Search/>
         <Candys />
         </>
 

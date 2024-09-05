@@ -38,25 +38,28 @@ const Basket = () => {
       title: 'Введите ваши данные',
       html: `
         <input type="text" id="swal-input1" class="swal2-input" style="margin: 0px" placeholder="Имя">
-        <input type="tel" id="swal-input2" class="swal2-input" style="margin: 0px" placeholder="Телефон">
+        <input type="tel" id="swal-input2" class="swal2-input" style="margin: 0px" inputmode="tel" placeholder="Телефон">
+        <input type="text" id="swal-input3" class="swal2-input" style="margin: 0px" placeholder="Адрес">
       `,
       focusConfirm: false,
       preConfirm: () => {
         const name = document.getElementById('swal-input1').value;
         const phone = document.getElementById('swal-input2').value;
+        const customerAddress = document.getElementById('swal-input3').value;
 
-        if (!name || !phone) {
+        if (!name || !phone || !customerAddress) {
           Swal.showValidationMessage('Пожалуйста, заполните все поля');
         } else {
-          return { name: name, phone: phone };
+          return { name: name, phone: phone, customerAddress:customerAddress};
         }
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        const { name, phone } = result.value;
+        const { name, phone, customerAddress } = result.value;
         const order = {
          customerPhoneNumber: phone,
           customerName: name,
+          customerAddress: customerAddress,
           products: basketItems,
         };
         Swal.fire({

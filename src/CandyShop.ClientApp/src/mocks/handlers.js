@@ -160,7 +160,7 @@ const getProduct = ({request, params, cookies}) => {
 {
 id: "12",
 imageNames: 'Picture name',
-name: 'Candy name 12',
+name: 'Candy name 23',
 price: 500,
 discount: 20,
 totalPrice: 400,
