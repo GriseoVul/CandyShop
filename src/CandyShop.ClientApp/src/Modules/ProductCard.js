@@ -2,6 +2,7 @@ import React, {useState, useEffect ,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Swal from 'sweetalert2';
 import { isUrl } from './MyContext';
+import Sale from './Sale';
 const ProductCard = ({item}) => {
   const url = `${isUrl}/Image/`
   const [isCount, setIsCount] = useState(0)
@@ -78,16 +79,22 @@ const handlerRemoveFromBasket = () => {
   }
 return (
 <div className='product-item'>
-    <img src={`${url}${item.imageNames}`} loading="lazy" alt={item.name} onClick={handlerClick} onError={(e) => e.target.src = errorImage}/> 
+  <div className='img-item'>
+  <img src={`https://24ai.tech/ru/wp-content/uploads/sites/4/2023/10/01_product_1_sdelat-izobrazhenie-1-1-7-scaled.jpg`} loading="lazy" alt={item.name} onClick={handlerClick} onError={(e) => e.target.src = errorImage}/> 
+  {item.discount > 0 && (<Sale item={item.discount}/>)}
+  </div>
     {/* ${url}${item.imageNames} */}
-        {/* https://i.ibb.co/V9WdKPS/3.png */}
+    {/* https://i.ibb.co/V9WdKPS/3.png */}
     <div className='product-list'>
-        <h3>{item.name}</h3>
-        {item.discount > 0 ?
-                             <span className='price'><span style={{textDecoration: 'line-through',color: 'gray' }}>{item.price}₽</span> <span style={{color: 'var(--saleitemprice)'}}>-{item.discount}%</span><br/>{item.totalPrice}₽<span className='ye'>/{item.units}</span></span> 
-                             : <span className='price'>{item.price} <span className='ye'>₽/{item.ye}</span></span>}
-      
-        {item.discount === 0 && <span className='sale-price' style={{visibility: 'hidden'}}>Пусто</span>}<br/>
+        <br/><h3>{item.name}</h3>
+        <div className='discount-price-box'>
+          {/* {item.discount == 0 &&(<span className='empty'></span>)} */}
+          {item.discount > 0 && (<span className='price'style={{fontWeight:'500',marginLeft: '1px', marginRight:'5px', textAlign: 'right',fontSize: '100%',textDecoration: 'line-through',color: 'gray' }}>{item.price}₽</span>)}
+
+        <span className='price' style={{fontSize:'160%', fontWeight:'600',textAlign: 'center'}}> {item.totalPrice}₽<span className='ye'>/{item.units}</span></span>
+        </div>
+           
+                             
         {isCount === 0 ? (
           <div className="quantity-controls"><button className={`button button-inbasket`}style={{margin:'16px 0px'}} onClick={handlerAddToBasket}>В корзину</button></div>
         ) : (

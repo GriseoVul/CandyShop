@@ -36,22 +36,6 @@ const Search = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const applyFilters = () => {
-    //         let filteredItems = allData;
-    //          if (searchQuery.trim() !== '') {
-    //             filteredItems = filteredItems.filter(item => 
-    //                                                         item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-    //          }
-    //          if (selectCategory !== ''){
-    //             filteredItems = filteredItems.filter(item => 
-    //                                                         item.category === selectCategory)
-    //          }
-    //          setFilteredData(filteredItems)
-    //     }
-    //     applyFilters()
-    // },[allData, searchQuery, selectCategory, setFilteredData])
-
     useEffect(()=>{
         const fetchCategory = async() => {
             try{

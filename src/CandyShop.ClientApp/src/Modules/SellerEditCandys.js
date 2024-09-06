@@ -116,6 +116,13 @@ const SellerEditCandys = () => {
             item={item}
             /> </div>
           ))}
+              {4>basketItems.length >0 && (
+            <>         
+             <div className="empty-block" ></div>       
+             <div className="empty-block" ></div>
+             <div className="empty-block" ></div>
+             </>
+        )}
         </div>
       )}
     </div>
