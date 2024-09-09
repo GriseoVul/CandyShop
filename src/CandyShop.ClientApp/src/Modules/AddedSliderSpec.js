@@ -60,7 +60,7 @@ const AddedSliderSpec = () => {
         <h2>Добавить спец. предложение</h2>
         <div className='product-list'>
         <form onSubmit={handleSubmit}>
-         <input className='input-public' type="file" name="slide" placeholder='Изображение товара' accept=".jpg, .jpeg, .png, .webp" onChange={handleChange}/> <br/> <br/>
+         <input className='input-public'style={{width:'300px' }} type="file" name="slide" placeholder='Изображение товара' accept=".jpg, .jpeg, .png, .webp" onChange={handleChange}/> <br/> <br/>
          <button className='button' type='submit'>Добавить спец. предложение</button>
          </form>
          </div>

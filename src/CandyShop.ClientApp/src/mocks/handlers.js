@@ -82,7 +82,7 @@ const getProduct = ({request, params, cookies}) => {
   {
     id: "6",
     imageNames: 'Picture name',
-    name: 'Candy name',
+    name: 'Elisenlebkuchen Nürnberger',
     price: 500,
     discount: 20,
     totalPrice: 400,
@@ -95,7 +95,7 @@ const getProduct = ({request, params, cookies}) => {
   {
     id: "7",
     imageNames: 'Picture name',
-    name: 'Candy name',
+    name: 'Biscuit roulé aux éclats de caramel beurre salé, nappé de chocolat au lait avec des amandes effilées',
     price: 500,
     discount: 20,
     totalPrice: 400,

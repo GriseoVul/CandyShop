@@ -9,16 +9,43 @@ const SellerPage = () => {
     const [dataset, setdataset] = useState([])
 
     const [selectOrderId, setSelectOrderId] = useState('')
-    const [selectStatus, setSelectStatus] = useState('')
-    const [selectOrderData, setSelectOrderData] = useState('')
+    const [selectStatus, setSelectStatus] = useState('Empty')
+    const [selectOrderDataStart, setSelectOrderDataStart] = useState('')
+    const [selectOrderDataEnd, setSelectOrderDataEnd] = useState('')
     const [selectTrackID, setSelectTrackID] = useState('')
 
     const [formFilterData, setFormFilterData] = useState({
         id:'',
         trackId: '',
         status: '',
-        dataOfOrder: '',
+        orderDataFrom: '',
+        orderDataTo: '',
     })
+
+    useEffect(()=>{
+        if (!selectOrderDataStart){
+            const currentData = new Date();
+            const startDate = new Date();
+            startDate.setDate(currentData.getDate()-7)
+    
+           const  formatDate = (date)=> {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() +1).padStart(2,'0');
+                const day = String(date.getDate()).padStart(2,'0');
+                return `${year}-${month}-${day}`
+            }
+    
+            setSelectOrderDataStart(formatDate(startDate))
+            setSelectOrderDataEnd(formatDate(currentData))
+        }
+    },[])
+
+    useEffect(() => {
+        if (selectOrderDataStart && selectOrderDataEnd) {
+            getSearchedData().then(setSellerData).catch(console.error);
+            getCandysData().then(setdataset).catch(console.error);
+        }
+    }, [selectOrderDataStart, selectOrderDataEnd]);
 
     const handleSelectOrderId = (e) => {
         const id = e.target.value
@@ -28,48 +55,46 @@ const SellerPage = () => {
         const status = e.target.value
         setSelectStatus(status)
     }
-    const handleOrderData = (e) => {
+    const handleOrderDataStart = (e) => {
         const data = e.target.value
-        setSelectOrderData(data)
+        setSelectOrderDataStart(data)
+    }
+    const handleOrderDataEnd = (e) => {
+        const data = e.target.value
+        setSelectOrderDataEnd(data)
     }
     const handleSelectTrackID = (e) => {
         const trackId = e.target.value
         setSelectTrackID(trackId)
     }
 
+    const handleSearch = () => {
+        getSearchedData();
+    }
+
     
     const toggleSellerBox = () => {
         setIsSellerBox(!isSellerBox)
     }
-    useEffect(()=> {
-        const fetchData = async() => {
-            try{
-                const data = await fetchSellerItems();
-                const data2 = await getCandysData();
-                setSellerData(data)
-                setdataset(data2)
-                return data;
-            } 
-            catch (error){
-                console.log(error)
-            }
-        }
-        fetchData();
-        getCandysData()
-    }, [])
-    async function fetchSellerItems(){
+
+    async function getSearchedData () {
+        const params = new URLSearchParams({
+            id: selectOrderId,
+            trackId: selectTrackID,
+            status: selectStatus,
+            orderDataFrom: selectOrderDataStart,
+            orderDataTo: selectOrderDataEnd,})
         try {
-            const responce = await fetch(url,{
-                method: 'GET', 
+            const response =await fetch (`${url}?${params.toString()}`,{
+                method: 'GET',
             })
-            if (!responce.ok){
-                const errorText = await responce.json();
-                throw new Error(errorText.error || `${responce.status}`)
+            if (!response.ok){
+                const errorText = await response.json()
+                throw new Error(errorText)
             }
-            return responce.json()
-        } catch (error) {
-            console.error(error);
-            throw new Error(error.message)
+            return response.json()
+        } catch(error){
+            console.log(error)
         }
     }
     async function getCandysData(){
@@ -105,19 +130,21 @@ const SellerPage = () => {
                     <option value="IncorrectData"style={{ color: '#000' }}>Неверные данные</option>
                     <option value="Canseled"style={{ color: '#000' }}>Отменен</option>
             </select>
-            <input className='input-public' style={{height: '15px' }} type='date' value={selectOrderData} onChange={handleOrderData}></input>
-            <input className='input-public' placeholder='Трекномер' value={selectTrackID} onChange={handleSelectTrackID}></input><br/>
+            <input className='input-public' placeholder='Трекномер' value={selectTrackID} onChange={handleSelectTrackID}></input>
+        <div className='input-public-mod'><div className='div-input-mod'>C:</div> <input className='input-public' style={{height: '15px', width:'185px' }} type='date' value={selectOrderDataStart} onChange={handleOrderDataStart}></input></div>
+        <div className='input-public-mod'><div className='div-input-mod'>По: </div><input className='input-public' style={{height: '15px', width:'185px'}} type='date' value={selectOrderDataEnd} onChange={handleOrderDataEnd}></input></div>
+        <br/>
         </div><br/>
-        <button className='button' >Поиск</button>
+        <button className='button' onClick={handleSearch}>Поиск</button>
         </div>
-        <button className='button' onClick={toggleSellerBox}>
+        <button className={`button button-table`} onClick={toggleSellerBox}>
                 {!isSellerBox ? ("К таблице"):("К списку")}</button>
         <div className='SellerPage'>
-            <div className={isSellerBox ? 'SellerBox' : ''}>
-            {sellerData.map((item, index) => (
-               <><SellerItem key={index} item = {item} dataset={dataset}/><br/></>
-            ))
-            }
+            <div className={isSellerBox ? 'SellerBox' : 'SellerCollumn'}>
+                {sellerData.length > 0 ? (sellerData.map((item, index) => (
+               <><SellerItem key={index} item = {item} dataset={dataset}/></>
+            ))): (<p>нет заказов</p>)}
+            {4>sellerData.length>0 && (<><div className='empty'></div></>)}
             </div>
         </div><br/>
         </>

@@ -1,8 +1,9 @@
 import React , {useEffect, useState} from "react";
 import { isUrl } from './MyContext';
 import Toast from "./Toast";
+import ProductCard from "./ProductCard";
 
-const AddedItemForm = () => {
+const AddedItemForm = ({item, edit}) => {
     // const url = `https://fakestoreapi.com/products`
     const url = `${isUrl}/Product/create`
     const url2 = `${isUrl}/Category`
@@ -17,6 +18,30 @@ const AddedItemForm = () => {
         availability: true,
         category:'',
     });
+    const [copyData, setCopyData] = useState({...formData, totalPrice: 0})
+    useEffect(() => {
+      const calcTotalPrice = ()=> {
+        const totalPrice = Math.round(formData.price - (formData.price / 100)* formData.discount)
+        setCopyData({...formData, totalPrice})
+      }
+      calcTotalPrice();
+    }, [formData])
+
+    useEffect(()=>{
+        if (item){
+            setFormData({
+                image: null,
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                discount: item.discount,
+                units: item.units,
+                availability: item.availability,
+                category:item.category,       
+            })
+        }
+    })
+    
 
     useEffect(()=>{
         const fetchCategory = async() => {
@@ -67,6 +92,16 @@ const AddedItemForm = () => {
         const { name, value, type, files } = e.target;
         let updatedValue;
         if (type === 'file') {
+            // const file = files[0];
+            // if (file) {
+            //     const url = URL.createObjectURL(file);
+            //     console.log('img url', url);
+            //     setCopyData(prevState => ({
+            //         ...prevState,
+            //         [name]: url // Сохраняем временный URL в copyData
+            //     }))
+            //     console.log(copyData);;
+            // }
             // Если тип поля файл, то сохраняем первый выбранный файл
             updatedValue = files[0];
         } else if (type === 'number') {
@@ -86,6 +121,7 @@ const AddedItemForm = () => {
             updatedValue = value;
         }
         // Обновляем состояние с новыми значениями
+
         setFormData(prevState => ({
             ...prevState,
             [name]: updatedValue
@@ -130,7 +166,9 @@ const AddedItemForm = () => {
     }
 }
     return(
-        <div className='product-item'>
+        <div className="work-with-candy-box">
+            <div className="work-with-candy">
+        <div className='product-item'style={{margin:'10px'}}>
         <h2>Добавить карточку товара</h2>
         <div className='product-list'>
             <form onSubmit={handleSubmit}>
@@ -164,8 +202,11 @@ const AddedItemForm = () => {
                 <option value="false">Нет</option>
             </select><br/>
            <br/> <button className='button' type='submit'>Создать</button>
-            </form>
+            </form><br/>
         </div>
+    </div>
+    <div className="prevBox"><ProductCard item={copyData} admin={true}/></div>
+    </div>
     </div>
     )
 }
