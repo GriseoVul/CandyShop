@@ -7,6 +7,7 @@ const AddedItemForm = ({item, edit}) => {
     // const url = `https://fakestoreapi.com/products`
     const url = `${isUrl}/Product/create`
     const url2 = `${isUrl}/Category`
+    const url3 = `${isUrl}/Product/update?`
     const [itemCategories, setItemCategories] = useState([])
     const [formData, setFormData] = useState({
         image: null,
@@ -30,7 +31,7 @@ const AddedItemForm = ({item, edit}) => {
     useEffect(()=>{
         if (item){
             setFormData({
-                image: null,
+                image: item.imageName,
                 name: item.name,
                 description: item.description,
                 price: item.price,
@@ -40,7 +41,7 @@ const AddedItemForm = ({item, edit}) => {
                 category:item.category,       
             })
         }
-    })
+    },[])
     
 
     useEffect(()=>{
@@ -87,6 +88,25 @@ const AddedItemForm = ({item, edit}) => {
               return false
         }
     }
+
+    async function updateProduct(data){
+        Toast(0,'Изменение...',true)
+        try {
+            const response = await fetch(`${url3}${item.id}`, {
+                method: 'PUT',
+                body: data
+            })
+            if (!response.ok){
+                throw new Error (`Error ${response.statusText}`)
+            }
+            Toast('success', 'успешно')
+              return true
+        } catch (error){
+            Toast("error", 'Не удалось изменить')
+              return false
+        }
+    }
+    
  
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
@@ -140,20 +160,37 @@ const AddedItemForm = ({item, edit}) => {
                 console.log(key , formData[key]);
             }
             console.log(data);
-            const succeses =  await createProduct(data)
-        if (succeses) {
-            setFormData({
-                image: null,
-                name: '',
-                description: '',
-                price: '',
-                discount: '',
-                units: '',
-                availability: true,
-                category:'',
-            });
-            document.querySelector('input[type="file"]').value = null;
-          }
+            if (edit){
+                const succeses =  await updateProduct(data)
+                if (succeses) {
+                    setFormData({
+                        image: null,
+                        name: '',
+                        description: '',
+                        price: '',
+                        discount: '',
+                        units: '',
+                        availability: true,
+                        category:'',
+                    });
+                    document.querySelector('input[type="file"]').value = null;
+                  }
+                      }else {
+                        const succeses =  await createProduct(data)
+                        if (succeses) {
+                            setFormData({
+                                image: null,
+                                name: '',
+                                description: '',
+                                price: '',
+                                discount: '',
+                                units: '',
+                                availability: true,
+                                category:'',
+                            });
+                            document.querySelector('input[type="file"]').value = null;
+                  }
+            }
     }
 }
     const handleInputSellChange = (e) =>{
@@ -169,7 +206,7 @@ const AddedItemForm = ({item, edit}) => {
         <div className="work-with-candy-box">
             <div className="work-with-candy">
         <div className='product-item'style={{margin:'10px'}}>
-        <h2>Добавить карточку товара</h2>
+            {edit ? (<h2>Изменить карточку товара</h2>):(<h2>Добавить карточку товара</h2>)}
         <div className='product-list'>
             <form onSubmit={handleSubmit}>
             <span>Изображение товара</span><br/>
@@ -201,7 +238,7 @@ const AddedItemForm = ({item, edit}) => {
                 <option value="true">Да</option>
                 <option value="false">Нет</option>
             </select><br/>
-           <br/> <button className='button' type='submit'>Создать</button>
+           <br/> {edit ? (<button className='button' type='submit'>Изменить</button>):(<button className='button' type='submit'>Создать</button>)}
             </form><br/>
         </div>
     </div>

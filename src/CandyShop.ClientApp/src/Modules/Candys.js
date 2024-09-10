@@ -7,7 +7,6 @@ import { isUrl } from './MyContext';
 const Candys = () => {
     const url = `${isUrl}/Product` //api/Product //${isUrl}/Product
     const { basketItems, filteredData, setFilteredData, allData,setAllData} = useContext(MyContext);
-    const [candysItem, setCandysItem] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(12) //Количкество товаров на странице
 
