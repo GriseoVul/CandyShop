@@ -68,6 +68,7 @@ const AdminItemList = () => {
 
     return (
         <>
+        <h2 align={'center'}>Товары</h2>
         <Search/>
         <div className='ItemListBox'>
             <div className='ItemList'>

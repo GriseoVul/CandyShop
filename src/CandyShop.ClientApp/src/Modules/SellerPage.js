@@ -116,7 +116,7 @@ const SellerPage = () => {
     return (
         <>
         <div className='SearchBox'> <br/>
-        <h3 style={{textAlign:'center'}}>Фильтр</h3><br/>
+        <h3 style={{textAlign:'center'}}>Фильтр<IconFilter/></h3><br/>
         <div className='Search'>
         <input className='input-public' placeholder='Номер заказа' type='number' inputMode='numeric' onChange={handleSelectOrderId} value={selectOrderId}></input>
             {/* <select className='select-status' value={isStatus}disabled={isSelectStatus} style={{width: '337px' }} onChange={selectStatus}> */}
@@ -135,7 +135,7 @@ const SellerPage = () => {
         <div className='input-public-mod'><div className='div-input-mod'>По: </div><input className='input-public' style={{height: '15px', width:'185px'}} type='date' value={selectOrderDataEnd} onChange={handleOrderDataEnd}></input></div>
         <br/>
         </div><br/>
-        <button className='button' onClick={handleSearch}>Поиск</button>
+        <button className='SearchButton' onClick={handleSearch}><div>поиск</div><IconMagnify/></button>
         </div>
         <button className={`button button-table`} onClick={toggleSellerBox}>
                 {!isSellerBox ? ("К таблице"):("К списку")}</button>
@@ -152,3 +152,31 @@ const SellerPage = () => {
 }
 
 export default SellerPage;
+
+function IconFilter(props) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        height="1em"
+        width="1em"
+        {...props}
+      >
+        <path d="M14 12v7.88c.04.3-.06.62-.29.83a.996.996 0 01-1.41 0l-2.01-2.01a.989.989 0 01-.29-.83V12h-.03L4.21 4.62a1 1 0 01.17-1.4c.19-.14.4-.22.62-.22h14c.22 0 .43.08.62.22a1 1 0 01.17 1.4L14.03 12H14z" />
+      </svg>
+    );
+  }
+
+  function IconMagnify(props) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        height="24px"
+        width="24px"
+        {...props}
+      >
+        <path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z" />
+      </svg>
+    );
+  }

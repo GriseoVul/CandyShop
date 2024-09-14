@@ -59,6 +59,7 @@ const handlerRemoveFromBasket = () => {
       }
     }
   };
+
   const showProductAlert = () => {
     const img = new Image();
     const imageSrc = `${url}${item.imageNames}`; // Попытка загрузить основное изображение
@@ -144,3 +145,29 @@ return (
 };
 
 export default ProductCard;
+
+function IconMinus(props) {
+  return (
+    <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em" {...props}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M2.25 7.5a.5.5 0 01.5-.5h9.5a.5.5 0 010 1h-9.5a.5.5 0 01-.5-.5z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function IconPlus(props) {
+  return (
+    <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em" {...props}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M8 2.75a.5.5 0 00-1 0V7H2.75a.5.5 0 000 1H7v4.25a.5.5 0 001 0V8h4.25a.5.5 0 000-1H8V2.75z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}

@@ -20,6 +20,11 @@ br {
   user-select: none;
 }
 
+textarea{
+  min-width: 320px;
+  max-width: 325px;
+}
+
 .select-placeholder {
   color: #8e8e8e; /* Серый цвет для плейсхолдера */
 }
@@ -132,9 +137,14 @@ body::-webkit-scrollbar-thumb {
 
   .SearchBox{
     margin: 40px 0px;
+    height: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
   }
 
   .Search {
@@ -144,6 +154,31 @@ body::-webkit-scrollbar-thumb {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+
+  .SearchButton{
+    text-decoration: none;
+    text-transform: uppercase;
+    border-color: wheat;
+    user-select: none;
+    cursor: pointer;
+    color: var(--background-color);
+    background-color: var(--search-button-background-color);
+    padding: 14px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    height: 24px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+  .SearchButton:hover{
+    background-color: var(--search-button-background-color-hover);
   }
 
   /*! Search*/
@@ -157,12 +192,10 @@ body::-webkit-scrollbar-thumb {
   width: 720px;
 }
  .header-center {
-  margin-top: 10px;
   justify-content:  center;
   width: 720px;
  }
  .header-right{
-  margin-top: 10px;
   width: 720px;
   justify-content:  end;
  }
@@ -196,7 +229,7 @@ body::-webkit-scrollbar-thumb {
   text-decoration: none;
 }
  .header-left > a {
-  font-size: 24px;
+  font-size: 30px;
   min-width: 203px;
   font-weight: bold;
   color: var(--logo-color);
@@ -225,7 +258,7 @@ body::-webkit-scrollbar-thumb {
 .search-in-edit {
   align-self: center;
 }
-.search-button {
+/* .search-button {
   padding: 6px 12px;
   background-color: var(--search-button-background-color);
   color: var(--search-button-color);
@@ -235,7 +268,7 @@ body::-webkit-scrollbar-thumb {
   &:hover { 
     background-color: var(--search-button-background-color-hover);
   }
-}
+} */
 
 .nav-link {
   margin-left: 20px;
@@ -251,6 +284,49 @@ body::-webkit-scrollbar-thumb {
   color: var(--nav-link-color);
   text-decoration: none;
   font-size: 16px;
+}
+
+.header-right > div >div > a {
+  width: 88px;
+  color: var(--nav-link-color);
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+}
+
+.basketLink{
+  height: 75px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.basketLinkBox{
+  display: block;
+  position: relative;
+}
+
+.basketLinkSpan{
+  display: block;
+  position: absolute;
+  user-select: none;
+  top: 10px;
+  right: 14px;
+  z-index: 500;
+  background-color: var(--search-button-background-color);
+  color: var(--background-color);
+  width: 25px;
+  font-size: 12px;
+  text-align: center;
+  border: 2px solid var(--border-color);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
 }
 
 /*!  Header  */
@@ -315,6 +391,13 @@ body::-webkit-scrollbar-thumb {
   -o-border-radius: 2rem;
   rotate: 20deg;
 }
+.Sale {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 
 .img-item{
   position: relative;
@@ -376,6 +459,7 @@ justify-self: center;
 
 .product-item img {
   border-radius: 10px 10px 0px 0px;
+  aspect-ratio: 1/1;
   display: block;
   width: 100%;
   max-height: 500px;
@@ -424,9 +508,10 @@ justify-self: center;
 }
 .button {
   text-decoration: none;
+  min-width: 32px;
   cursor: pointer;
   display: inline-block;
-  padding: 0px 15px;
+  padding: 0px 10px;
   background: var(--search-button-background-color);
   border-radius: 10px;
   border-color: wheat;
@@ -446,12 +531,12 @@ justify-self: center;
   box-shadow: #000;
 }
 .button-delete {
-  width: 160px;
+  width: 146px;
   user-select: none;
 }
 
 .button-inbasket {
-  width: 160px;
+  width: 140px;
   user-select: none;
 }
 
@@ -875,6 +960,12 @@ flex-wrap: nowrap;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.iconBox >svg {
+  &:hover {
+    color: var(--search-button-background-color-hover);
+  }
 }
 .boxIconBox{
   min-width: 80px;

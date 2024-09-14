@@ -4,10 +4,11 @@ import Toast from "./Toast";
 import ProductCard from "./ProductCard";
 
 const AddedItemForm = ({item, edit}) => {
-    // const url = `https://fakestoreapi.com/products`
-    const url = `${isUrl}/Product/create`
+    const url = `https://fakestoreapi.com/products`
+    // const url = `${isUrl}/Product/create`
     const url2 = `${isUrl}/Category`
-    const url3 = `${isUrl}/Product/update?`
+    // const url3 = `${isUrl}/Product/update?`
+    const url3 =`https://fakestoreapi.com/products/`
     const [itemCategories, setItemCategories] = useState([])
     const [formData, setFormData] = useState({
         image: null,
@@ -81,7 +82,7 @@ const AddedItemForm = ({item, edit}) => {
             if (!response.ok){
                 throw new Error (`Error ${response.statusText}`)
             }
-            Toast('success', 'успешно')
+            Toast('success', 'Успешно')
               return true
         } catch (error){
             Toast("error", 'Не удалось создать')
@@ -99,7 +100,8 @@ const AddedItemForm = ({item, edit}) => {
             if (!response.ok){
                 throw new Error (`Error ${response.statusText}`)
             }
-            Toast('success', 'успешно')
+            Toast('success', 'Успешно')
+            window.location.reload();
               return true
         } catch (error){
             Toast("error", 'Не удалось изменить')
@@ -112,16 +114,6 @@ const AddedItemForm = ({item, edit}) => {
         const { name, value, type, files } = e.target;
         let updatedValue;
         if (type === 'file') {
-            // const file = files[0];
-            // if (file) {
-            //     const url = URL.createObjectURL(file);
-            //     console.log('img url', url);
-            //     setCopyData(prevState => ({
-            //         ...prevState,
-            //         [name]: url // Сохраняем временный URL в copyData
-            //     }))
-            //     console.log(copyData);;
-            // }
             // Если тип поля файл, то сохраняем первый выбранный файл
             updatedValue = files[0];
         } else if (type === 'number') {
@@ -148,51 +140,55 @@ const AddedItemForm = ({item, edit}) => {
         }));
     };
     
+    const statusAnswerOk =() => {
+        setFormData({
+            image: null,
+            name: '',
+            description: '',
+            price: '',
+            discount: '',
+            units: '',
+            availability: true,
+            category:'',
+        });
+        document.querySelector('input[type="file"]').value = null;
+    }
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units || !formData.category) {
-            Toast("error", 'Заполнены не все поля')
-          } else {
-            const data = new FormData();
-            for (const key in formData) {
-                data.append(key, formData[key]);
-                console.log(key , formData[key]);
+        if (edit){
+            if (!formData.name || !formData.description || !formData.price || !formData.units || !formData.category) {
+                Toast("error", 'Заполнены не все поля')
+              } else {
+                const data = new FormData();
+
+                for (const key in formData) {
+                    data.append(key, formData[key]);
+                    console.log(key , formData[key]);
+                }
+                // formData.image = null;
+                console.log(data);
+                    const succeses =  await updateProduct(data)
+                    //         if (succeses) {
+                    //             statusAnswerOk();
+                    //   }
+        }
+        } else {
+            if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units || !formData.category) {
+                Toast("error", 'Заполнены не все поля')
+              } else {
+                const data = new FormData();
+                for (const key in formData) {
+                    data.append(key, formData[key]);
+                    console.log(key , formData[key]);
+                }
+                console.log(data);
+                const succeses =  await createProduct(data)
+                statusAnswerOk();
+                }
             }
-            console.log(data);
-            if (edit){
-                const succeses =  await updateProduct(data)
-                if (succeses) {
-                    setFormData({
-                        image: null,
-                        name: '',
-                        description: '',
-                        price: '',
-                        discount: '',
-                        units: '',
-                        availability: true,
-                        category:'',
-                    });
-                    document.querySelector('input[type="file"]').value = null;
-                  }
-                      }else {
-                        const succeses =  await createProduct(data)
-                        if (succeses) {
-                            setFormData({
-                                image: null,
-                                name: '',
-                                description: '',
-                                price: '',
-                                discount: '',
-                                units: '',
-                                availability: true,
-                                category:'',
-                            });
-                            document.querySelector('input[type="file"]').value = null;
-                  }
-            }
-    }
-}
+        }
+
     const handleInputSellChange = (e) =>{
         const value = e.target.value;
         if (value === '' || (parseInt(value,10) >= 0 && parseInt(value, 10)<=100)){

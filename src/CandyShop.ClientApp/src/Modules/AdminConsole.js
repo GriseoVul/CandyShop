@@ -29,10 +29,9 @@ const AdminConsole = () => {
             <button className='button' onClick={toggleVisibleCategoryButton}>Категории</button>
             <br/>
 
-            {!CardButton ? <><AddedItemForm/></> : <></>}
+            {!CardButton ? <><AddedItemForm/><AdminItemList /></> : <></>}
             {!SliderButton ? <><AddedSliderSpec/></>: <></>}
             {!categoryButton ? <><AddedCategory/></>: <></>}
-            <AdminItemList />
         </div>
     );
 }

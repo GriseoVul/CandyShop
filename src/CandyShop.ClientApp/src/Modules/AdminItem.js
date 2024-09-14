@@ -14,7 +14,7 @@ const toggleEdit = toggleState?.toggleEdit || false;
         <span>{item.name}</span><span>{item.category}</span>
         <div className='boxIconBox'>
         <div className='iconBox' onClick={() => onToggle('toggleMore')}>{!toggleMore ? (<IconArrowDownDropCircle/>): (<IconArrowUpDropCircle/>)}</div>
-        <div className='iconBox' onClick={() => onToggle('toggleEdit')}><IconLeadPencil/></div>
+        <div className='iconBox' onClick={() => onToggle('toggleEdit')}>{!toggleEdit ? (<IconPencilPlus/>): (<IconPencilMinus/>)}</div>
         </div>
         </div>
         {toggleMore ? (     
@@ -65,8 +65,8 @@ function IconArrowUpDropCircle(props) {
         </svg>
       );
     }
-  
-  function IconLeadPencil(props) {
+
+  function IconPencilPlus(props) {
     return (
       <svg
         viewBox="0 0 24 24"
@@ -75,8 +75,21 @@ function IconArrowUpDropCircle(props) {
         width="30px"
         {...props}
       >
-        <path d="M16.84 2.73c-.39 0-.77.15-1.07.44l-2.12 2.12 5.3 5.31 2.12-2.1c.6-.61.6-1.56 0-2.14L17.9 3.17c-.3-.29-.68-.44-1.06-.44M12.94 6l-8.1 8.11 2.56.28.18 2.29 2.28.17.29 2.56 8.1-8.11m-14 3.74L2.5 21.73l6.7-1.79-.24-2.16-2.31-.17-.18-2.32" />
+        <path d="M20.7 7c.4-.4.4-1 0-1.4l-2.3-2.3c-.4-.4-1-.4-1.4 0l-1.8 1.8L19 8.9M3 17.2V21h3.8l11-11.1-3.7-3.8L3 17.2M7 2v3h3v2H7v3H5V7H2V5h3V2h2z" />
       </svg>
     );
   }
 
+  function IconPencilMinus(props) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        height="30px"
+        width="30px"
+        {...props}
+      >
+        <path d="M20.7 7c.4-.4.4-1 0-1.4l-2.3-2.3c-.4-.4-1-.4-1.4 0l-1.8 1.8L19 8.9M3 17.2V21h3.8l11-11.1-3.7-3.8L3 17.2M10 5v2H2V5h8z" />
+      </svg>
+    );
+  }
