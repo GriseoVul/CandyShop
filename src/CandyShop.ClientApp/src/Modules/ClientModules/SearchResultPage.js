@@ -1,7 +1,7 @@
 import React from 'react';
-import Candys from './Candys';
+import Candys from '../GeneralModules/Candys';
 import { useState, useEffect, useContext } from 'react';
-import { MyContext, isUrl } from './MyContext';
+import { MyContext, isUrl } from '../GeneralModules/MyContext';
 
 const SearchResultPage = () => {
     const url2 = `${isUrl}/Category`

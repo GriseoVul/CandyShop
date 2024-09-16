@@ -4,6 +4,11 @@ import 'swiper/css/bundle';
 import P1 from './Pictures/P1.jpg';
 import P2 from './Pictures/P2.jpg';
 import P3 from './Pictures/P3.jpg';
+import P4 from './Pictures/P4.jpg';
+import P5 from './Pictures/P5.jpeg';
+import P6 from './Pictures/P6.jpg';
+import iname from './Pictures/iname.png';
+
 const Slider = () => {
     useEffect(() => {
         const swiper = new Swiper('.swiper-container', {
@@ -16,7 +21,7 @@ const Slider = () => {
             centeredSlides: true,
             slidesPerView: 1,
             spaceBetween: 0,
-            autoHeight: true,
+            autoHeight: false,
             mousewheel: false,
             autoplay: {
                 delay: 8000,
@@ -25,7 +30,7 @@ const Slider = () => {
         });
     }, []);
 
-    const items = [P1, P2, P3];
+    const items = [P1, P2, P3, P4, P5, P6,iname];
     return (
         <div className='swiper'>
         <div className="swiper-container">
@@ -33,7 +38,12 @@ const Slider = () => {
                 {items.map((item, index) => (
                     <div className="swiper-slide" key={index}>
                         <div className="slide-image">
-                            <img src={item} alt={`Slide ${index + 1}`} />
+                            {/* <img src={item} alt={`Slide ${index + 1}`} /> */}
+                            <div className="imgSliderPrevBox">
+                                <div className="imgSliderPrev">
+                                    <img src={item} alt="16 x 9"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ))}

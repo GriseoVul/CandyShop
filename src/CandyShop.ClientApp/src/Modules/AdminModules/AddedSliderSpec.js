@@ -1,31 +1,26 @@
-import React , {useState} from "react";
-import { isUrl } from './MyContext';
-import Toast from "./Toast";
+import React , {useState, useEffect} from "react";
+import { isUrl } from '../GeneralModules/MyContext';
+import Toast from "../GeneralModules/Toast";
+import { createItem } from "../GeneralModules/FetchFunctions";
 
 const AddedSliderSpec = () => {
-    const url = `${isUrl}/Product/create`
+    const urlSliderItemCreate = `${isUrl}/Product/create`
+
+    const [prevIMG, setPrevIMG] = useState('')
 
     const [formData, setFormData] = useState({
         slide: null,
     })
 
-    async function createProduct(data){
-        Toast(0,'Создание...', true)
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: data
-            })
-            if (!response.ok){
-                throw new Error (`Error ${response.statusText}`)
-            }
-            Toast('succes', 'Успешно')
-              return true
-        } catch (error){
-            Toast('error' , 'Не удалось создать')
-              return false
+    useEffect(() => {
+        if (formData.slide) {
+            const objectUrl = URL.createObjectURL(formData.slide);
+            setPrevIMG(objectUrl);
+
+            // Очистка URL-объекта при обновлении или размонтировании компонента
+            return () => URL.revokeObjectURL(objectUrl);
         }
-    }
+    }, [formData.slide]);
 
      const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,7 +34,7 @@ const AddedSliderSpec = () => {
                 console.log(key, formData[key]);
             }
             console.log(data);
-            const success = await createProduct(data);
+            const success = await createItem(urlSliderItemCreate, data); //
             if (success) {
                 setFormData({
                     slide: null,
@@ -59,7 +54,13 @@ const AddedSliderSpec = () => {
         <div className='product-item'>
         <h2>Добавить спец. предложение</h2>
         <div className='product-list'>
+            <div className="imgSliderPrevBox" style={{border:'2px solid black'}}>
+                <div className="imgSliderPrev">
+                    <img src={prevIMG} alt="16 x 9"/>
+                </div>
+            </div>
         <form onSubmit={handleSubmit}>
+            <br/><span>Предпросмотр</span><br/><br/>
          <input className='input-public'style={{width:'300px' }} type="file" name="slide" placeholder='Изображение товара' accept=".jpg, .jpeg, .png, .webp" onChange={handleChange}/> <br/> <br/>
          <button className='button' type='submit'>Добавить спец. предложение</button>
          </form>

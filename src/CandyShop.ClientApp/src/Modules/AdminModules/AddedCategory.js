@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import Toast from './Toast';
-import { isUrl } from './MyContext';
+import Toast from '../GeneralModules/Toast';
+import { isUrl } from '../GeneralModules/MyContext';
 
 const AddedCategory = () => {
     const url = `${isUrl}/Category/create`

@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import SellerItem from './SellerItem';
-import { isUrl } from './MyContext';
+import { isUrl } from '../GeneralModules/MyContext';
+import { getCandysData } from '../GeneralModules/FetchFunctions';
 
 const SellerPage = () => {
     const url= `${isUrl}/Order`
+    const url2 = `${isUrl}/Product`
+
     const [isSellerBox, setIsSellerBox] = useState(false)
     const [sellerData, setSellerData] = useState([]);
     const [dataset, setdataset] = useState([])
@@ -43,7 +46,7 @@ const SellerPage = () => {
     useEffect(() => {
         if (selectOrderDataStart && selectOrderDataEnd) {
             getSearchedData().then(setSellerData).catch(console.error);
-            getCandysData().then(setdataset).catch(console.error);
+            getCandysData(url2).then(setdataset).catch(console.error);
         }
     }, [selectOrderDataStart, selectOrderDataEnd]);
 
@@ -97,25 +100,10 @@ const SellerPage = () => {
             console.log(error)
         }
     }
-    async function getCandysData(){
-        try {
-            const responce = await fetch(`${isUrl}/Product`, {
-                method: "GET",
-            })
-            if (!responce.ok){
-                const errorText = await responce.json();
-                throw new Error(errorText);
-            }
-            const data = await responce.json();
-            return data
-        } catch(error){
-            console.log(error);
-            throw new Error(error.message)
-        }
-    }
+    
     return (
         <>
-        <div className='SearchBox'> <br/>
+        <div className='SearchBox'>
         <h3 style={{textAlign:'center'}}>Фильтр<IconFilter/></h3><br/>
         <div className='Search'>
         <input className='input-public' placeholder='Номер заказа' type='number' inputMode='numeric' onChange={handleSelectOrderId} value={selectOrderId}></input>

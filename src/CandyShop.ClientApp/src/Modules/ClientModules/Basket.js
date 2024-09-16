@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { MyContext } from './MyContext';
-import ProductCard from './ProductCard';
+import { MyContext } from '../GeneralModules/MyContext';
+import ProductCard from '../GeneralModules/ProductCard';
 import Swal from 'sweetalert2';
-import { isUrl } from './MyContext';
+import { isUrl } from '../GeneralModules/MyContext';
 
 const Basket = () => {
   const { basketItems, setBasketItems, removeFromBasket} = useContext(MyContext);

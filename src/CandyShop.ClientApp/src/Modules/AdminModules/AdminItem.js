@@ -1,5 +1,5 @@
 import React,{ useState,useEffect} from 'react';
-import { isUrl } from './MyContext';
+import { isUrl } from '../GeneralModules/MyContext';
 import AddedItemForm from './AddedItemForm';
 
 const AdminItem = ({item, toggleState, onToggle}) => {

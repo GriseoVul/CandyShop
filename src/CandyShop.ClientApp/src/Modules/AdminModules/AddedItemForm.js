@@ -1,14 +1,16 @@
 import React , {useEffect, useState} from "react";
-import { isUrl } from './MyContext';
-import Toast from "./Toast";
-import ProductCard from "./ProductCard";
+import { isUrl } from '../GeneralModules/MyContext';
+import Toast from "../GeneralModules/Toast";
+import ProductCard from "../GeneralModules/ProductCard";
+import { getCategorys, createItem, updateItem} from "../GeneralModules/FetchFunctions";
 
 const AddedItemForm = ({item, edit}) => {
-    const url = `https://fakestoreapi.com/products`
-    // const url = `${isUrl}/Product/create`
-    const url2 = `${isUrl}/Category`
-    // const url3 = `${isUrl}/Product/update?`
-    const url3 =`https://fakestoreapi.com/products/`
+    const urlProductCreate = `https://fakestoreapi.com/products`
+    // const urlProductCreate = `${isUrl}/Product/create`
+    const urlCategoryGet = `${isUrl}/Category`
+    const urlProductUpdate = `${isUrl}/Product/update?`
+    // const urlProductUpdate =`https://fakestoreapi.com/products/`
+
     const [itemCategories, setItemCategories] = useState([])
     const [formData, setFormData] = useState({
         image: null,
@@ -44,11 +46,10 @@ const AddedItemForm = ({item, edit}) => {
         }
     },[])
     
-
     useEffect(()=>{
         const fetchCategory = async() => {
             try{
-                const data = await getCategorys();
+                const data = await getCategorys(urlCategoryGet);
                 setItemCategories(data)
                 console.log(itemCategories);
             } catch (error){
@@ -57,58 +58,6 @@ const AddedItemForm = ({item, edit}) => {
         }
         fetchCategory();
     },[])
-
-    async function getCategorys(){
-        try{
-            const response = await fetch(url2,{
-                method: 'GET',
-            })
-            if (!response.ok){
-                const errorText = await response.json();
-                throw new Error(errorText.error || `${response.status}`)
-            }
-            return response.json();
-        } catch (error){
-            throw new Error(error.massage)
-        }
-    }
-    async function createProduct(data){
-        Toast(0,'Создание...',true)
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: data
-            })
-            if (!response.ok){
-                throw new Error (`Error ${response.statusText}`)
-            }
-            Toast('success', 'Успешно')
-              return true
-        } catch (error){
-            Toast("error", 'Не удалось создать')
-              return false
-        }
-    }
-
-    async function updateProduct(data){
-        Toast(0,'Изменение...',true)
-        try {
-            const response = await fetch(`${url3}${item.id}`, {
-                method: 'PUT',
-                body: data
-            })
-            if (!response.ok){
-                throw new Error (`Error ${response.statusText}`)
-            }
-            Toast('success', 'Успешно')
-            window.location.reload();
-              return true
-        } catch (error){
-            Toast("error", 'Не удалось изменить')
-              return false
-        }
-    }
-    
  
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
@@ -168,7 +117,7 @@ const AddedItemForm = ({item, edit}) => {
                 }
                 // formData.image = null;
                 console.log(data);
-                    const succeses =  await updateProduct(data)
+                    const succeses =  await updateItem(`${urlProductUpdate}${item.id}`,data)
                     //         if (succeses) {
                     //             statusAnswerOk();
                     //   }
@@ -183,7 +132,7 @@ const AddedItemForm = ({item, edit}) => {
                     console.log(key , formData[key]);
                 }
                 console.log(data);
-                const succeses =  await createProduct(data)
+                const succeses =  await createItem(urlProductCreate,data)
                 statusAnswerOk();
                 }
             }

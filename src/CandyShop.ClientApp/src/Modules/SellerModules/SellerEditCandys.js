@@ -1,11 +1,11 @@
 import React , {useEffect, useState, useContext} from 'react';
-import Candy from './Candy';
-import Candys from './Candys';
-import ProductCard from './ProductCard';
-import Search from './Search';
-import { isUrl } from './MyContext';
-import { MyContext } from './MyContext';
-import Toast, {swalWithBootstrapButtons} from './Toast';
+import Candy from '../GeneralModules/Candy';
+import Candys from '../GeneralModules/Candys';
+import ProductCard from '../GeneralModules/ProductCard';
+import Search from '../GeneralModules/Search';
+import { isUrl } from '../GeneralModules/MyContext';
+import { MyContext } from '../GeneralModules/MyContext';
+import Toast, {swalWithBootstrapButtons} from '../GeneralModules/Toast';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 

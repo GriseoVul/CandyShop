@@ -1,7 +1,7 @@
 import React, {forwardRef, useEffect, useState,useContext} from 'react';
-import { MyContext } from './MyContext';
-import { isUrl } from './MyContext';
-import Toast , {swalWithBootstrapButtons} from './Toast';
+import { MyContext } from '../GeneralModules/MyContext';
+import { isUrl } from '../GeneralModules/MyContext';
+import Toast , {swalWithBootstrapButtons} from '../GeneralModules/Toast';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';

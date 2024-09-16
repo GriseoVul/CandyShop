@@ -3,6 +3,7 @@ import { MyContext } from './MyContext';
 import Candy from './Candy';
 import ResponsivePagination from 'react-responsive-pagination'
 import { isUrl } from './MyContext';
+import { getCandysData } from './FetchFunctions';
 
 const Candys = () => {
     const url = `${isUrl}/Product` //api/Product //${isUrl}/Product
@@ -14,7 +15,7 @@ const Candys = () => {
     useEffect(()=> {
         const fetchData = async() => {
             try{
-                const data = await getCandysData();
+                const data = await getCandysData(url);
                 if (!filteredData.length){
                     setFilteredData(data);
                 }
@@ -38,24 +39,6 @@ const Candys = () => {
             behavior: 'smooth'
         });
     };
-
-    async function getCandysData(){
-        try {
-            const responce = await fetch(url, {
-                method: "GET",
-            })
-            if (!responce.ok){
-                const errorText = await responce.json();
-                throw new Error(errorText);
-            }
-            const data = await responce.json();
-            console.log("data getCandyData", data);
-            return data
-        } catch(error){
-            console.log(error);
-            throw new Error(error.message)
-        }
-    }
 
     // пагинатор
     const indexOfLastItem = currentPage * itemsPerPage;

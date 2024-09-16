@@ -2,9 +2,10 @@ import React, {useContext, useEffect, useState}from 'react';
 import { Link } from 'react-router-dom';
 import { MyContext, isUrl } from './MyContext';
 import { useNavigate } from 'react-router-dom';
+import { getCategorys } from './FetchFunctions';
 
 const Search = () => {
-    const url2 = `${isUrl}/Category`
+    const url = `${isUrl}/Category`
 
     const { basketItems, filteredData, setFilteredData, allData} = useContext(MyContext);
     const [searchQuery, setSearchQuery] = useState('')
@@ -21,25 +22,10 @@ const Search = () => {
         setSelectCategory(e.target.value)
     }
 
-    async function getCategorys(){
-        try{
-            const response = await fetch(url2,{
-                method: 'GET',
-            })
-            if (!response.ok){
-                const errorText = await response.json();
-                throw new Error(errorText.error || `${response.status}`)
-            }
-            return response.json();
-        } catch (error){
-            throw new Error(error.massage)
-        }
-    }
-
     useEffect(()=>{
         const fetchCategory = async() => {
             try{
-                const data = await getCategorys();
+                const data = await getCategorys(url);
                 setItemCategories(data)
             } catch (error){
                 console.log(error);

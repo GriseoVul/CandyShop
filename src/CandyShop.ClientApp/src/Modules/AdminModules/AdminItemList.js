@@ -1,8 +1,9 @@
 import React, { useState,useEffect, useContext} from 'react';
-import { MyContext, isUrl } from './MyContext';
-import Search from './Search';
+import { MyContext, isUrl } from '../GeneralModules/MyContext';
+import Search from '../GeneralModules/Search';
 import AdminItem from './AdminItem';
-import ResponsivePagination from 'react-responsive-pagination'
+import ResponsivePagination from 'react-responsive-pagination';
+import { getCandysData } from '../GeneralModules/FetchFunctions';
 
 const AdminItemList = () => {
     const url = `${isUrl}/Product` 
@@ -16,7 +17,7 @@ const AdminItemList = () => {
     useEffect(()=>{
         const fetchData= async ()=>{
             try{
-                const data = await getCandysData();
+                const data = await getCandysData(url);
                 setAllData(data)
                 setFilteredData(data)
             } catch(error){
@@ -24,7 +25,6 @@ const AdminItemList = () => {
             }
         }
         fetchData()
-        console.log(items);
     },[])
 
     const handleToggle = (id, type) => {
@@ -36,24 +36,6 @@ const AdminItemList = () => {
             },
         }));
     };
-
-    async function getCandysData(){
-        try {
-            const responce = await fetch(url, {
-                method: "GET",
-            })
-            if (!responce.ok){
-                const errorText = await responce.json();
-                throw new Error(errorText);
-            }
-            const data = await responce.json();
-            console.log("data getCandyData", data);
-            return data
-        } catch(error){
-            console.log(error);
-            throw new Error(error.message)
-        }
-    }
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
