@@ -2,20 +2,28 @@ import React , {useEffect, useState,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Candy from './Candy';
 import ResponsivePagination from 'react-responsive-pagination'
-import { isUrl } from './MyContext';
+import ProductCard from './ProductCard';
 import { getCandysData } from './FetchFunctions';
+import { getProductUrlApi } from './urlAPIs';
 
-const Candys = () => {
-    const url = `${isUrl}/Product` //api/Product //${isUrl}/Product
-    const { basketItems, filteredData, setFilteredData, allData,setAllData} = useContext(MyContext);
+const Candys = ({data}) => {
+    const {filteredData, setFilteredData, setAllData, allData, basketItems} = useContext(MyContext);
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(12) //Количкество товаров на странице
 
+    useEffect(() => {
+        // Убедитесь, что Candys отражает изменения в basketItems
+        const updatedItems = allData.map(item => {
+          const foundInBasket = basketItems.find(basketItem => basketItem.id === item.id);
+          return foundInBasket ? { ...item, count: foundInBasket.count } : item;
+        });
+        setFilteredData(updatedItems);
+      }, [basketItems, allData]);
 
     useEffect(()=> {
         const fetchData = async() => {
             try{
-                const data = await getCandysData(url);
+                const data = await getCandysData(getProductUrlApi);
                 if (!filteredData.length){
                     setFilteredData(data);
                 }
@@ -27,7 +35,7 @@ const Candys = () => {
             }
         }
         fetchData()
-    }, [setFilteredData, setAllData])
+    }, [])
 
     useEffect(()=> {
         setCurrentPage(1)
@@ -43,30 +51,30 @@ const Candys = () => {
     // пагинатор
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // const currentItems = candysItem.slice(indexOfFirstItem, indexOfLastItem)
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem)
 
     return (
         <>
         <div className='CandysBox'>
-        <div className='Candys'>
-   {currentItems.length > 0 ? (currentItems.map((candy, index) => (
-       <Candy key={index} item={candy} />
-   ))): filteredData.length == 0 ?(<p>Ничего не найдено :(</p>):(<p>Загрузка...</p>)}
+            <div className='Candys'>
+                {/* {currentItems.length > 0 ? (currentItems.map((candy, index) => (
+                <Candy key={index} item={candy} />
+                ))): filteredData.length == 0 ?(<p>Ничего не найдено :(</p>):(<p>Загрузка...</p>)} */}
+                {currentItems.length > 0 ? (currentItems.map((item) => (
+                <ProductCard key={item.id} item={item} />
+                ))): filteredData.length == 0 ?(<p>Ничего не найдено :(</p>):(<p>Загрузка...</p>)}
            {4>currentItems.length >0 && (
             <>         
              <div className="empty-block" ></div>       
              <div className="empty-block" ></div>
              <div className="empty-block" ></div>
              </>
-        )}
-   {/* {candysItem.length>0 && <button className={`scroll-to-top button`} style={{opacity: "50%"}} onClick={handleScrollToTop}>Вверх</button>} */}
-        </div> 
+            )}
+            </div> 
         </div>
         <div className='paginationBox'>
         { filteredData.length > itemsPerPage && (<ResponsivePagination 
             current={currentPage}
-            // total={Math.ceil(candysItem.length / itemsPerPage)}
             total={Math.ceil(filteredData.length / itemsPerPage)}
             onPageChange={page => {
                 setCurrentPage(page);

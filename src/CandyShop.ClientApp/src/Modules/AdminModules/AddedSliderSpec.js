@@ -1,28 +1,22 @@
 import React , {useState, useEffect} from "react";
-import { isUrl } from '../GeneralModules/MyContext';
 import Toast from "../GeneralModules/Toast";
 import { createItem } from "../GeneralModules/FetchFunctions";
+import { postBannerUrlApi } from "../GeneralModules/urlAPIs";
 
 const AddedSliderSpec = () => {
-    const urlSliderItemCreate = `${isUrl}/Product/create`
-
     const [prevIMG, setPrevIMG] = useState('')
-
-    const [formData, setFormData] = useState({
-        slide: null,
-    })
+    const [formData, setFormData] = useState({slide: null})
 
     useEffect(() => {
         if (formData.slide) {
             const objectUrl = URL.createObjectURL(formData.slide);
             setPrevIMG(objectUrl);
-
             // Очистка URL-объекта при обновлении или размонтировании компонента
-            return () => URL.revokeObjectURL(objectUrl);
+            return() => URL.revokeObjectURL(objectUrl);
         }
     }, [formData.slide]);
 
-     const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
         if (!formData.slide) {
@@ -34,39 +28,56 @@ const AddedSliderSpec = () => {
                 console.log(key, formData[key]);
             }
             console.log(data);
-            const success = await createItem(urlSliderItemCreate, data); //
+            const success = await createItem(postBannerUrlApi, data); //
             if (success) {
-                setFormData({
-                    slide: null,
-                });
-                document.querySelector('input[type="file"]').value = null;
+                setFormData({slide: null});
+                document
+                    .querySelector('input[type="file"]')
+                    .value = null;
             }
         }
     };
-        const handleChange = (e) => {
-            const {name, files, type} = e.target;
-            setFormData(prevState => ({
-                ...prevState, [name]: type === 'file' ? files[0] : e.target.value
-            }));
-        };  
+    const handleChange = (e) => {
+        const {name, files, type} = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: type === 'file'
+                ? files[0]
+                : e.target.value
+        }));
+    };
     return (
         <> 
-        <div className='product-item'>
-        <h2>Добавить спец. предложение</h2>
+        <div className = 'product-item' > <h2>Добавить спец. предложение</h2>
         <div className='product-list'>
-            <div className="imgSliderPrevBox" style={{border:'2px solid black'}}>
+            <div
+                className="imgSliderPrevBox"
+                style={{
+                    width: '98%',
+                    border: '2px solid black'
+                }}>
                 <div className="imgSliderPrev">
                     <img src={prevIMG} alt="16 x 9"/>
                 </div>
             </div>
-        <form onSubmit={handleSubmit}>
-            <br/><span>Предпросмотр</span><br/><br/>
-         <input className='input-public'style={{width:'300px' }} type="file" name="slide" placeholder='Изображение товара' accept=".jpg, .jpeg, .png, .webp" onChange={handleChange}/> <br/> <br/>
-         <button className='button' type='submit'>Добавить спец. предложение</button>
-         </form>
-         </div>
+            <form onSubmit={handleSubmit}><br/>
+                <input
+                    className='input-public'
+                    style={{
+                        width: '300px'
+                    }}
+                    type="file"
+                    name="slide"
+                    placeholder='Изображение товара'
+                    accept=".jpg, .jpeg, .png, .webp"
+                    onChange={handleChange}/>
+                <br/>
+                <br/>
+                <button className='button' type='submit'>Добавить спец. предложение</button>
+            </form>
         </div>
-        </>
+    </div>
+</>
     )
 }
 

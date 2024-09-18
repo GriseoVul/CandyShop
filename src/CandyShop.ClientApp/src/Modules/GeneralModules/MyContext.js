@@ -23,8 +23,12 @@ const MyContextProvider = ({ children }) => {
     });
   };
 
-  const removeFromBasket = (itemToRemove) => {
-    setBasketItems((prevItems)=> prevItems.filter(item=> item.id !== itemToRemove.id))
+  // const removeFromBasket = (itemToRemove) => {
+  //   setBasketItems((prevItems)=> prevItems.filter(item=> item.id !== itemToRemove.id))
+  // }
+
+  const removeFromBasket = (item) => {
+    setBasketItems(prevItems=> prevItems.filter(basketItems=>basketItems.id !==item.id))
   }
 
   return (

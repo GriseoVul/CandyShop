@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Swiper from 'swiper/bundle';
+import { getBannersUrlApi } from '../GeneralModules/urlAPIs';
 import 'swiper/css/bundle';
 import P1 from './Pictures/P1.jpg';
 import P2 from './Pictures/P2.jpg';
@@ -41,7 +42,7 @@ const Slider = () => {
                             {/* <img src={item} alt={`Slide ${index + 1}`} /> */}
                             <div className="imgSliderPrevBox">
                                 <div className="imgSliderPrev">
-                                    <img src={item} alt="16 x 9"/>
+                                    <img src={item} alt=""/>
                                 </div>
                             </div>
                         </div>

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { MyContext, isUrl } from './MyContext';
 import { useNavigate } from 'react-router-dom';
 import { getCategorys } from './FetchFunctions';
+import { getCategorysUrlApi } from './urlAPIs';
+
 
 const Search = () => {
-    const url = `${isUrl}/Category`
-
-    const { basketItems, filteredData, setFilteredData, allData} = useContext(MyContext);
+    const {filteredData, setFilteredData, allData} = useContext(MyContext);
     const [searchQuery, setSearchQuery] = useState('')
     const [itemCategories, setItemCategories] = useState([])
     const [selectCategory, setSelectCategory] = useState('')
@@ -25,14 +25,14 @@ const Search = () => {
     useEffect(()=>{
         const fetchCategory = async() => {
             try{
-                const data = await getCategorys(url);
+                const data = await getCategorys(getCategorysUrlApi);
                 setItemCategories(data)
             } catch (error){
                 console.log(error);
             }
         }
         fetchCategory();
-    }, [allData, filteredData, setFilteredData]);
+    }, []);
 
     const handleSearch = () => {
        // Применяем фильтрацию по текущим значениям полей
@@ -71,21 +71,21 @@ const handleKeyDown = (e) => {
     return (
         <div className='SearchBox'>
             <div className='Search'>
-    <input
-    type="text"
-    class="search-input"
-    placeholder="Найти товар"
-    value={searchQuery}
-    onChange={handlesearchInputChange}
-    onKeyPress={handleKeyPress}></input>
-    <select className={`input-public ${selectCategory === '' ? 'select-placeholder' : ''}`} style={{width: '212px' }} type='text' name='category' placeholder="Категория" value={selectCategory} onChange={handleCategoryChange}onKeyPress={handleKeyPress} onKeyDown={handleKeyDown}>
+                <input
+                    type="text"
+                    class="search-input"
+                    placeholder="Найти товар"
+                    value={searchQuery}
+                    onChange={handlesearchInputChange}
+                    onKeyPress={handleKeyPress}/>
+                <select className={`input-public ${selectCategory === '' ? 'select-placeholder' : ''}`} style={{width: '212px' }} type='text' name='category' placeholder="Категория" value={selectCategory} onChange={handleCategoryChange}onKeyPress={handleKeyPress} onKeyDown={handleKeyDown}>
                 <option value='' disabled style={{ color: '#8e8e8e' }}>Категории</option>
                 <option value=''></option>
                 {itemCategories.map((item, index)=>(
                     <option key={index} value={item.name} style={{ color: '#000' }}>{item.name}</option>
                 ))}</select>
-    <button className='SearchButton' onClick={handleSearch}><div>Найти</div><IconMagnify/></button>
-        </div>
+                <button className='SearchButton' onClick={handleSearch}><div>Найти</div><IconMagnify/></button>
+            </div>
         </div>
     );
 }

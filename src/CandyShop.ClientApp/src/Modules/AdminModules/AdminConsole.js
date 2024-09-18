@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import { isUrl } from '../GeneralModules/MyContext';
 import AddedItemForm  from './AddedItemForm';
 import AddedSliderSpec from './AddedSliderSpec';
 import AddedCategory from './AddedCategory';
 import AdminItemList from './AdminItemList';
 import AddedCategoryList from './AddedCategoryList';
+import AddedSliderSpecList from './AddedSliderSpecList';
 import Slider from '../ClientModules/Slider';
 
 const AdminConsole = () => {
@@ -27,9 +27,8 @@ const AdminConsole = () => {
             <button className='button' onClick={toggleVisibleSliderButton}>Спец.предложения</button>
             <button className='button' onClick={toggleVisibleCategoryButton}>Категории</button>
             <br/>
-
             {!cardButton ? <><AddedItemForm/><AdminItemList /></> : <></>}
-            {!sliderButton ? <><AddedSliderSpec/></>: <></>}
+            {!sliderButton ? <><AddedSliderSpec/><AddedSliderSpecList/></>: <></>}
             {!categoryButton ? <><AddedCategory/><AddedCategoryList/></>: <></>}
         </div>
     );

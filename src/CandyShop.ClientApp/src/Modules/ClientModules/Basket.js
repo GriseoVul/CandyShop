@@ -2,36 +2,17 @@ import React, { useContext, useState, useEffect } from 'react';
 import { MyContext } from '../GeneralModules/MyContext';
 import ProductCard from '../GeneralModules/ProductCard';
 import Swal from 'sweetalert2';
-import { isUrl } from '../GeneralModules/MyContext';
+import { createNewOrder } from '../GeneralModules/FetchFunctions';
+import { postOrderUrlApi } from '../GeneralModules/urlAPIs';
+import Candys from '../GeneralModules/Candys';
 
 const Basket = () => {
   const { basketItems, setBasketItems, removeFromBasket} = useContext(MyContext);
   const [basketTotal, setBasketTotal] = useState(0);
-  const url = `${isUrl}/Order/create`
   useEffect(() => {
-    const total = basketItems.reduce((sum, item)=> sum += item.totalprice*item.count , 0)
+    const total = basketItems.reduce((sum, item)=> sum += item.totalPrice*item.count , 0)
     setBasketTotal(total);
   }, [basketItems, setBasketItems,removeFromBasket])
-
-  async function postBasket(order){
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': "application/json",
-        },
-        body: JSON.stringify(order)
-      });
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-      const data = await response.json()
-      Swal.fire('Заказ успешно создан!');
-      return data
-    } catch (error) {
-      Swal.fire('Ошибка');
-    }
-  };
 
   const showOrderConfirm = () => {
     Swal.fire({
@@ -70,7 +51,7 @@ const Basket = () => {
           }
         }); 
         console.log(order);
-      postBasket(order)
+      createNewOrder(postOrderUrlApi, order)
       .then(()=> {
         Swal.fire('Заказ успешно создан','','success')
         setBasketItems([])

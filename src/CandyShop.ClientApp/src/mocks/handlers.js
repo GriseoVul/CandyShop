@@ -265,10 +265,20 @@ const postPostBasket = http.post('/api/Order/create', async ({request})=>{
     const info = await request
 })
 
- const putEditOrder = http.put('/api/Order/PUT/:id', async ({request, params})=>{
-  const {id} = params;
-  const nextPost= await request.json()
-  console.log('Updating post "%s" with:', id, nextPost)
- })
+const postNewProduct = http.post('/api/Product/create', async ({request})=>{
+  const info = await request
+})
 
-export const handlers = [getProductHandler, postPostBasket, getgetOrder, putEditOrder, getgetCategory]
+const postCategory = http.post('/api/Category/create', async ({request})=>{
+  const info = await request
+})
+
+
+
+
+//  const putEditOrder = http.put('/api/Order/update?', async ({request, params})=>{
+//   const {id} = params;
+//   const nextPost= await request
+//  })
+
+export const handlers = [getProductHandler, postPostBasket, getgetOrder, getgetCategory,postCategory,postNewProduct]

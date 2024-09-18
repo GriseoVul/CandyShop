@@ -4,9 +4,10 @@ import Search from '../GeneralModules/Search';
 import AdminItem from './AdminItem';
 import ResponsivePagination from 'react-responsive-pagination';
 import { getCandysData } from '../GeneralModules/FetchFunctions';
+import { getProductUrlApi } from '../GeneralModules/urlAPIs';
 
 const AdminItemList = () => {
-    const url = `${isUrl}/Product` 
+    // const url = `${isUrl}/Product` 
     const [items, setItems] = useState('')
     const {filteredData, setFilteredData,setAllData} = useContext(MyContext);
     const [currentPage, setCurrentPage] = useState(1)
@@ -17,7 +18,7 @@ const AdminItemList = () => {
     useEffect(()=>{
         const fetchData= async ()=>{
             try{
-                const data = await getCandysData(url);
+                const data = await getCandysData(getProductUrlApi);
                 setAllData(data)
                 setFilteredData(data)
             } catch(error){

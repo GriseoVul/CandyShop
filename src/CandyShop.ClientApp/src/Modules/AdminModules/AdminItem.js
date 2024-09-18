@@ -1,9 +1,9 @@
 import React,{ useState,useEffect} from 'react';
-import { isUrl } from '../GeneralModules/MyContext';
 import AddedItemForm from './AddedItemForm';
+import { getImageUrlApi } from '../GeneralModules/urlAPIs';
+
 
 const AdminItem = ({item, toggleState, onToggle}) => {
-const url = `${isUrl}/Image`
 
 const toggleMore = toggleState?.toggleMore || false;
 const toggleEdit = toggleState?.toggleEdit || false;
@@ -20,7 +20,7 @@ const toggleEdit = toggleState?.toggleEdit || false;
         {toggleMore ? (     
             <div className='aboutBox'>
             <div className='imageBox'>
-            <img src={`${url}${item.imageNames}`} loading="lazy" alt={item.name}/>
+            <img src={`${getImageUrlApi}/${item.imageNames}`} loading="lazy" alt={item.name}/>
             </div>   
             <div className='about'>
             <br/><span className='boldText'>ID: </span><span>{item.id}</span><br/>

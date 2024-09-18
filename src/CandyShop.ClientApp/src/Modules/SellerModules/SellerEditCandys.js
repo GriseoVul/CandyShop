@@ -1,5 +1,4 @@
 import React , {useEffect, useState, useContext} from 'react';
-import Candy from '../GeneralModules/Candy';
 import Candys from '../GeneralModules/Candys';
 import ProductCard from '../GeneralModules/ProductCard';
 import Search from '../GeneralModules/Search';
@@ -8,12 +7,13 @@ import { MyContext } from '../GeneralModules/MyContext';
 import Toast, {swalWithBootstrapButtons} from '../GeneralModules/Toast';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { putOrderUrlApi } from '../GeneralModules/urlAPIs';
 
 
 const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products   ${isUrl}/Order/PUT
 
 const SellerEditCandys = () => {
-    const { basketItems, setBasketItems,editOrderId, filteredData, setFilteredData, allData} = useContext(MyContext);
+    const { basketItems, setBasketItems,editOrderId, removeFromBasket, setFilteredData, allData, setAllData} = useContext(MyContext);
     const [basketTotal, setBasketTotal] = useState(0);
     const [searchQuery, setSearchQuery] = useState('')
 
@@ -29,22 +29,20 @@ const SellerEditCandys = () => {
           const filteredItems = allData.filter(item =>
               item.name.toLowerCase().includes(searchQuery.toString().toLowerCase()))
               setFilteredData(filteredItems)
-              console.log('resfind', filteredData);
       } else {
           setFilteredData(allData)
-          console.log('filtereddata false', filteredData);
       }
   },[allData, searchQuery])
 
     useEffect(() =>{
       const total = basketItems.reduce((sum, item)=> sum += item.totalPrice*item.count , 0)
       setBasketTotal(total);
-    },[basketItems])
+    },[basketItems,removeFromBasket,setBasketItems])
 
     const acceptEditing = async () => {
       Toast(0,'Сохранение...', true)
       try {
-        const response = await fetch(`${url}/${editOrderId}`,{
+        const response = await fetch(`${putOrderUrlApi}${editOrderId}`,{
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ ...basketItems})
@@ -81,7 +79,7 @@ const SellerEditCandys = () => {
 
     const cancelEdit = () => {
       setBasketItems([]);
-      navigateToSeller('/Seller');  // Обратите внимание на правильное имя функции
+      navigateToSeller('/Seller');
     };
 
     const confirmCancelEdit = () => {
@@ -104,7 +102,8 @@ const SellerEditCandys = () => {
     }
     
     return (
-        <><h3 style={{textAlign: 'center', marginTop: '20px'}}>В заказе</h3>
+        <>
+        <h3 style={{textAlign: 'center', marginTop: '20px'}}>В заказе</h3>
             <div className='CandysBox'>
       {basketItems.length === 0 ? (
         <p style={{marginBottom: '100px', marginTop: '100px'}}>Корзина пуста</p>
@@ -133,9 +132,8 @@ const SellerEditCandys = () => {
     </div>   
     <h3 style={{textAlign: 'center', marginTop: '40px'}}>Добавить в заказ</h3>
     <Search/>
-        <Candys />
+    <Candys/>
         </>
-
     );
 }
 

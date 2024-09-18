@@ -16,6 +16,10 @@
 /* *{
   border: #2ae058 2px solid;
 } */
+*{
+  user-select: none;
+}
+
 br {
   user-select: none;
 }
@@ -1006,7 +1010,7 @@ flex-wrap: nowrap;
 
 /*? AdminItemList*/
 
-/*! AdminSlider */
+/*! AdminSliderPrev */
 .imgSliderPrevBox{
   display: flex;
   justify-content: center;
@@ -1044,5 +1048,73 @@ flex-wrap: nowrap;
   -o-border-radius: 10px;
 }
 
-/*! AdminSlider */
+/*! AdminSliderPrev */
+
+/*? AdminCategoryItemList*/
+
+.CategorysListBox{
+  width: 100%;
+  min-width: 370px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.CategorysList{
+  width: 100%;
+  max-width: 500px;
+  min-width: 370px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.CategorysListItemBox{
+  width: 80%;
+  min-width: 300px;
+  margin: 3px 0px;
+  border: 1px solid var(--border-color);
+  background-color: var(--item-list-color);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.CategorysListItem{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.CategoryItemLeftSide{
+  width: 200px;
+  min-width: 200px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+.CategoryItemLeftSide >span{
+  width: 90%;
+}
+
+.CategoryItemLeftSide >input{
+  width: 80%;
+  height: 15px;
+}
+
+.CategoryItemLeftSide > .iconBox >svg{
+  color: var(--confirm-button-color);
+  &:hover{
+    color: var(--confirm-button-color-hover);
+  }
+}
+
+/*? AdminCategoryItemList*/
 

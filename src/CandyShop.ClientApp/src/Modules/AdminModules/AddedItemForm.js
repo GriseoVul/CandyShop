@@ -3,6 +3,7 @@ import { isUrl } from '../GeneralModules/MyContext';
 import Toast from "../GeneralModules/Toast";
 import ProductCard from "../GeneralModules/ProductCard";
 import { getCategorys, createItem, updateItem} from "../GeneralModules/FetchFunctions";
+import { putProductUrlApi, postProductUrlApi, getCategorysUrlApi } from "../GeneralModules/urlAPIs";
 
 const AddedItemForm = ({item, edit}) => {
     const urlProductCreate = `https://fakestoreapi.com/products`
@@ -49,7 +50,7 @@ const AddedItemForm = ({item, edit}) => {
     useEffect(()=>{
         const fetchCategory = async() => {
             try{
-                const data = await getCategorys(urlCategoryGet);
+                const data = await getCategorys(getCategorysUrlApi);
                 setItemCategories(data)
                 console.log(itemCategories);
             } catch (error){
@@ -117,10 +118,10 @@ const AddedItemForm = ({item, edit}) => {
                 }
                 // formData.image = null;
                 console.log(data);
-                    const succeses =  await updateItem(`${urlProductUpdate}${item.id}`,data)
-                    //         if (succeses) {
-                    //             statusAnswerOk();
-                    //   }
+                    const succeses =  await updateItem(`${putProductUrlApi}/${item.id}`,data)
+                            if (succeses) {
+                                statusAnswerOk();
+                            }
         }
         } else {
             if (!formData.name || !formData.image || !formData.description || !formData.price || !formData.units || !formData.category) {
@@ -132,8 +133,10 @@ const AddedItemForm = ({item, edit}) => {
                     console.log(key , formData[key]);
                 }
                 console.log(data);
-                const succeses =  await createItem(urlProductCreate,data)
-                statusAnswerOk();
+                const succeses =  await createItem(postProductUrlApi,data)
+                if (succeses) {
+                    statusAnswerOk();
+                } 
                 }
             }
         }

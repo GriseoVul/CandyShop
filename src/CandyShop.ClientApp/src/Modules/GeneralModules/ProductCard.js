@@ -1,14 +1,13 @@
 import React, {useState, useEffect ,useContext} from 'react';
 import { MyContext } from './MyContext';
 import Swal from 'sweetalert2';
-import { isUrl } from './MyContext';
+import { getImageUrlApi } from './urlAPIs';
 import Sale from './Sale';
 
 const ProductCard = ({item, admin}) => {
-  const url = `${isUrl}/Image/`
+  //https://24ai.tech/ru/wp-content/uploads/sites/4/2023/10/01_product_1_sdelat-izobrazhenie-1-1-7-scaled.jpg
   const [isCount, setIsCount] = useState(0)
-  const { addToBasket, basketItems, removeFromBasket,setBasketItems } = useContext(MyContext)
-
+  const { addToBasket, basketItems, removeFromBasket,setBasketItems,allData,setAllData} = useContext(MyContext)
   const [prevIMG, setPrevIMG] = useState('')
 
   useEffect(()=>{
@@ -24,27 +23,41 @@ useEffect(()=> {
   if (existingItem && existingItem.count > 0){
     setIsCount(existingItem.count)
   }
-},[basketItems, item.id])
+},[basketItems, item.id, allData, setAllData])
+
+const updateAllData = (updatedItem) => {
+  setAllData((prevData)=>
+  prevData.map((item)=>
+  item.id===updatedItem.id ? {...item, count: updatedItem.count}: item))
+}
 
 const handlerZeroState = () => {
+  const zerostate = {...item, count: 0}
   setIsCount(0)
+  updateAllData(zerostate)
   removeFromBasket(item)
+  console.log(item.count);
  } 
 
 const handlerAddToBasket = () => {
   const newItem = {...item, count: isCount+1}
   setIsCount(prevCount => prevCount + 1);
   addToBasket(newItem)
-
+  updateAllData(newItem)
+  console.log(item.count);
 }
+
+
 const handlerRemoveFromBasket = () => {
-  if (isCount >1 ){
+  if (isCount > 1 ){
     const newItem = {...item, count: isCount-1}
     setIsCount(prevCount => prevCount - 1); 
     addToBasket(newItem)
+    updateAllData(newItem)
+    console.log(item.count);
   } 
  else handlerZeroState()
-  }
+}
 
   const handleInputChange = (e) => {
     const value = parseInt(e.target.value, 10);
@@ -62,7 +75,7 @@ const handlerRemoveFromBasket = () => {
 
   const showProductAlert = () => {
     const img = new Image();
-    const imageSrc = `${url}${item.imageNames}`; // Попытка загрузить основное изображение
+    const imageSrc = `${getImageUrlApi}/${item.imageNames}`; // Попытка загрузить основное изображение
   
     img.src = imageSrc;
     img.onload =() => {
@@ -103,17 +116,16 @@ const handlerRemoveFromBasket = () => {
       showProductAlert()
   }
 return (
+<div className='Candy'>
 <div className='product-item'>
   <div className='img-item'>
     {admin ? (
       <img src={prevIMG} loading="lazy" alt={item.name} onClick={handlerClick} onError={(e) => e.target.src = errorImage}/>
     ):(
-      <img src={`https://24ai.tech/ru/wp-content/uploads/sites/4/2023/10/01_product_1_sdelat-izobrazhenie-1-1-7-scaled.jpg`} loading="lazy" alt={item.name} onClick={handlerClick} onError={(e) => e.target.src = errorImage}/>
+      <img src={`${getImageUrlApi}/${item.imageNames}`} loading="lazy" alt={item.name} onClick={handlerClick} onError={(e) => e.target.src = errorImage}/>
     )}
   {item.discount > 0 && (<Sale item={item.discount}/>)}
   </div>
-    {/* ${url}${item.imageNames} */}
-    {/* https://i.ibb.co/V9WdKPS/3.png */}
     <div className='product-list'>
         <br/><h3>{item.name}</h3>
         <div className='discount-price-box'>
@@ -123,7 +135,7 @@ return (
         </div>
            
                              
-        {isCount === 0 ? (
+        {isCount == 0  ? (
           <div className="quantity-controls"><button className={`button button-inbasket`}style={{margin:'16px 0px'}} onClick={handlerAddToBasket}>В корзину</button></div>
         ) : (
           <div className="quantity-controls">
@@ -141,33 +153,8 @@ return (
         )}
     </div>
 </div>
+</div>
 )
 };
 
 export default ProductCard;
-
-function IconMinus(props) {
-  return (
-    <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em" {...props}>
-      <path
-        fill="currentColor"
-        fillRule="evenodd"
-        d="M2.25 7.5a.5.5 0 01.5-.5h9.5a.5.5 0 010 1h-9.5a.5.5 0 01-.5-.5z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function IconPlus(props) {
-  return (
-    <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em" {...props}>
-      <path
-        fill="currentColor"
-        fillRule="evenodd"
-        d="M8 2.75a.5.5 0 00-1 0V7H2.75a.5.5 0 000 1H7v4.25a.5.5 0 001 0V8h4.25a.5.5 0 000-1H8V2.75z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}

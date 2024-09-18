@@ -127,12 +127,9 @@ const inputAdditionalData = (e) => {
 
 const editOrderItems = () => {
   const updatedBasketItems = dataset.map((data) => {
-    console.log(data);
-    console.log(item.products);
     const dataId = String(data.id)
       // Находим соответствующий продукт в item.products по ID
       const product = item.products.find(product => String(product.id) === dataId);
-      console.log('product',product);
       // Если продукт найден, добавляем свойство count
       if (product) {
           return { ...data, count: product.count };
@@ -147,10 +144,7 @@ const editOrderItems = () => {
       setBasketItems(filteredBasketItems);
       setCopyState(filteredBasketItems)
       setEditOrderId(item.id)
-      console.log(item.id);
-      console.log('Итоговая корзина', filteredBasketItems);
   } else {
-      console.log('Нет товаров для добавления');
   }
   navigateToEditOrder('/EditOrder')
 }
