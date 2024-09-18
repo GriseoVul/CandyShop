@@ -135,7 +135,7 @@ return (
         </div>
            
                              
-        {isCount == 0  ? (
+        {item.count ===0  ? (
           <div className="quantity-controls"><button className={`button button-inbasket`}style={{margin:'16px 0px'}} onClick={handlerAddToBasket}>В корзину</button></div>
         ) : (
           <div className="quantity-controls">
@@ -143,7 +143,7 @@ return (
             <input
               className="input-quantity"
               type="number"
-              value={isCount}
+              value={item.count}
               min="0"
               max="999"
               onChange={handleInputChange}/>

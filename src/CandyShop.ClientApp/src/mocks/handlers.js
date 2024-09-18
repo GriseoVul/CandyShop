@@ -10,7 +10,7 @@ const getProduct = ({request, params, cookies}) => {
     totalPrice: 400,
     units: 'ШТ',
     description: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras interdum ornare mollis. Nulla euismod augue id nunc euismod, eget condimentum sapien tempor. Proin ac eleifend ipsum, faucibus pretium ligula. Suspendisse metus lectus, tristique quis elit eget, lobortis bibendum lorem. In a placerat velit, id imperdiet ante. Aliquam felis augue, vehicula sit amet blandit sed, elementum quis urna. Sed cursus fermentum fermentum. Nullam eget ante sed velit dapibus euismod sit amet vel urna. Duis placerat feugiat leo non accumsan. Cras eget urna at felis blandit consequat. Nam nulla nisi, ullamcorper sed arcu vitae, accumsan commodo odio. Morbi et fermentum lorem. Praesent sed ultricies diam. Etiam aliquet nisl vel leo aliquet lacinia.',
-    count: '',
+    count: 0, 
     category: "Печенье",
     availability: true
   },
@@ -75,7 +75,7 @@ const getProduct = ({request, params, cookies}) => {
     totalPrice: 400,
     units: 'ШТ',
     description: 'Sonne',
-    count: '',
+    count: 0, 
     category: "Без сахара",
     availability: false
   },
@@ -88,7 +88,7 @@ const getProduct = ({request, params, cookies}) => {
     totalPrice: 400,
     units: 'ШТ',
     description: 'Sonne',
-    count: '',
+    count: 0, 
     category: "Конфеты",
     availability: true
   },
@@ -101,7 +101,7 @@ const getProduct = ({request, params, cookies}) => {
     totalPrice: 400,
     units: 'ШТ',
     description: 'Sonne',
-    count: '',
+    count: 0, 
     category: "Печенье",
     availability: true
   },
@@ -114,7 +114,7 @@ const getProduct = ({request, params, cookies}) => {
     totalPrice: 400,
     units: 'ШТ',
     description: 'Sonne',
-    count: '',
+    count: 0, 
     category: "Конфеты",
     availability: true
   },
@@ -127,7 +127,7 @@ const getProduct = ({request, params, cookies}) => {
     totalPrice: 400,
     units: 'ШТ',
     description: 'Sonne',
-    count: '',
+    count: 0, 
     category: "Печенье",
     availability: false
   },
@@ -140,7 +140,7 @@ const getProduct = ({request, params, cookies}) => {
     totalPrice: 400,
     units: 'КГ',
     description: 'Sonne',
-    count: '',    
+    count: 0,     
     category: "Печенье",
     availability: true
   },
@@ -153,7 +153,7 @@ const getProduct = ({request, params, cookies}) => {
   totalPrice: 400,
   units: 'КГ',
   description: 'Sonne',
-  count: '',    
+  count: 0,    
   category: "Печенье",
   availability: true
 },
@@ -166,7 +166,7 @@ discount: 20,
 totalPrice: 400,
 units: 'ШТ',
 description: 'Sonne',
-count: '',    
+count: 0,     
 category: "Печенье",
 availability: true
 },

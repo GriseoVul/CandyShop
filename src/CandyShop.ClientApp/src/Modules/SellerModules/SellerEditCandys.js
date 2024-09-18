@@ -132,7 +132,7 @@ const SellerEditCandys = () => {
     </div>   
     <h3 style={{textAlign: 'center', marginTop: '40px'}}>Добавить в заказ</h3>
     <Search/>
-    <Candys/>
+    <Candys doNotUpdate={true}/>
         </>
     );
 }

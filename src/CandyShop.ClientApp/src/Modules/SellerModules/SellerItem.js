@@ -11,7 +11,7 @@ const url = `${isUrl}/Order/PUT`  //https://fakestoreapi.com/products ${isUrl}/O
 
 const SellerItem = ({item, dataset}) => {
 
-const { addToBasket,setBasketItems ,basketItems, removeFromBasket, setAllData,setEditOrderId, setCopyState } = useContext(MyContext)
+const { addToBasket,setBasketItems ,allData, setAllData,setEditOrderId, setCopyState } = useContext(MyContext)
 
 const [isSelectStatus, setisSelectStatus] = useState(true);
 const [isVisibleOrder, setIsVisibleOrder] = useState(false);
@@ -125,29 +125,71 @@ const inputAdditionalData = (e) => {
     setIsAdditionaldata(newAdditionalData)
 }
 
+// const editOrderItems = () => {
+//   const updatedBasketItems = dataset.map((data) => {
+//     const dataId = String(data.id)
+//       // Находим соответствующий продукт в item.products по ID
+//       const product = item.products.find(product => String(product.id) === dataId);
+//       // Если продукт найден, добавляем свойство count
+//       if (product) {
+//           return { ...data, count: product.count };
+//       }
+//       // Если соответствующего продукта нет, возвращаем оригинальные данные или null, в зависимости от логики
+//       return { ...data, count: 0 }; // можно вернуть null, если так нужно
+//   });
+//   // Фильтруем элементы, чтобы убрать те, у которых count равен 0, если это необходимо
+//   const filteredBasketItems = updatedBasketItems.filter(item => item.count > 0);
+//   // Обновляем корзину, если есть элементы для добавления
+//   if (filteredBasketItems.length > 0) {
+//       setBasketItems(filteredBasketItems);
+//       setCopyState(filteredBasketItems)
+//       setEditOrderId(item.id)
+//   } else {
+//   }
+//   navigateToEditOrder('/EditOrder')
+// }
+
 const editOrderItems = () => {
-  const updatedBasketItems = dataset.map((data) => {
-    const dataId = String(data.id)
+    const updatedBasketItems = dataset.map((data) => {
+      const dataId = String(data.id);
       // Находим соответствующий продукт в item.products по ID
       const product = item.products.find(product => String(product.id) === dataId);
       // Если продукт найден, добавляем свойство count
       if (product) {
-          return { ...data, count: product.count };
+        return { ...data, count: product.count };
       }
       // Если соответствующего продукта нет, возвращаем оригинальные данные или null, в зависимости от логики
       return { ...data, count: 0 }; // можно вернуть null, если так нужно
-  });
-  // Фильтруем элементы, чтобы убрать те, у которых count равен 0, если это необходимо
-  const filteredBasketItems = updatedBasketItems.filter(item => item.count > 0);
-  // Обновляем корзину, если есть элементы для добавления
-  if (filteredBasketItems.length > 0) {
+    });
+    
+    // Фильтруем элементы, чтобы убрать те, у которых count равен 0, если это необходимо
+    const filteredBasketItems = updatedBasketItems.filter(item => item.count > 0);
+    
+    // Обновляем корзину, если есть элементы для добавления
+    if (filteredBasketItems.length > 0) {
       setBasketItems(filteredBasketItems);
-      setCopyState(filteredBasketItems)
-      setEditOrderId(item.id)
-  } else {
+      setCopyState(filteredBasketItems);
+      setEditOrderId(item.id);
+      
+      // Обновляем allData
+      const updatedAllData = allData.map((data) => {
+        const dataId = String(data.id);
+        const updatedItem = filteredBasketItems.find(item => String(item.id) === dataId);
+        if (updatedItem) {
+          return { ...data, count: updatedItem.count };
+        }
+        return data;
+      });
+      
+      setAllData(updatedAllData);
+    } else {
+      // Если корзина пустая, сбрасываем allData или выполняем другие действия, если нужно
+      setBasketItems([]);
+      setAllData(allData); // В зависимости от логики может быть нужно сбросить allData
+    }
+    
+    navigateToEditOrder('/EditOrder');
   }
-  navigateToEditOrder('/EditOrder')
-}
 
 const cancelButton = () => {
     swalWithBootstrapButtons.fire({

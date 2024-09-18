@@ -6,7 +6,7 @@ import ProductCard from './ProductCard';
 import { getCandysData } from './FetchFunctions';
 import { getProductUrlApi } from './urlAPIs';
 
-const Candys = ({data}) => {
+const Candys = ({doNotUpdate}) => {
     const {filteredData, setFilteredData, setAllData, allData, basketItems} = useContext(MyContext);
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(12) //Количкество товаров на странице
@@ -18,23 +18,26 @@ const Candys = ({data}) => {
           return foundInBasket ? { ...item, count: foundInBasket.count } : item;
         });
         setFilteredData(updatedItems);
-      }, [basketItems, allData]);
+      }, [basketItems, allData,setAllData]);
 
     useEffect(()=> {
-        const fetchData = async() => {
-            try{
-                const data = await getCandysData(getProductUrlApi);
-                if (!filteredData.length){
-                    setFilteredData(data);
+        if (!doNotUpdate){
+            const fetchData = async() => {
+                try{
+                    const data = await getCandysData(getProductUrlApi);
+                    if (!filteredData.length){
+                        setFilteredData(data);
+                    }
+                    setAllData(data)
+                    return data;
+                } 
+                catch (error){
+                    console.log(error)
                 }
-                setAllData(data)
-                return data;
-            } 
-            catch (error){
-                console.log(error)
             }
+            fetchData()
         }
-        fetchData()
+
     }, [])
 
     useEffect(()=> {
